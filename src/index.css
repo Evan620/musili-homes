@@ -1,0 +1,303 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Pure White - Primary Background */
+    --background: 0 0% 100%; /* #FFFFFF */
+    --foreground: 0 0% 17%; /* #2B2B2B - Deep Charcoal */
+
+    /* Soft Ivory - Secondary Background */
+    --card: 34 28% 96%; /* #F8F1E9 */
+    --card-foreground: 0 0% 17%; /* #2B2B2B */
+
+    --popover: 0 0% 100%; /* #FFFFFF */
+    --popover-foreground: 0 0% 17%; /* #2B2B2B */
+
+    /* Gold Whisper - Highlight */
+    --primary: 45 85% 46%; /* #D4A017 */
+    --primary-foreground: 0 0% 100%; /* #FFFFFF */
+
+    /* Satin Silver - Accent */
+    --secondary: 0 0% 88%; /* #E0E0E0 */
+    --secondary-foreground: 0 0% 17%; /* #2B2B2B */
+
+    --muted: 0 0% 88%; /* #E0E0E0 */
+    --muted-foreground: 0 0% 17%; /* #2B2B2B */
+
+    --accent: 34 28% 96%; /* #F8F1E9 */
+    --accent-foreground: 0 0% 17%; /* #2B2B2B */
+
+    /* Soft Crimson - Error/Alert */
+    --destructive: 354 70% 54%; /* #E63946 */
+    --destructive-foreground: 0 0% 100%; /* #FFFFFF */
+
+    --border: 0 0% 88%; /* #E0E0E0 */
+    --input: 0 0% 88%; /* #E0E0E0 */
+    --ring: 45 85% 46%; /* #D4A017 */
+
+    --radius: 0.5rem;
+
+    /* Custom luxury colors */
+    --pure-white: 0 0% 100%; /* #FFFFFF */
+    --soft-ivory: 34 28% 96%; /* #F8F1E9 */
+    --satin-silver: 0 0% 88%; /* #E0E0E0 */
+    --deep-charcoal: 0 0% 17%; /* #2B2B2B */
+    --gold-whisper: 45 85% 46%; /* #D4A017 */
+    --soft-crimson: 354 70% 54%; /* #E63946 */
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    @apply overflow-x-hidden;
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display', 'San Francisco', system-ui, sans-serif;
+    scroll-behavior: auto; /* Remove smooth scrolling */
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display', 'San Francisco', system-ui, sans-serif;
+  }
+
+  /* FORCE ALL TEXT TO BE VISIBLE WITH PROPER CONTRAST */
+  h1, h2, h3, h4, h5, h6 {
+    color: hsl(var(--deep-charcoal)) !important;
+    font-weight: 300 !important;
+  }
+
+  p, span, div, td, th, label, li, a {
+    color: hsl(var(--deep-charcoal)) !important;
+  }
+
+  /* Button text visibility - CRITICAL FIX */
+  button, .btn, [role="button"] {
+    color: hsl(var(--deep-charcoal)) !important;
+  }
+
+  button *, .btn *, [role="button"] * {
+    color: inherit !important;
+  }
+
+  /* Specific button variant overrides */
+  .bg-gold-whisper, .bg-gold-whisper *, [class*="bg-gold-whisper"] * {
+    color: hsl(var(--pure-white)) !important;
+  }
+
+  .bg-soft-crimson, .bg-soft-crimson *, [class*="bg-soft-crimson"] * {
+    color: hsl(var(--pure-white)) !important;
+  }
+
+  .bg-deep-charcoal, .bg-deep-charcoal *, [class*="bg-deep-charcoal"] * {
+    color: hsl(var(--pure-white)) !important;
+  }
+
+  /* Input and form elements */
+  input, textarea, select {
+    color: hsl(var(--deep-charcoal)) !important;
+    background-color: hsl(var(--pure-white)) !important;
+  }
+
+  input::placeholder, textarea::placeholder {
+    color: hsl(var(--deep-charcoal) / 0.5) !important;
+  }
+
+  /* Table text visibility */
+  table, tbody, thead, tr, td, th {
+    color: hsl(var(--deep-charcoal)) !important;
+  }
+
+  /* Navigation text */
+  nav, nav * {
+    color: hsl(var(--deep-charcoal)) !important;
+  }
+
+  /* Card content */
+  .card, .card * {
+    color: hsl(var(--deep-charcoal)) !important;
+  }
+
+  /* Ensure contrast for specific elements */
+  .text-pure-white, .text-pure-white * {
+    color: hsl(var(--pure-white)) !important;
+  }
+
+  /* Luxury color utility classes */
+  .bg-pure-white {
+    background-color: hsl(var(--pure-white));
+  }
+  
+  .bg-soft-ivory {
+    background-color: hsl(var(--soft-ivory));
+  }
+  
+  .bg-satin-silver {
+    background-color: hsl(var(--satin-silver));
+  }
+  
+  .bg-deep-charcoal {
+    background-color: hsl(var(--deep-charcoal));
+  }
+  
+  .bg-gold-whisper {
+    background-color: hsl(var(--gold-whisper));
+  }
+  
+  .text-pure-white {
+    color: hsl(var(--pure-white)) !important;
+  }
+  
+  .text-soft-ivory {
+    color: hsl(var(--soft-ivory)) !important;
+  }
+  
+  .text-satin-silver {
+    color: hsl(var(--satin-silver)) !important;
+  }
+  
+  .text-deep-charcoal {
+    color: hsl(var(--deep-charcoal)) !important;
+  }
+  
+  .text-gold-whisper {
+    color: hsl(var(--gold-whisper)) !important;
+  }
+  
+  .border-satin-silver {
+    border-color: hsl(var(--satin-silver));
+  }
+  
+  .border-gold-whisper {
+    border-color: hsl(var(--gold-whisper));
+  }
+
+  /* Enhanced luxury styling */
+  .luxury-card {
+    @apply bg-pure-white border border-satin-silver shadow-sm;
+    color: hsl(var(--deep-charcoal)) !important;
+  }
+
+  .luxury-card * {
+    color: hsl(var(--deep-charcoal)) !important;
+  }
+
+  .luxury-button-primary {
+    @apply bg-gold-whisper hover:opacity-90 transition-all duration-300;
+    color: hsl(var(--pure-white)) !important;
+  }
+
+  .luxury-button-primary * {
+    color: hsl(var(--pure-white)) !important;
+  }
+
+  .luxury-button-secondary {
+    @apply border border-satin-silver hover:bg-soft-ivory transition-all duration-300;
+    color: hsl(var(--deep-charcoal)) !important;
+    background-color: hsl(var(--pure-white)) !important;
+  }
+
+  .luxury-button-secondary * {
+    color: hsl(var(--deep-charcoal)) !important;
+  }
+
+  /* Typography enhancements */
+  .luxury-heading {
+    color: hsl(var(--deep-charcoal)) !important;
+    font-weight: 300 !important;
+    letter-spacing: 0.025em;
+  }
+
+  .luxury-text {
+    color: hsl(var(--deep-charcoal) / 0.8) !important;
+    font-weight: 300;
+  }
+
+  /* Chat Interface Animations */
+  @keyframes slide-in-from-bottom {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-in {
+    animation: slide-in-from-bottom 0.3s ease-out;
+  }
+
+  .slide-in-from-bottom-2 {
+    animation: slide-in-from-bottom 0.3s ease-out;
+  }
+
+  /* Custom scrollbar for chat */
+  .chat-scrollbar::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .chat-scrollbar::-webkit-scrollbar-track {
+    background: hsl(var(--soft-ivory));
+    border-radius: 3px;
+  }
+
+  .chat-scrollbar::-webkit-scrollbar-thumb {
+    background: hsl(var(--gold-whisper) / 0.3);
+    border-radius: 3px;
+  }
+
+  .chat-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--gold-whisper) / 0.5);
+  }
+
+  /* Enhanced gradients */
+  .bg-gradient-luxury {
+    background: linear-gradient(135deg, hsl(var(--pure-white)) 0%, hsl(var(--soft-ivory)) 100%);
+  }
+
+  .bg-gradient-gold {
+    background: linear-gradient(135deg, hsl(var(--gold-whisper)) 0%, hsl(var(--gold-whisper) / 0.8) 100%);
+  }
+
+  /* FORCE WHITE TEXT FOR HERO AND CTA SECTIONS */
+  .hero-text, .hero-text * {
+    color: hsl(var(--pure-white)) !important;
+  }
+
+  .cta-text, .cta-text * {
+    color: hsl(var(--pure-white)) !important;
+  }
+
+  /* FORCE WHITE TEXT FOR OUTLINE BUTTONS IN HERO/CTA SECTIONS */
+  .hero-button-outline, .hero-button-outline * {
+    color: hsl(var(--pure-white)) !important;
+  }
+
+  .cta-button-outline, .cta-button-outline * {
+    color: hsl(var(--pure-white)) !important;
+  }
+
+  .luxury-accent {
+    color: hsl(var(--gold-whisper)) !important;
+  }
+
+  /* Footer specific styles */
+  footer {
+    background-color: hsl(var(--deep-charcoal)) !important;
+  }
+
+  footer, footer * {
+    color: hsl(var(--pure-white)) !important;
+  }
+
+  footer a:hover {
+    color: hsl(var(--gold-whisper)) !important;
+  }
+}
