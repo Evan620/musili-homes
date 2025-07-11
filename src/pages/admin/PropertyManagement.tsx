@@ -89,7 +89,7 @@ const PropertyManagement: React.FC = () => {
           size: data.size,
           status: data.status,
           featured: data.featured || false,
-          agent_id: data.agent_id,
+          agentId: data.agentId, // Fixed: use agentId instead of agent_id
           images: [] // No images yet
         },
         imageUrls: []
@@ -166,7 +166,7 @@ const PropertyManagement: React.FC = () => {
           size: data.size,
           status: data.status,
           featured: data.featured,
-          agent_id: data.agent_id
+          agentId: data.agentId // Fixed: use agentId to match PropertyForm
         },
         imageUrls: data.images
       });
@@ -681,7 +681,7 @@ const PropertyManagement: React.FC = () => {
                 size: editingProperty.size,
                 status: editingProperty.status,
                 featured: editingProperty.featured,
-                agent_id: editingProperty.agent_id,
+                agentId: editingProperty.agent_id, // Fixed: use agentId to match PropertyForm
                 images: editingProperty.images
               }}
               agents={agents?.map(a => ({ id: a.id, name: a.name })) || []}

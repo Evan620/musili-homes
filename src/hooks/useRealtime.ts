@@ -10,6 +10,7 @@ export const useRealtimeSubscriptions = () => {
   const queryClient = useQueryClient();
 
   useEffect(() => {
+    console.log('🔄 Setting up real-time subscriptions for all tables...');
     // Subscribe to properties table changes
     const propertiesChannel = supabase
       .channel('properties-changes')
@@ -21,10 +22,14 @@ export const useRealtimeSubscriptions = () => {
           table: 'properties',
         },
         (payload) => {
-          console.log('Properties table changed:', payload);
+          console.log('🏠 Properties table changed:', payload.eventType, payload);
 
           // Invalidate all property-related queries to trigger refetch
           queryClient.invalidateQueries({ queryKey: PROPERTY_QUERY_KEYS.all });
+
+          // Also invalidate agent-specific property queries
+          queryClient.invalidateQueries({ queryKey: ['agent-properties'] });
+          queryClient.invalidateQueries({ queryKey: ['featured-properties'] });
 
           // If it's a specific property update, invalidate that property's detail query
           if (payload.eventType === 'UPDATE' && payload.new?.id) {
@@ -36,6 +41,7 @@ export const useRealtimeSubscriptions = () => {
           // If we know which agent the property belongs to, invalidate their property queries
           if (payload.new?.agent_id || payload.old?.agent_id) {
             const agentId = payload.new?.agent_id || payload.old?.agent_id;
+            console.log(`🔄 Invalidating queries for agent ${agentId}`);
             queryClient.invalidateQueries({
               queryKey: ['agent-properties', agentId]
             });

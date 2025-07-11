@@ -81,9 +81,9 @@ export class AIDatabaseService {
       description: item.description,
       priority: item.priority,
       status: item.status,
-      dueDate: item.due_date,
-      agentId: item.agent_id,
-      createdAt: item.created_at
+      due_date: item.due_date, // Use due_date consistently
+      agent_id: item.agent_id,
+      created_at: item.created_at
     };
   }
 

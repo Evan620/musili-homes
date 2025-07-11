@@ -57,12 +57,13 @@ const RealtimeProvider: React.FC<{ children: React.ReactNode }> = ({ children })
 const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
-          <TooltipProvider>
-              <BrowserRouter>
-          <AuthProvider>
-                <div className="flex flex-col min-h-screen">
-                  <Navbar />
-                  <main className="flex-1">
+      <RealtimeProvider>
+        <TooltipProvider>
+          <BrowserRouter>
+            <AuthProvider>
+              <div className="flex flex-col min-h-screen">
+                <Navbar />
+                <main className="flex-1">
                   <Routes>
                     {/* Public Routes - No Auth Required */}
                     <Route path="/" element={<Index />} />
@@ -75,39 +76,33 @@ const App = () => {
 
                     {/* Protected Routes - Auth Required */}
                     <Route path="/admin/dashboard" element={
-                        <RealtimeProvider>
-                          <ProtectedRoute requiredRole="admin">
-                            <AdminDashboard />
-                          </ProtectedRoute>
-                        </RealtimeProvider>
+                      <ProtectedRoute requiredRole="admin">
+                        <AdminDashboard />
+                      </ProtectedRoute>
                     } />
                     <Route path="/admin/property-management" element={
-                        <RealtimeProvider>
-                          <ProtectedRoute requiredRole="admin">
-                            <PropertyManagement />
-                          </ProtectedRoute>
-                        </RealtimeProvider>
+                      <ProtectedRoute requiredRole="admin">
+                        <PropertyManagement />
+                      </ProtectedRoute>
                     } />
                     {/* Agent Routes */}
                     <Route path="/agent/dashboard" element={
-                        <RealtimeProvider>
-                          <ProtectedRoute requiredRole="agent">
-                            <AgentDashboard />
-                          </ProtectedRoute>
-                        </RealtimeProvider>
+                      <ProtectedRoute requiredRole="agent">
+                        <AgentDashboard />
+                      </ProtectedRoute>
                     } />
                     {/* Catch-all */}
                     <Route path="*" element={<NotFound />} />
                   </Routes>
-                  </main>
-                  <Toaster />
-                  <Sonner />
-                  <Footer />
-                </div>
-          </AuthProvider>
-              </BrowserRouter>
-            </TooltipProvider>
-        {/* React Query DevTools can be added here if needed */}
+                </main>
+                <Toaster />
+                <Sonner />
+                <Footer />
+              </div>
+            </AuthProvider>
+          </BrowserRouter>
+        </TooltipProvider>
+      </RealtimeProvider>
     </QueryClientProvider>
   );
 };

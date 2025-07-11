@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { getProperties, getFeaturedProperties, getPropertyById } from '@/services/database';
-import { Property } from '@/types';
+import { Property, PropertyFormData } from '@/types';
 
 // Query keys for consistent caching
 export const PROPERTY_QUERY_KEYS = {
@@ -100,13 +100,16 @@ export const usePropertyMutations = () => {
   const { invalidateAll } = useInvalidateProperties();
 
   const createProperty = useMutation({
-    mutationFn: async (data: { propertyData: Omit<Property, 'id' | 'createdAt'>; imageUrls?: string[] }) => {
+    mutationFn: async (data: { propertyData: PropertyFormData; imageUrls?: string[] }) => {
       const { createProperty } = await import('@/services/database');
       return createProperty(data.propertyData, data.imageUrls || []);
     },
     onSuccess: (result) => {
       if (result.success) {
+        // Invalidate all property-related queries across the entire app
         invalidateAll();
+        queryClient.invalidateQueries({ queryKey: ['agent-properties'] });
+        queryClient.invalidateQueries({ queryKey: ['featured-properties'] });
         return result.property;
       } else {
         throw new Error(result.error || 'Failed to create property');
@@ -121,11 +124,14 @@ export const usePropertyMutations = () => {
       imageUrls?: string[]
     }) => {
       const { updateProperty } = await import('@/services/database');
-      return updateProperty(data.propertyId, data.propertyData, data.imageUrls);
+      return updateProperty(data.propertyId.toString(), data.propertyData, data.imageUrls);
     },
     onSuccess: (result) => {
       if (result.success) {
+        // Invalidate all property-related queries across the entire app
         invalidateAll();
+        queryClient.invalidateQueries({ queryKey: ['agent-properties'] });
+        queryClient.invalidateQueries({ queryKey: ['featured-properties'] });
         return result.property;
       } else {
         throw new Error(result.error || 'Failed to update property');

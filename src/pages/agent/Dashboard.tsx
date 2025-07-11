@@ -35,10 +35,23 @@ const AgentDashboard: React.FC = () => {
     queryFn: async () => {
       if (!user?.id) return [];
 
+      // First, get the agent's ID from the users table
+      const { data: userData, error: userError } = await supabase
+        .from('users')
+        .select('id')
+        .eq('auth_id', user.id)
+        .single();
+
+      if (userError || !userData) {
+        console.error('Error finding user:', userError);
+        return [];
+      }
+
+      // Then fetch properties using agent_id
       const { data, error } = await supabase
         .from('properties')
         .select('*')
-        .eq('agent_auth_id', user.id);
+        .eq('agent_id', userData.id);
 
       if (error) {
         console.error('Error loading agent properties:', error);
@@ -58,7 +71,7 @@ const AgentDashboard: React.FC = () => {
         size: prop.size || 0,
         featured: prop.featured || false,
         status: prop.status as 'For Sale' | 'For Rent' | 'Sold' | 'Rented',
-        agentId: prop.agent_auth_id,
+        agentId: prop.agent_id,
         images: [] // Will be loaded separately if needed
       })) || [];
     },
@@ -73,10 +86,23 @@ const AgentDashboard: React.FC = () => {
     queryFn: async () => {
       if (!user?.id) return [];
 
+      // First, get the agent's ID from the users table
+      const { data: userData, error: userError } = await supabase
+        .from('users')
+        .select('id')
+        .eq('auth_id', user.id)
+        .single();
+
+      if (userError || !userData) {
+        console.error('Error finding user:', userError);
+        return [];
+      }
+
+      // Then fetch tasks using agent_id
       const { data, error } = await supabase
         .from('tasks')
         .select('*')
-        .eq('agent_auth_id', user.id)
+        .eq('agent_id', userData.id)
         .order('created_at', { ascending: false });
 
       if (error) {
@@ -91,9 +117,9 @@ const AgentDashboard: React.FC = () => {
         description: task.description || '',
         priority: task.priority as 'Low' | 'Medium' | 'High',
         status: task.status as 'Pending' | 'In Progress' | 'Completed',
-        dueDate: task.due_date || '',
-        agentId: task.agent_auth_id,
-        createdAt: task.created_at
+        due_date: task.due_date || '', // Use due_date consistently
+        agent_id: task.agent_id,
+        created_at: task.created_at
       })) || [];
     },
     enabled: !!user?.id,
@@ -355,7 +381,7 @@ const AgentDashboard: React.FC = () => {
                             {task.status}
                           </span>
                         </td>
-                        <td className="py-3 px-4">{task.dueDate}</td>
+                        <td className="py-3 px-4">{task.due_date}</td>
                         <td className="py-3 px-4">
                           {task.status !== 'Completed' ? (
                             <Button

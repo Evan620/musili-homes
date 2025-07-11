@@ -231,7 +231,7 @@ const AdminDashboard: React.FC = () => {
           size: data.size,
           status: data.status,
           featured: data.featured || false,
-          agent_id: data.agent_id, // changed from agentId
+          agentId: data.agentId, // Fixed: use agentId instead of agent_id
           images: [] // No images yet
         },
         imageUrls: []

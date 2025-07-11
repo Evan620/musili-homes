@@ -1,5 +1,5 @@
 import { supabase } from '@/integrations/supabase/client';
-import { Property, Agent, User, Task } from '@/types';
+import { Property, Agent, User, Task, PropertyFormData } from '@/types';
 import { deletePropertyImages, uploadPropertyImages } from '@/services/storage';
 
 // Test database connection
@@ -485,9 +485,9 @@ export const getTasks = async (): Promise<Task[]> => {
     description: task.description || '',
     priority: task.priority as 'Low' | 'Medium' | 'High',
     status: task.status as 'Pending' | 'In Progress' | 'Completed',
-    dueDate: task.due_date || '',
+    due_date: task.due_date || '', // Use due_date consistently
     agent_id: Number(task.agent_id),
-    createdAt: task.created_at || new Date().toISOString()
+    created_at: task.created_at || new Date().toISOString()
   })) || [];
 };
 
@@ -508,9 +508,9 @@ export const getTasksByAgentId = async (agentId: string): Promise<Task[]> => {
     description: task.description || '',
     priority: task.priority as 'Low' | 'Medium' | 'High',
     status: task.status as 'Pending' | 'In Progress' | 'Completed',
-    dueDate: task.due_date || '',
+    due_date: task.due_date || '', // Use due_date consistently
     agent_id: Number(task.agent_id),
-    createdAt: task.created_at || new Date().toISOString()
+    created_at: task.created_at || new Date().toISOString()
   })) || [];
 };
 
@@ -522,7 +522,7 @@ export const addTask = async (task: Omit<Task, 'id' | 'createdAt'>): Promise<Tas
       description: task.description,
       priority: task.priority,
       status: task.status,
-      due_date: task.dueDate,
+      due_date: task.due_date, // Use due_date consistently
       agent_id: Number(task.agent_id)
     })
     .select()
@@ -539,9 +539,9 @@ export const addTask = async (task: Omit<Task, 'id' | 'createdAt'>): Promise<Tas
     description: data.description || '',
     priority: data.priority as 'Low' | 'Medium' | 'High',
     status: data.status as 'Pending' | 'In Progress' | 'Completed',
-    dueDate: data.due_date || '',
+    due_date: data.due_date || '', // Use due_date consistently
     agent_id: Number(data.agent_id),
-    createdAt: data.created_at || new Date().toISOString()
+    created_at: data.created_at || new Date().toISOString()
   } : null;
 };
 
@@ -564,9 +564,9 @@ export const updateTaskStatus = async (taskId: string, status: Task['status']): 
     description: data.description || '',
     priority: data.priority as 'Low' | 'Medium' | 'High',
     status: data.status as 'Pending' | 'In Progress' | 'Completed',
-    dueDate: data.due_date || '',
+    due_date: data.due_date || '', // Use due_date consistently
     agent_id: Number(data.agent_id),
-    createdAt: data.created_at || new Date().toISOString()
+    created_at: data.created_at || new Date().toISOString()
   } : null;
 };
 
@@ -577,7 +577,7 @@ export const updateTask = async (taskId: string, taskData: Partial<Omit<Task, 'i
   if (taskData.description) updateData.description = taskData.description;
   if (taskData.priority) updateData.priority = taskData.priority;
   if (taskData.status) updateData.status = taskData.status;
-  if (taskData.dueDate) updateData.due_date = taskData.dueDate;
+  if (taskData.due_date) updateData.due_date = taskData.due_date; // Use due_date consistently
   if (taskData.agent_id) updateData.agent_id = Number(taskData.agent_id);
 
   const { data, error } = await supabase
@@ -598,9 +598,9 @@ export const updateTask = async (taskId: string, taskData: Partial<Omit<Task, 'i
     description: data.description || '',
     priority: data.priority as 'Low' | 'Medium' | 'High',
     status: data.status as 'Pending' | 'In Progress' | 'Completed',
-    dueDate: data.due_date || '',
+    due_date: data.due_date || '', // Use due_date consistently
     agent_id: Number(data.agent_id),
-    createdAt: data.created_at || new Date().toISOString()
+    created_at: data.created_at || new Date().toISOString()
   } : null;
 };
 
@@ -635,14 +635,14 @@ export const bulkDeleteTasks = async (taskIds: string[]): Promise<boolean> => {
 // Property CRUD operations with image management
 
 // Create a new property with images
-export const createProperty = async (propertyData: PropertyFormData): Promise<{ success: boolean; property?: Property; error?: string }> => {
+export const createProperty = async (propertyData: PropertyFormData, imageUrls: string[] = []): Promise<{ success: boolean; property?: Property; error?: string }> => {
   try {
     // Handle both agentId and agent_id field names
-    const agentId = typeof propertyData.agentId === 'string' 
-      ? parseInt(propertyData.agentId, 10) 
+    const agentId = typeof propertyData.agentId === 'string'
+      ? parseInt(propertyData.agentId, 10)
       : propertyData.agentId;
 
-    if (isNaN(agentId)) {
+    if (isNaN(agentId) || agentId === undefined || agentId === null) {
       throw new Error('Invalid agentId provided');
     }
 
@@ -727,7 +727,10 @@ export const updateProperty = async (
     if (propertyData.size) updateData.size = propertyData.size;
     if (propertyData.featured !== undefined) updateData.featured = propertyData.featured;
     if (propertyData.status) updateData.status = propertyData.status;
-    if (propertyData.agentId) updateData.agent_id = Number(propertyData.agentId);
+
+    // Handle both agentId and agent_id field names, and allow 0 as valid value
+    if (propertyData.agentId !== undefined) updateData.agent_id = Number(propertyData.agentId);
+    if (propertyData.agent_id !== undefined) updateData.agent_id = Number(propertyData.agent_id);
 
     const { data: propertyResult, error: propertyError } = await supabase
       .from('properties')
