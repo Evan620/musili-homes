@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Plus, Edit, Trash2, Eye, Search, Filter, MoreHorizontal, Copy, Download, Upload, Star, StarOutline } from 'lucide-react';
+import {
+  Plus, Edit, Trash2, Eye, Search, Filter, MoreHorizontal, Copy, Download, Upload, Star, StarOutline,
+  TrendingUp, Activity, Clock, Award, Target, BarChart3, ArrowUpRight, Home, MapPin, DollarSign,
+  Calendar, Users, Building, Zap
+} from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -427,32 +431,108 @@ const PropertyManagement: React.FC = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      {/* Header */}
-      <div className="flex justify-between items-center mb-6">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900">Property Management</h1>
-          <p className="text-gray-600 mt-1">
-            Manage all properties in the system ({filteredProperties.length} properties)
-          </p>
-        </div>
-        
-        <div className="flex space-x-2">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => setIsImportExportDialogOpen(true)}
-          >
-            <Upload className="h-4 w-4 mr-2" />
-            Import/Export
-          </Button>
-          <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
-            <DialogTrigger asChild>
-              <Button>
-                <Plus className="h-4 w-4 mr-2" />
-                Add Property
-              </Button>
-            </DialogTrigger>
+    <div className="min-h-screen bg-gradient-to-br from-[#f8fafc] via-[#f1f5f9] to-[#e2e8f0] relative overflow-hidden">
+      {/* Samsung-style floating background elements */}
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+        <div className="absolute top-20 left-20 w-96 h-96 bg-gradient-to-br from-blue-400/10 to-cyan-400/10 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-20 right-20 w-80 h-80 bg-gradient-to-br from-emerald-400/10 to-green-400/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-gradient-to-br from-purple-400/5 to-pink-400/5 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '4s' }}></div>
+      </div>
+
+      <div className="container mx-auto px-8 py-12 relative z-10">
+        {/* Samsung-style Header */}
+        <div className="mb-12">
+          <div className="relative bg-white/70 backdrop-blur-xl rounded-3xl p-10 shadow-2xl shadow-black/10 border border-white/30 overflow-hidden">
+            {/* Floating decorative elements */}
+            <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-blue-400/20 to-cyan-400/20 rounded-full blur-2xl"></div>
+            <div className="absolute bottom-0 left-0 w-32 h-32 bg-gradient-to-br from-emerald-400/20 to-green-400/20 rounded-full blur-2xl"></div>
+
+            <div className="relative">
+              <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
+                <div className="flex-1">
+                  <div className="flex items-center gap-6 mb-6">
+                    <div className="w-16 h-16 bg-gradient-to-br from-blue-500 via-blue-600 to-cyan-500 rounded-2xl shadow-lg shadow-blue-500/30 flex items-center justify-center">
+                      <Building className="h-8 w-8 text-white" />
+                    </div>
+                    <div>
+                      <h1 className="text-4xl font-bold bg-gradient-to-r from-slate-900 via-slate-800 to-slate-700 bg-clip-text text-transparent mb-2">
+                        Property Management
+                      </h1>
+                      <p className="text-xl text-slate-600 font-medium">
+                        Manage your luxury property portfolio ({filteredProperties.length} properties)
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Quick stats */}
+                  <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-4 border border-white/50 shadow-lg shadow-black/5">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center">
+                          <Home className="w-5 h-5 text-white" />
+                        </div>
+                        <div>
+                          <p className="text-sm font-semibold text-slate-600">Total</p>
+                          <p className="text-lg font-bold text-slate-900">{properties?.length || 0}</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-4 border border-white/50 shadow-lg shadow-black/5">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 bg-gradient-to-br from-emerald-500 to-green-500 rounded-xl flex items-center justify-center">
+                          <TrendingUp className="w-5 h-5 text-white" />
+                        </div>
+                        <div>
+                          <p className="text-sm font-semibold text-slate-600">Active</p>
+                          <p className="text-lg font-bold text-slate-900">{filteredProperties.length}</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-4 border border-white/50 shadow-lg shadow-black/5">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 bg-gradient-to-br from-amber-500 to-orange-500 rounded-xl flex items-center justify-center">
+                          <Star className="w-5 h-5 text-white" />
+                        </div>
+                        <div>
+                          <p className="text-sm font-semibold text-slate-600">Featured</p>
+                          <p className="text-lg font-bold text-slate-900">{properties?.filter(p => p.featured).length || 0}</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-4 border border-white/50 shadow-lg shadow-black/5">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center">
+                          <Users className="w-5 h-5 text-white" />
+                        </div>
+                        <div>
+                          <p className="text-sm font-semibold text-slate-600">Selected</p>
+                          <p className="text-lg font-bold text-slate-900">{selectedProperties.length}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Action buttons */}
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <Button
+                    variant="outline"
+                    className="bg-white/60 backdrop-blur-sm rounded-2xl px-6 py-3 font-semibold text-slate-700 hover:bg-white/80 transition-all duration-300 shadow-lg shadow-black/5 border border-white/40"
+                    onClick={() => setIsImportExportDialogOpen(true)}
+                  >
+                    <Upload className="h-4 w-4 mr-2" />
+                    Import/Export
+                  </Button>
+                  <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
+                    <DialogTrigger asChild>
+                      <Button className="bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white shadow-lg shadow-blue-500/30 rounded-2xl px-8 py-3 font-semibold transition-all duration-300 hover:scale-105">
+                        <Plus className="h-4 w-4 mr-2" />
+                        Add Property
+                      </Button>
+                    </DialogTrigger>
             <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
               <DialogHeader>
                 <DialogTitle>Create New Property</DialogTitle>
@@ -468,51 +548,75 @@ const PropertyManagement: React.FC = () => {
         </div>
       </div>
 
-      {/* Filters and Search */}
-      <Card className="mb-6">
-        <CardContent className="pt-6">
-          <div className="flex flex-col md:flex-row gap-4">
-            <div className="flex-1">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-                <Input
-                  placeholder="Search properties by title, location, or address..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10"
-                />
+      {/* Samsung-style Filters and Search */}
+      <div className="mb-8">
+        <div className="relative bg-white/70 backdrop-blur-xl rounded-3xl p-8 shadow-2xl shadow-black/10 border border-white/30 overflow-hidden">
+          {/* Floating decorative elements */}
+          <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-purple-400/20 to-pink-400/20 rounded-full blur-2xl"></div>
+
+          <div className="relative">
+            <div className="flex items-center gap-4 mb-6">
+              <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl shadow-lg shadow-purple-500/30 flex items-center justify-center">
+                <Filter className="h-6 w-6 text-white" />
+              </div>
+              <div>
+                <h3 className="text-2xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
+                  Search & Filter
+                </h3>
+                <p className="text-slate-600">Find properties quickly and efficiently</p>
               </div>
             </div>
-            
-            <Select value={statusFilter} onValueChange={setStatusFilter}>
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Filter by status" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Statuses</SelectItem>
-                <SelectItem value="For Sale">For Sale</SelectItem>
-                <SelectItem value="For Rent">For Rent</SelectItem>
-                <SelectItem value="Sold">Sold</SelectItem>
-                <SelectItem value="Rented">Rented</SelectItem>
-              </SelectContent>
-            </Select>
 
-            <Select value={agentFilter} onValueChange={setAgentFilter}>
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Filter by agent" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Agents</SelectItem>
-                {agents?.map(agent => (
-                  <SelectItem key={agent.id} value={agent.id.toString()}>
-                    {agent.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+              {/* Search Input */}
+              <div className="lg:col-span-6">
+                <div className="relative">
+                  <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400 h-5 w-5" />
+                  <Input
+                    placeholder="Search properties by title, location, or address..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="pl-12 pr-4 py-4 bg-white/80 backdrop-blur-sm rounded-2xl border border-white/50 shadow-lg shadow-black/5 text-lg font-medium focus:bg-white focus:border-purple-500/50 focus:ring-4 focus:ring-purple-500/20 transition-all duration-300"
+                  />
+                </div>
+              </div>
+
+              {/* Status Filter */}
+              <div className="lg:col-span-3">
+                <Select value={statusFilter} onValueChange={setStatusFilter}>
+                  <SelectTrigger className="w-full py-4 bg-white/80 backdrop-blur-sm rounded-2xl border border-white/50 shadow-lg shadow-black/5 font-medium focus:bg-white focus:border-blue-500/50 focus:ring-4 focus:ring-blue-500/20 transition-all duration-300">
+                    <SelectValue placeholder="Filter by status" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-white/95 backdrop-blur-xl border border-white/50 shadow-2xl rounded-2xl">
+                    <SelectItem value="all">All Statuses</SelectItem>
+                    <SelectItem value="For Sale">For Sale</SelectItem>
+                    <SelectItem value="For Rent">For Rent</SelectItem>
+                    <SelectItem value="Sold">Sold</SelectItem>
+                    <SelectItem value="Rented">Rented</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              {/* Agent Filter */}
+              <div className="lg:col-span-3">
+                <Select value={agentFilter} onValueChange={setAgentFilter}>
+                  <SelectTrigger className="w-full py-4 bg-white/80 backdrop-blur-sm rounded-2xl border border-white/50 shadow-lg shadow-black/5 font-medium focus:bg-white focus:border-emerald-500/50 focus:ring-4 focus:ring-emerald-500/20 transition-all duration-300">
+                    <SelectValue placeholder="Filter by agent" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-white/95 backdrop-blur-xl border border-white/50 shadow-2xl rounded-2xl">
+                    <SelectItem value="all">All Agents</SelectItem>
+                    {agents?.map(agent => (
+                      <SelectItem key={agent.id} value={agent.id.toString()}>
+                        {agent.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
       {/* Bulk Actions */}
       {selectedProperties.length > 0 && (
@@ -733,6 +837,10 @@ const PropertyManagement: React.FC = () => {
         onImportProperties={handleImportProperties}
         isLoading={createProperty.isPending}
       />
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

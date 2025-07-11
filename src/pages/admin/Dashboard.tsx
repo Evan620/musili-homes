@@ -8,7 +8,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Home, Users, DollarSign, PieChart, LogOut,
   Plus, Calendar, ListChecks, MessageSquare, Upload, Loader2,
-  Edit, Trash2, Key, Eye, EyeOff, AlertTriangle, Copy
+  Edit, Trash2, Key, Eye, EyeOff, AlertTriangle, Copy,
+  TrendingUp, Activity, Clock, Star, Award, Target,
+  BarChart3, ArrowUpRight, ArrowDownRight, Zap, Bell
 } from 'lucide-react';
 import { formatCurrency } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
@@ -418,47 +420,210 @@ const AdminDashboard: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-offWhite">
-      <div className="bg-navy py-6">
-        <div className="container mx-auto px-4 flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-white">Admin Dashboard</h1>
-          <div className="flex items-center gap-3">
-            <Button
-              variant="outline"
-              className="border-white text-white hover:bg-white/10"
-              onClick={handleLogout}
-            >
-              <LogOut className="mr-2 h-4 w-4" />
-              Logout
-            </Button>
+    <div className="min-h-screen bg-gradient-to-br from-[#f8fafc] via-[#f1f5f9] to-[#e2e8f0] relative overflow-hidden">
+      {/* Samsung-style floating background elements */}
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+        <div className="absolute top-20 left-20 w-96 h-96 bg-gradient-to-br from-gold-whisper/10 to-amber-400/10 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-20 right-20 w-80 h-80 bg-gradient-to-br from-blue-400/10 to-purple-400/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-gradient-to-br from-emerald-400/5 to-cyan-400/5 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '4s' }}></div>
+      </div>
+
+      {/* Samsung-style Header */}
+      <div className="relative z-10 bg-white/80 backdrop-blur-xl border-b border-white/20 shadow-lg shadow-black/5">
+        <div className="container mx-auto px-8 py-6">
+          <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-6">
+            <div className="flex items-center space-x-6">
+              <div className="relative">
+                <div className="w-16 h-16 bg-gradient-to-br from-[#d97706] via-[#f59e0b] to-[#fbbf24] rounded-2xl shadow-lg shadow-amber-500/25 flex items-center justify-center">
+                  <PieChart className="h-8 w-8 text-white" />
+                </div>
+                <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-green-500 rounded-full border-2 border-white shadow-sm"></div>
+              </div>
+              <div>
+                <h1 className="text-3xl font-bold bg-gradient-to-r from-slate-900 via-slate-800 to-slate-700 bg-clip-text text-transparent tracking-tight">
+                  Admin Dashboard
+                </h1>
+                <p className="text-slate-600 text-lg font-medium">Welcome back, {user?.name}</p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-4">
+              <div className="hidden lg:flex items-center space-x-3 bg-white/60 backdrop-blur-sm rounded-2xl px-5 py-3 border border-white/40 shadow-lg shadow-black/5">
+                <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                <span className="text-sm font-semibold text-slate-700">System Online</span>
+              </div>
+
+              <Button variant="ghost" size="sm" className="relative bg-white/60 backdrop-blur-sm rounded-2xl p-3 hover:bg-white/80 transition-all duration-300 shadow-lg shadow-black/5">
+                <Bell className="h-5 w-5 text-slate-700" />
+                <span className="absolute -top-1 -right-1 h-4 w-4 bg-gradient-to-r from-red-500 to-pink-500 rounded-full text-xs flex items-center justify-center text-white font-bold shadow-lg">5</span>
+              </Button>
+
+              <Button
+                variant="ghost"
+                className="bg-white/60 backdrop-blur-sm rounded-2xl px-6 py-3 font-semibold text-slate-700 hover:bg-white/80 transition-all duration-300 shadow-lg shadow-black/5 border border-white/40"
+                onClick={handleLogout}
+              >
+                <LogOut className="mr-2 h-4 w-4" />
+                Sign Out
+              </Button>
+            </div>
           </div>
         </div>
       </div>
-      
-      <div className="container mx-auto px-4 py-8">
-        <div className="mb-8">
-          <h2 className="text-xl font-bold text-navy mb-4">Welcome back, {user?.name}!</h2>
-          <p className="text-gray-700">
-            Here's an overview of your real estate portfolio and performance.
-          </p>
+
+      <div className="container mx-auto px-8 py-12 relative z-10">
+        {/* Welcome Section with Modern Typography */}
+        {/* Samsung-style Welcome Section */}
+        <div className="mb-12">
+          <div className="relative bg-white/70 backdrop-blur-xl rounded-3xl p-10 shadow-2xl shadow-black/10 border border-white/30 overflow-hidden">
+            {/* Floating decorative elements */}
+            <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-amber-400/20 to-orange-400/20 rounded-full blur-2xl"></div>
+            <div className="absolute bottom-0 left-0 w-32 h-32 bg-gradient-to-br from-blue-400/20 to-purple-400/20 rounded-full blur-2xl"></div>
+
+            <div className="relative">
+              <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
+                <div className="flex-1">
+                  <div className="flex items-center gap-4 mb-6">
+                    <div className="text-4xl">👋</div>
+                    <div>
+                      <h2 className="text-4xl font-bold bg-gradient-to-r from-slate-900 via-slate-800 to-slate-700 bg-clip-text text-transparent mb-2">
+                        Good {new Date().getHours() < 12 ? 'Morning' : new Date().getHours() < 18 ? 'Afternoon' : 'Evening'}, Admin
+                      </h2>
+                      <p className="text-xl text-slate-600 font-medium">
+                        Your real estate empire awaits your command
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-8">
+                    <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-4 border border-white/50 shadow-lg shadow-black/5">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center">
+                          <Home className="w-5 h-5 text-white" />
+                        </div>
+                        <div>
+                          <p className="text-sm font-semibold text-slate-600">Properties</p>
+                          <p className="text-lg font-bold text-slate-900">{totalProperties}</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-4 border border-white/50 shadow-lg shadow-black/5">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 bg-gradient-to-br from-emerald-500 to-green-500 rounded-xl flex items-center justify-center">
+                          <Users className="w-5 h-5 text-white" />
+                        </div>
+                        <div>
+                          <p className="text-sm font-semibold text-slate-600">Agents</p>
+                          <p className="text-lg font-bold text-slate-900">{totalAgents}</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-4 border border-white/50 shadow-lg shadow-black/5">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 bg-gradient-to-br from-amber-500 to-orange-500 rounded-xl flex items-center justify-center">
+                          <DollarSign className="w-5 h-5 text-white" />
+                        </div>
+                        <div>
+                          <p className="text-sm font-semibold text-slate-600">Value</p>
+                          <p className="text-lg font-bold text-slate-900">{formatCurrency(totalSaleValue)}</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-4 border border-white/50 shadow-lg shadow-black/5">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center">
+                          <ListChecks className="w-5 h-5 text-white" />
+                        </div>
+                        <div>
+                          <p className="text-sm font-semibold text-slate-600">Tasks</p>
+                          <p className="text-lg font-bold text-slate-900">{tasks?.length || 0}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        
-        {/* Action Buttons */}
-        <div className="flex flex-wrap gap-4 mb-8">
-          <Button
-            className="bg-navy text-white hover:bg-navy/90"
+
+        {/* Samsung-style Action Buttons Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+          {/* Property Management Card - Samsung Style */}
+          <div
+            className="group relative bg-white/70 backdrop-blur-xl rounded-3xl p-8 shadow-2xl shadow-black/10 border border-white/30 hover:shadow-3xl hover:-translate-y-2 transition-all duration-500 overflow-hidden cursor-pointer"
             onClick={() => navigate('/admin/property-management')}
           >
-            <Home className="mr-2 h-4 w-4" />
-            Manage Properties
-          </Button>
+            {/* Floating background gradient */}
+            <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-400/20 to-cyan-400/20 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
+
+            <div className="relative">
+              <div className="flex items-center justify-between mb-6">
+                <div className="w-16 h-16 bg-gradient-to-br from-[#3b82f6] via-[#1d4ed8] to-[#1e40af] rounded-2xl shadow-lg shadow-blue-500/30 flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
+                  <Home className="h-8 w-8 text-white" />
+                </div>
+                <ArrowUpRight className="h-6 w-6 text-slate-400 group-hover:text-blue-600 group-hover:translate-x-1 group-hover:-translate-y-1 transition-all duration-300" />
+              </div>
+
+              <div className="space-y-3">
+                <h3 className="text-2xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
+                  Properties
+                </h3>
+                <p className="text-slate-600 leading-relaxed">
+                  Manage listings, pricing, and property details
+                </p>
+              </div>
+
+              {/* Progress indicator */}
+              <div className="mt-6">
+                <div className="flex items-center justify-between text-sm text-slate-500 mb-2">
+                  <span>Active listings</span>
+                  <span>{totalProperties} properties</span>
+                </div>
+                <div className="w-full bg-slate-200/50 rounded-full h-2">
+                  <div className="bg-gradient-to-r from-blue-500 to-cyan-500 h-2 rounded-full w-3/4 shadow-lg shadow-blue-500/30"></div>
+                </div>
+              </div>
+            </div>
+          </div>
 
           <Dialog open={taskDialogOpen} onOpenChange={setTaskDialogOpen}>
             <DialogTrigger asChild>
-              <Button className="bg-gold text-navy hover:bg-gold/90">
-                <Plus className="mr-2 h-4 w-4" />
-                Assign New Task
-              </Button>
+              {/* Team Management Card - Samsung Style */}
+              <div className="group relative bg-white/70 backdrop-blur-xl rounded-3xl p-8 shadow-2xl shadow-black/10 border border-white/30 hover:shadow-3xl hover:-translate-y-2 transition-all duration-500 overflow-hidden cursor-pointer">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-emerald-400/20 to-green-400/20 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
+
+                <div className="relative">
+                  <div className="flex items-center justify-between mb-6">
+                    <div className="w-16 h-16 bg-gradient-to-br from-[#10b981] via-[#059669] to-[#047857] rounded-2xl shadow-lg shadow-emerald-500/30 flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
+                      <Users className="h-8 w-8 text-white" />
+                    </div>
+                    <ArrowUpRight className="h-6 w-6 text-slate-400 group-hover:text-emerald-600 group-hover:translate-x-1 group-hover:-translate-y-1 transition-all duration-300" />
+                  </div>
+
+                  <div className="space-y-3">
+                    <h3 className="text-2xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
+                      Team
+                    </h3>
+                    <p className="text-slate-600 leading-relaxed">
+                      Manage agents and assign tasks
+                    </p>
+                  </div>
+
+                  <div className="mt-6">
+                    <div className="flex items-center justify-between text-sm text-slate-500 mb-2">
+                      <span>Active agents</span>
+                      <span>{totalAgents} members</span>
+                    </div>
+                    <div className="w-full bg-slate-200/50 rounded-full h-2">
+                      <div className="bg-gradient-to-r from-emerald-500 to-green-500 h-2 rounded-full w-4/5 shadow-lg shadow-emerald-500/30"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[500px]">
               <DialogHeader>
@@ -621,10 +786,38 @@ const AdminDashboard: React.FC = () => {
           
           <Dialog open={propertyDialogOpen} onOpenChange={setPropertyDialogOpen}>
             <DialogTrigger asChild>
-              <Button className="bg-navy text-white hover:bg-navy/90">
-                <Home className="mr-2 h-4 w-4" />
-                Add New Property
-              </Button>
+              {/* Quick Actions Card - Samsung Style */}
+              <div className="group relative bg-white/70 backdrop-blur-xl rounded-3xl p-8 shadow-2xl shadow-black/10 border border-white/30 hover:shadow-3xl hover:-translate-y-2 transition-all duration-500 overflow-hidden cursor-pointer">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-amber-400/20 to-orange-400/20 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
+
+                <div className="relative">
+                  <div className="flex items-center justify-between mb-6">
+                    <div className="w-16 h-16 bg-gradient-to-br from-[#f59e0b] via-[#d97706] to-[#b45309] rounded-2xl shadow-lg shadow-amber-500/30 flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
+                      <Plus className="h-8 w-8 text-white" />
+                    </div>
+                    <ArrowUpRight className="h-6 w-6 text-slate-400 group-hover:text-amber-600 group-hover:translate-x-1 group-hover:-translate-y-1 transition-all duration-300" />
+                  </div>
+
+                  <div className="space-y-3">
+                    <h3 className="text-2xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
+                      Quick Add
+                    </h3>
+                    <p className="text-slate-600 leading-relaxed">
+                      Add properties, agents, and tasks
+                    </p>
+                  </div>
+
+                  <div className="mt-6">
+                    <div className="flex items-center justify-between text-sm text-slate-500 mb-2">
+                      <span>Recent additions</span>
+                      <span>24 this week</span>
+                    </div>
+                    <div className="w-full bg-slate-200/50 rounded-full h-2">
+                      <div className="bg-gradient-to-r from-amber-500 to-orange-500 h-2 rounded-full w-3/5 shadow-lg shadow-amber-500/30"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </DialogTrigger>
             <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
               <DialogHeader>
@@ -644,10 +837,38 @@ const AdminDashboard: React.FC = () => {
 
           <Dialog open={agentDialogOpen} onOpenChange={setAgentDialogOpen}>
             <DialogTrigger asChild>
-              <Button className="bg-gold text-navy hover:bg-gold/90">
-                <Users className="mr-2 h-4 w-4" />
-                Add New Agent
-              </Button>
+              {/* Analytics Card - Samsung Style */}
+              <div className="group relative bg-white/70 backdrop-blur-xl rounded-3xl p-8 shadow-2xl shadow-black/10 border border-white/30 hover:shadow-3xl hover:-translate-y-2 transition-all duration-500 overflow-hidden cursor-pointer">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-indigo-400/20 to-purple-400/20 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
+
+                <div className="relative">
+                  <div className="flex items-center justify-between mb-6">
+                    <div className="w-16 h-16 bg-gradient-to-br from-[#6366f1] via-[#4f46e5] to-[#4338ca] rounded-2xl shadow-lg shadow-indigo-500/30 flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
+                      <BarChart3 className="h-8 w-8 text-white" />
+                    </div>
+                    <ArrowUpRight className="h-6 w-6 text-slate-400 group-hover:text-indigo-600 group-hover:translate-x-1 group-hover:-translate-y-1 transition-all duration-300" />
+                  </div>
+
+                  <div className="space-y-3">
+                    <h3 className="text-2xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
+                      Analytics
+                    </h3>
+                    <p className="text-slate-600 leading-relaxed">
+                      View reports and performance metrics
+                    </p>
+                  </div>
+
+                  <div className="mt-6">
+                    <div className="flex items-center justify-between text-sm text-slate-500 mb-2">
+                      <span>Growth rate</span>
+                      <span>+15% this month</span>
+                    </div>
+                    <div className="w-full bg-slate-200/50 rounded-full h-2">
+                      <div className="bg-gradient-to-r from-indigo-500 to-purple-500 h-2 rounded-full w-5/6 shadow-lg shadow-indigo-500/30"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </DialogTrigger>
             <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
               <DialogHeader>
@@ -727,199 +948,388 @@ const AdminDashboard: React.FC = () => {
           )}
 
         </div>
-        
-        {/* Dashboard Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <Card className="p-6">
-            <div className="flex items-center">
-              <div className="bg-blue-100 p-3 rounded-full mr-4">
-                <Home className="h-6 w-6 text-blue-600" />
-              </div>
-              <div>
-                <p className="text-sm text-gray-500">Total Properties</p>
-                <h3 className="text-2xl font-bold">{totalProperties}</h3>
+
+        {/* Samsung-style Analytics Dashboard */}
+        <div className="mb-12">
+          <div className="flex items-center justify-between mb-8">
+            <div>
+              <h3 className="text-3xl font-bold bg-gradient-to-r from-slate-900 via-slate-800 to-slate-700 bg-clip-text text-transparent mb-2">
+                Portfolio Analytics
+              </h3>
+              <p className="text-slate-600 text-lg">Real-time business intelligence</p>
+            </div>
+            <div className="bg-white/70 backdrop-blur-sm rounded-2xl px-6 py-3 border border-white/50 shadow-lg shadow-black/5">
+              <div className="flex items-center gap-2">
+                <Calendar className="h-4 w-4 text-slate-600" />
+                <span className="text-sm font-semibold text-slate-700">Live Data</span>
               </div>
             </div>
-          </Card>
-          
-          <Card className="p-6">
-            <div className="flex items-center">
-              <div className="bg-green-100 p-3 rounded-full mr-4">
-                <Users className="h-6 w-6 text-green-600" />
-              </div>
-              <div>
-                <p className="text-sm text-gray-500">Total Agents</p>
-                <h3 className="text-2xl font-bold">{totalAgents}</h3>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {/* Properties Analytics Card - Samsung Style */}
+            <div className="group relative bg-white/70 backdrop-blur-xl rounded-3xl p-8 shadow-2xl shadow-black/10 border border-white/30 hover:shadow-3xl hover:-translate-y-2 transition-all duration-500 overflow-hidden">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-400/20 to-cyan-400/20 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
+
+              <div className="relative">
+                <div className="flex items-center justify-between mb-6">
+                  <div className="w-16 h-16 bg-gradient-to-br from-[#3b82f6] via-[#1d4ed8] to-[#1e40af] rounded-2xl shadow-lg shadow-blue-500/30 flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
+                    <Home className="h-8 w-8 text-white" />
+                  </div>
+                  <div className="bg-green-500/10 backdrop-blur-sm rounded-full px-3 py-1 border border-green-500/20">
+                    <div className="flex items-center gap-1">
+                      <TrendingUp className="h-3 w-3 text-green-600" />
+                      <span className="text-xs font-bold text-green-600">+8%</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="space-y-3">
+                  <div className="text-4xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
+                    {totalProperties}
+                  </div>
+                  <div>
+                    <p className="text-lg font-semibold text-slate-700">Properties</p>
+                    <p className="text-sm text-slate-500">Active listings</p>
+                  </div>
+                </div>
+
+                <div className="mt-6">
+                  <div className="w-full bg-slate-200/50 rounded-full h-2">
+                    <div className="bg-gradient-to-r from-blue-500 to-cyan-500 h-2 rounded-full w-4/5 shadow-lg shadow-blue-500/30"></div>
+                  </div>
+                  <p className="text-xs text-slate-500 mt-2">80% occupancy rate</p>
+                </div>
               </div>
             </div>
-          </Card>
-          
-          <Card className="p-6">
-            <div className="flex items-center">
-              <div className="bg-amber-100 p-3 rounded-full mr-4">
-                <DollarSign className="h-6 w-6 text-amber-600" />
-              </div>
-              <div>
-                <p className="text-sm text-gray-500">Portfolio Value</p>
-                <h3 className="text-2xl font-bold">{formatCurrency(totalSaleValue)} KES</h3>
+
+            {/* Agents Analytics Card - Samsung Style */}
+            <div className="group relative bg-white/70 backdrop-blur-xl rounded-3xl p-8 shadow-2xl shadow-black/10 border border-white/30 hover:shadow-3xl hover:-translate-y-2 transition-all duration-500 overflow-hidden">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-emerald-400/20 to-green-400/20 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
+
+              <div className="relative">
+                <div className="flex items-center justify-between mb-6">
+                  <div className="w-16 h-16 bg-gradient-to-br from-[#10b981] via-[#059669] to-[#047857] rounded-2xl shadow-lg shadow-emerald-500/30 flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
+                    <Users className="h-8 w-8 text-white" />
+                  </div>
+                  <div className="bg-emerald-500/10 backdrop-blur-sm rounded-full px-3 py-1 border border-emerald-500/20">
+                    <div className="flex items-center gap-1">
+                      <TrendingUp className="h-3 w-3 text-emerald-600" />
+                      <span className="text-xs font-bold text-emerald-600">+12%</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="space-y-3">
+                  <div className="text-4xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
+                    {totalAgents}
+                  </div>
+                  <div>
+                    <p className="text-lg font-semibold text-slate-700">Agents</p>
+                    <p className="text-sm text-slate-500">Team members</p>
+                  </div>
+                </div>
+
+                <div className="mt-6">
+                  <div className="w-full bg-slate-200/50 rounded-full h-2">
+                    <div className="bg-gradient-to-r from-emerald-500 to-green-500 h-2 rounded-full w-5/6 shadow-lg shadow-emerald-500/30"></div>
+                  </div>
+                  <p className="text-xs text-slate-500 mt-2">83% active this week</p>
+                </div>
               </div>
             </div>
-          </Card>
-          
-          <Card className="p-6">
-            <div className="flex items-center">
-              <div className="bg-purple-100 p-3 rounded-full mr-4">
-                <PieChart className="h-6 w-6 text-purple-600" />
-              </div>
-              <div>
-                <p className="text-sm text-gray-500">Avg. Property Value</p>
-                <h3 className="text-2xl font-bold">{formatCurrency(averagePropertyValue)} KES</h3>
+
+            {/* Portfolio Value Card - Samsung Style */}
+            <div className="group relative bg-white/70 backdrop-blur-xl rounded-3xl p-8 shadow-2xl shadow-black/10 border border-white/30 hover:shadow-3xl hover:-translate-y-2 transition-all duration-500 overflow-hidden">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-amber-400/20 to-orange-400/20 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
+
+              <div className="relative">
+                <div className="flex items-center justify-between mb-6">
+                  <div className="w-16 h-16 bg-gradient-to-br from-[#f59e0b] via-[#d97706] to-[#b45309] rounded-2xl shadow-lg shadow-amber-500/30 flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
+                    <DollarSign className="h-8 w-8 text-white" />
+                  </div>
+                  <div className="bg-amber-500/10 backdrop-blur-sm rounded-full px-3 py-1 border border-amber-500/20">
+                    <div className="flex items-center gap-1">
+                      <TrendingUp className="h-3 w-3 text-amber-600" />
+                      <span className="text-xs font-bold text-amber-600">+25%</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="space-y-3">
+                  <div className="text-3xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
+                    {formatCurrency(totalSaleValue)}
+                  </div>
+                  <div>
+                    <p className="text-lg font-semibold text-slate-700">Portfolio Value</p>
+                    <p className="text-sm text-slate-500">Total KES worth</p>
+                  </div>
+                </div>
+
+                <div className="mt-6">
+                  <div className="w-full bg-slate-200/50 rounded-full h-2">
+                    <div className="bg-gradient-to-r from-amber-500 to-orange-500 h-2 rounded-full w-3/4 shadow-lg shadow-amber-500/30"></div>
+                  </div>
+                  <p className="text-xs text-slate-500 mt-2">75% of yearly target</p>
+                </div>
               </div>
             </div>
-          </Card>
+
+            {/* Average Value Card - Samsung Style */}
+            <div className="group relative bg-white/70 backdrop-blur-xl rounded-3xl p-8 shadow-2xl shadow-black/10 border border-white/30 hover:shadow-3xl hover:-translate-y-2 transition-all duration-500 overflow-hidden">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-purple-400/20 to-indigo-400/20 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
+
+              <div className="relative">
+                <div className="flex items-center justify-between mb-6">
+                  <div className="w-16 h-16 bg-gradient-to-br from-[#8b5cf6] via-[#7c3aed] to-[#6d28d9] rounded-2xl shadow-lg shadow-purple-500/30 flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
+                    <PieChart className="h-8 w-8 text-white" />
+                  </div>
+                  <div className="bg-purple-500/10 backdrop-blur-sm rounded-full px-3 py-1 border border-purple-500/20">
+                    <div className="flex items-center gap-1">
+                      <TrendingUp className="h-3 w-3 text-purple-600" />
+                      <span className="text-xs font-bold text-purple-600">+18%</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="space-y-3">
+                  <div className="text-3xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
+                    {formatCurrency(averagePropertyValue)}
+                  </div>
+                  <div>
+                    <p className="text-lg font-semibold text-slate-700">Avg. Value</p>
+                    <p className="text-sm text-slate-500">Per property</p>
+                  </div>
+                </div>
+
+                <div className="mt-6">
+                  <div className="w-full bg-slate-200/50 rounded-full h-2">
+                    <div className="bg-gradient-to-r from-purple-500 to-indigo-500 h-2 rounded-full w-4/5 shadow-lg shadow-purple-500/30"></div>
+                  </div>
+                  <p className="text-xs text-slate-500 mt-2">Above market average</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        
+
+        {/* Modern Tabbed Interface */}
         <Tabs defaultValue="properties" className="w-full">
-          <TabsList className="mb-4">
-            <TabsTrigger value="properties">
-              <Home className="mr-1 h-4 w-4" /> Properties
-            </TabsTrigger>
-            <TabsTrigger value="agents">
-              <Users className="mr-1 h-4 w-4" /> Agents
-            </TabsTrigger>
-            <TabsTrigger value="tasks">
-              <ListChecks className="mr-1 h-4 w-4" /> Tasks
-            </TabsTrigger>
-            <TabsTrigger value="messages">
-              <MessageSquare className="mr-1 h-4 w-4" /> Messages
-            </TabsTrigger>
-          </TabsList>
+          <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-2 shadow-lg border border-slate-200/50 mb-8">
+            <TabsList className="grid w-full grid-cols-4 bg-transparent gap-2 p-0">
+              <TabsTrigger
+                value="properties"
+                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-blue-600 data-[state=active]:text-white data-[state=active]:shadow-lg rounded-2xl py-3 px-6 font-medium transition-all duration-300 hover:scale-105"
+              >
+                <Home className="mr-2 h-5 w-5" /> Properties
+              </TabsTrigger>
+              <TabsTrigger
+                value="agents"
+                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-emerald-500 data-[state=active]:to-emerald-600 data-[state=active]:text-white data-[state=active]:shadow-lg rounded-2xl py-3 px-6 font-medium transition-all duration-300 hover:scale-105"
+              >
+                <Users className="mr-2 h-5 w-5" /> Agents
+              </TabsTrigger>
+              <TabsTrigger
+                value="tasks"
+                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-amber-500 data-[state=active]:to-orange-500 data-[state=active]:text-white data-[state=active]:shadow-lg rounded-2xl py-3 px-6 font-medium transition-all duration-300 hover:scale-105"
+              >
+                <ListChecks className="mr-2 h-5 w-5" /> Tasks
+              </TabsTrigger>
+              <TabsTrigger
+                value="messages"
+                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500 data-[state=active]:to-indigo-500 data-[state=active]:text-white data-[state=active]:shadow-lg rounded-2xl py-3 px-6 font-medium transition-all duration-300 hover:scale-105"
+              >
+                <MessageSquare className="mr-2 h-5 w-5" /> Messages
+              </TabsTrigger>
+            </TabsList>
+          </div>
           
-          <TabsContent value="properties" className="bg-white rounded-lg shadow-md p-6">
-            <h3 className="text-xl font-bold text-navy mb-4">Properties</h3>
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead>
-                  <tr className="bg-gray-100">
-                    <th className="py-3 px-4 text-left">Title</th>
-                    <th className="py-3 px-4 text-left">Location</th>
-                    <th className="py-3 px-4 text-left">Price (KES)</th>
-                    <th className="py-3 px-4 text-left">Status</th>
-                    <th className="py-3 px-4 text-left">Agent</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {properties?.slice(0, 5).map((property) => {
-                    const propertyAgent = agents?.find(agent => agent.id === property.agent_id); // changed from agentId
-                    return (
-                      <tr key={property.id} className="border-b">
-                        <td className="py-3 px-4">{property.title}</td>
-                        <td className="py-3 px-4">{property.location}</td>
-                        <td className="py-3 px-4">{formatCurrency(property.price)}</td>
-                        <td className="py-3 px-4">
-                          <span className={`inline-block px-2 py-1 rounded text-xs font-medium ${
-                            property.status === 'For Sale' ? 'bg-red-500 text-white' :
-                            property.status === 'For Rent' ? 'bg-green-500 text-white' :
-                            property.status === 'Sold' ? 'bg-gray-500 text-white' :
-                            property.status === 'Rented' ? 'bg-purple-500 text-white' :
-                            'bg-gray-400 text-white'
-                          }`}>
-                            {property.status}
-                          </span>
-                        </td>
-                        <td className="py-3 px-4">{propertyAgent?.name || 'Unassigned'}</td>
-                      </tr>
-                    );
-                  }) || []}
+          <TabsContent value="properties" className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-2xl border border-slate-200/50 overflow-hidden">
+            <div className="p-8">
+              <div className="flex items-center justify-between mb-8">
+                <div className="flex items-center space-x-3">
+                  <div className="bg-gradient-to-r from-blue-500 to-blue-600 p-3 rounded-2xl shadow-lg">
+                    <Home className="h-6 w-6 text-white" />
+                  </div>
+                  <div>
+                    <h3 className="text-2xl font-bold text-slate-800">Properties Overview</h3>
+                    <p className="text-slate-500 text-sm">Manage your property portfolio</p>
+                  </div>
+                </div>
+                <div className="bg-blue-50 px-4 py-2 rounded-full">
+                  <span className="text-blue-600 font-semibold text-sm">{properties?.length || 0} Total</span>
+                </div>
+              </div>
+
+              <div className="overflow-x-auto rounded-2xl border border-slate-200/50">
+                <table className="w-full">
+                  <thead>
+                    <tr className="bg-gradient-to-r from-slate-50 to-slate-100 border-b border-slate-200">
+                      <th className="py-4 px-6 text-left font-semibold text-slate-700 uppercase tracking-wide text-xs">Property</th>
+                      <th className="py-4 px-6 text-left font-semibold text-slate-700 uppercase tracking-wide text-xs">Location</th>
+                      <th className="py-4 px-6 text-left font-semibold text-slate-700 uppercase tracking-wide text-xs">Price</th>
+                      <th className="py-4 px-6 text-left font-semibold text-slate-700 uppercase tracking-wide text-xs">Status</th>
+                      <th className="py-4 px-6 text-left font-semibold text-slate-700 uppercase tracking-wide text-xs">Agent</th>
+                    </tr>
+                  </thead>
+                  <tbody className="bg-white">
+                    {properties?.slice(0, 5).map((property, index) => {
+                      const propertyAgent = agents?.find(agent => agent.id === property.agent_id);
+                      return (
+                        <tr key={property.id} className="border-b border-slate-100 hover:bg-slate-50/80 transition-all duration-200 group">
+                          <td className="py-5 px-6">
+                            <div className="flex items-center space-x-3">
+                              <div className="w-2 h-2 bg-blue-500 rounded-full opacity-60 group-hover:opacity-100 transition-opacity"></div>
+                              <span className="font-medium text-slate-800 group-hover:text-blue-600 transition-colors">{property.title}</span>
+                            </div>
+                          </td>
+                          <td className="py-5 px-6">
+                            <span className="text-slate-600 font-medium">{property.location}</span>
+                          </td>
+                          <td className="py-5 px-6">
+                            <span className="font-bold text-amber-600 text-lg">{formatCurrency(property.price)} KES</span>
+                          </td>
+                          <td className="py-5 px-6">
+                            <span className={`inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold shadow-sm ${
+                              property.status === 'For Sale' ? 'bg-gradient-to-r from-emerald-500 to-emerald-600 text-white' :
+                              property.status === 'For Rent' ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white' :
+                              property.status === 'Sold' ? 'bg-gradient-to-r from-slate-500 to-slate-600 text-white' :
+                              property.status === 'Rented' ? 'bg-gradient-to-r from-purple-500 to-purple-600 text-white' :
+                              'bg-gradient-to-r from-slate-400 to-slate-500 text-white'
+                            }`}>
+                              {property.status}
+                            </span>
+                          </td>
+                          <td className="py-5 px-6">
+                            <div className="flex items-center space-x-2">
+                              <div className="w-8 h-8 bg-gradient-to-r from-slate-200 to-slate-300 rounded-full flex items-center justify-center">
+                                <span className="text-slate-600 font-medium text-sm">
+                                  {propertyAgent?.name?.charAt(0) || 'U'}
+                                </span>
+                              </div>
+                              <span className="text-slate-700 font-medium">{propertyAgent?.name || 'Unassigned'}</span>
+                            </div>
+                          </td>
+                        </tr>
+                      );
+                    }) || []}
                 </tbody>
               </table>
+              </div>
             </div>
           </TabsContent>
-          
-          <TabsContent value="agents" className="bg-white rounded-lg shadow-md p-6">
-            <h3 className="text-xl font-bold text-navy mb-4">Agents</h3>
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead>
-                  <tr className="bg-gray-100">
-                    <th className="py-3 px-4 text-left">Agent</th>
-                    <th className="py-3 px-4 text-left">Email</th>
-                    <th className="py-3 px-4 text-left">Phone</th>
-                    <th className="py-3 px-4 text-left">Properties</th>
-                    <th className="py-3 px-4 text-left">Tasks</th>
-                    <th className="py-3 px-4 text-left">Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {agents?.map((agent) => {
-                    const agentPropertyCount = properties?.filter(p => p.agent_id === agent.id).length || 0; // changed from agentId
-                    const agentTaskCount = tasks?.filter(t => t.agent_id === agent.id).length || 0; // changed from agentId
-                    const hasBlockingItems = agentPropertyCount > 0 || agentTaskCount > 0;
 
-                    return (
-                      <tr key={agent.id} className="border-b">
-                        <td className="py-3 px-4">
-                          <div className="flex items-center">
-                            <UserAvatar
-                              src={agent.photo}
-                              name={agent.name}
-                              size="md"
-                              className="mr-3"
-                            />
-                            <span className="">{agent.name}</span>
-                          </div>
-                        </td>
-                        <td className="py-3 px-4">{agent.email}</td>
-                        <td className="py-3 px-4">{agent.phone}</td>
-                        <td className="py-3 px-4">
-                          <span className={agentPropertyCount > 0 ? "text-orange-600 font-medium" : ""}>
-                            {agentPropertyCount}
-                          </span>
-                        </td>
-                        <td className="py-3 px-4">
-                          <span className={agentTaskCount > 0 ? "text-blue-600 font-medium" : ""}>
-                            {agentTaskCount}
-                          </span>
-                        </td>
-                        <td className="py-3 px-4">
-                          <div className="flex space-x-2">
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              className="text-blue-600 border-blue-600 hover:bg-blue-50"
-                              onClick={() => setSelectedAgent(agent.id)}
-                              title="Send message to agent"
-                            >
-                              <MessageSquare className="h-4 w-4" />
-                            </Button>
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              className="text-green-600 border-green-600 hover:bg-green-50"
-                              onClick={() => handleViewCredentials(agent)}
-                              title="View login credentials"
-                            >
-                              <Key className="h-4 w-4" />
-                            </Button>
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              className="text-gray-600 border-gray-600 hover:bg-gray-50"
-                              onClick={() => handleEditAgent(agent)}
-                              title="Edit agent details"
-                            >
-                              <Edit className="h-4 w-4" />
-                            </Button>
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              className={
-                                hasBlockingItems
-                                  ? "text-gray-400 cursor-not-allowed"
-                                  : "text-red-600 border-red-600 hover:bg-red-50"
-                              }
-                              disabled={hasBlockingItems}
-                              onClick={() => handleDeleteAgent(agent)}
+          <TabsContent value="agents" className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-2xl border border-slate-200/50 overflow-hidden">
+            <div className="p-8">
+              <div className="flex items-center justify-between mb-8">
+                <div className="flex items-center space-x-3">
+                  <div className="bg-gradient-to-r from-emerald-500 to-emerald-600 p-3 rounded-2xl shadow-lg">
+                    <Users className="h-6 w-6 text-white" />
+                  </div>
+                  <div>
+                    <h3 className="text-2xl font-bold text-slate-800">Team Management</h3>
+                    <p className="text-slate-500 text-sm">Manage your real estate agents</p>
+                  </div>
+                </div>
+                <div className="bg-emerald-50 px-4 py-2 rounded-full">
+                  <span className="text-emerald-600 font-semibold text-sm">{agents?.length || 0} Agents</span>
+                </div>
+              </div>
+
+              <div className="overflow-x-auto rounded-2xl border border-slate-200/50">
+                <table className="w-full">
+                  <thead>
+                    <tr className="bg-gradient-to-r from-slate-50 to-slate-100 border-b border-slate-200">
+                      <th className="py-4 px-6 text-left font-semibold text-slate-700 uppercase tracking-wide text-xs">Agent</th>
+                      <th className="py-4 px-6 text-left font-semibold text-slate-700 uppercase tracking-wide text-xs">Contact</th>
+                      <th className="py-4 px-6 text-left font-semibold text-slate-700 uppercase tracking-wide text-xs">Properties</th>
+                      <th className="py-4 px-6 text-left font-semibold text-slate-700 uppercase tracking-wide text-xs">Tasks</th>
+                      <th className="py-4 px-6 text-left font-semibold text-slate-700 uppercase tracking-wide text-xs">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody className="bg-white">
+                    {agents?.map((agent) => {
+                      const agentPropertyCount = properties?.filter(p => p.agent_id === agent.id).length || 0;
+                      const agentTaskCount = tasks?.filter(t => t.agent_id === agent.id).length || 0;
+                      const hasBlockingItems = agentPropertyCount > 0 || agentTaskCount > 0;
+
+                      return (
+                        <tr key={agent.id} className="border-b border-slate-100 hover:bg-slate-50/80 transition-all duration-200 group">
+                          <td className="py-5 px-6">
+                            <div className="flex items-center space-x-4">
+                              <UserAvatar
+                                src={agent.photo}
+                                name={agent.name}
+                                size="md"
+                                className="ring-2 ring-emerald-100 group-hover:ring-emerald-200 transition-all"
+                              />
+                              <div>
+                                <span className="font-semibold text-slate-800 group-hover:text-emerald-600 transition-colors">{agent.name}</span>
+                                <p className="text-slate-500 text-sm">{agent.email}</p>
+                              </div>
+                            </div>
+                          </td>
+                          <td className="py-5 px-6">
+                            <div className="space-y-1">
+                              <p className="text-slate-700 font-medium">{agent.email}</p>
+                              <p className="text-slate-500 text-sm">{agent.phone}</p>
+                            </div>
+                          </td>
+                          <td className="py-5 px-6">
+                            <div className="flex items-center space-x-2">
+                              <div className={`w-3 h-3 rounded-full ${agentPropertyCount > 0 ? 'bg-orange-400' : 'bg-slate-300'}`}></div>
+                              <span className={`font-bold text-lg ${agentPropertyCount > 0 ? "text-orange-600" : "text-slate-500"}`}>
+                                {agentPropertyCount}
+                              </span>
+                            </div>
+                          </td>
+                          <td className="py-5 px-6">
+                            <div className="flex items-center space-x-2">
+                              <div className={`w-3 h-3 rounded-full ${agentTaskCount > 0 ? 'bg-blue-400' : 'bg-slate-300'}`}></div>
+                              <span className={`font-bold text-lg ${agentTaskCount > 0 ? "text-blue-600" : "text-slate-500"}`}>
+                                {agentTaskCount}
+                              </span>
+                            </div>
+                          </td>
+                          <td className="py-5 px-6">
+                            <div className="flex space-x-2">
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                className="text-blue-600 border-blue-200 hover:bg-blue-50 hover:border-blue-300 rounded-xl transition-all duration-200 hover:scale-105"
+                                onClick={() => setSelectedAgent(agent.id)}
+                                title="Send message to agent"
+                              >
+                                <MessageSquare className="h-4 w-4" />
+                              </Button>
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                className="text-emerald-600 border-emerald-200 hover:bg-emerald-50 hover:border-emerald-300 rounded-xl transition-all duration-200 hover:scale-105"
+                                onClick={() => handleViewCredentials(agent)}
+                                title="View login credentials"
+                              >
+                                <Key className="h-4 w-4" />
+                              </Button>
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                className="text-slate-600 border-slate-200 hover:bg-slate-50 hover:border-slate-300 rounded-xl transition-all duration-200 hover:scale-105"
+                                onClick={() => handleEditAgent(agent)}
+                                title="Edit agent details"
+                              >
+                                <Edit className="h-4 w-4" />
+                              </Button>
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                className={
+                                  hasBlockingItems
+                                    ? "text-slate-400 border-slate-200 cursor-not-allowed rounded-xl"
+                                    : "text-red-600 border-red-200 hover:bg-red-50 hover:border-red-300 rounded-xl transition-all duration-200 hover:scale-105"
+                                }
+                                disabled={hasBlockingItems}
+                                onClick={() => handleDeleteAgent(agent)}
                               title={
                                 hasBlockingItems
                                   ? (() => {
@@ -930,16 +1340,17 @@ const AdminDashboard: React.FC = () => {
                                     })()
                                   : "Delete agent"
                               }
-                            >
-                              <Trash2 className="h-4 w-4" />
-                            </Button>
-                          </div>
-                        </td>
-                      </tr>
-                    );
-                  }) || []}
-                </tbody>
-              </table>
+                              >
+                                <Trash2 className="h-4 w-4" />
+                              </Button>
+                            </div>
+                          </td>
+                        </tr>
+                      );
+                    }) || []}
+                  </tbody>
+                </table>
+              </div>
             </div>
           </TabsContent>
           
@@ -947,60 +1358,91 @@ const AdminDashboard: React.FC = () => {
             <TaskManagement />
           </TabsContent>
           
-          <TabsContent value="messages" className="bg-white rounded-lg shadow-md p-6">
-            <h3 className="text-xl font-bold text-navy mb-4">Messages</h3>
-            
-            <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-              <div className="lg:col-span-1">
-                <Card className="p-4">
-                  <h4 className="font-bold text-lg mb-3">Agents</h4>
-                  {agents?.map(agent => (
-                    <div
-                      key={agent.id}
-                      className={`flex items-center gap-3 p-2 rounded-lg cursor-pointer mb-2 ${selectedAgent === agent.id ? 'bg-blue-100' : 'bg-gray-100 hover:bg-gray-200'}`}
-                      onClick={() => setSelectedAgent(agent.id)}
-                    >
-                      <UserAvatar
-                        src={agent.photo}
-                        name={agent.name}
-                        size="lg"
+          <TabsContent value="messages" className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-2xl border border-slate-200/50 overflow-hidden">
+            <div className="p-8">
+              <div className="flex items-center justify-between mb-8">
+                <div className="flex items-center space-x-3">
+                  <div className="bg-gradient-to-r from-purple-500 to-indigo-500 p-3 rounded-2xl shadow-lg">
+                    <MessageSquare className="h-6 w-6 text-white" />
+                  </div>
+                  <div>
+                    <h3 className="text-2xl font-bold text-slate-800">Communication Hub</h3>
+                    <p className="text-slate-500 text-sm">Manage agent communications</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+                <div className="lg:col-span-1">
+                  <div className="bg-white rounded-2xl shadow-lg border border-slate-200/50 p-6">
+                    <h4 className="font-bold text-lg mb-6 text-slate-800 flex items-center">
+                      <Users className="mr-2 h-5 w-5 text-purple-500" />
+                      Team Members
+                    </h4>
+                    <div className="space-y-3">
+                      {agents?.map(agent => (
+                        <div
+                          key={agent.id}
+                          className={`flex items-center gap-4 p-4 rounded-2xl cursor-pointer transition-all duration-200 hover:scale-105 ${
+                            selectedAgent === agent.id
+                              ? 'bg-gradient-to-r from-purple-50 to-indigo-50 border-2 border-purple-200 shadow-md'
+                              : 'bg-slate-50 hover:bg-slate-100 border border-slate-200'
+                          }`}
+                          onClick={() => setSelectedAgent(agent.id)}
+                        >
+                          <UserAvatar
+                            src={agent.photo}
+                            name={agent.name}
+                            size="lg"
+                            className="ring-2 ring-purple-100"
+                          />
+                          <div className="flex-1">
+                            <p className="font-semibold text-slate-800">{agent.name}</p>
+                            <p className="text-sm text-slate-500">{agent.email}</p>
+                          </div>
+                          {selectedAgent === agent.id && (
+                            <div className="w-3 h-3 bg-purple-500 rounded-full animate-pulse"></div>
+                          )}
+                        </div>
+                      )) || []}
+                    </div>
+                  </div>
+                </div>
+              
+                <div className="lg:col-span-3">
+                  {selectedAgent ? (
+                    <div className="bg-white rounded-2xl shadow-lg border border-slate-200/50 h-[600px]">
+                      <MessagePanel
+                        currentUser={{
+                          id: Number(user?.id) || 0,
+                          name: user?.name || '',
+                          role: 'admin',
+                          auth_id: (user as any)?.auth_id || '',
+                        }}
+                        recipient={(() => {
+                          const agent = agents?.find(a => a.id === selectedAgent);
+                          if (agent) {
+                            return {
+                              id: agent.id,
+                              name: agent.name,
+                              role: agent.role || 'agent',
+                              auth_id: agent.auth_id || '',
+                            };
+                          }
+                          return { id: 0, name: '', role: 'agent', auth_id: '' };
+                        })()}
                       />
-                      <div>
-                        <p className="font-medium">{agent.name}</p>
-                        <p className="text-xs text-gray-500">{agent.email}</p>
+                    </div>
+                  ) : (
+                    <div className="bg-white rounded-2xl shadow-lg border border-slate-200/50 h-[600px] flex items-center justify-center">
+                      <div className="text-center">
+                        <MessageSquare className="h-16 w-16 text-slate-300 mx-auto mb-4" />
+                        <p className="text-slate-500 text-lg font-medium">Select an agent to start messaging</p>
+                        <p className="text-slate-400 text-sm mt-2">Choose a team member from the list to begin a conversation</p>
                       </div>
                     </div>
-                  )) || []}
-                </Card>
-              </div>
-              
-              <div className="lg:col-span-3">
-                {selectedAgent ? (
-                  <MessagePanel
-                    currentUser={{
-                      id: Number(user?.id) || 0,
-                      name: user?.name || '',
-                      role: 'admin',
-                      auth_id: (user as any)?.auth_id || '',
-                    }}
-                    recipient={(() => {
-                      const agent = agents?.find(a => a.id === selectedAgent);
-                      if (agent) {
-                        return {
-                          id: agent.id,
-                          name: agent.name,
-                          role: agent.role || 'agent',
-                          auth_id: agent.auth_id || '',
-                        };
-                      }
-                      return { id: 0, name: '', role: 'agent', auth_id: '' };
-                    })()}
-                  />
-                ) : (
-                  <div className="flex items-center justify-center h-full">
-                    <p className="text-gray-500">Select an agent to start messaging</p>
-                  </div>
-                )}
+                  )}
+                </div>
               </div>
             </div>
           </TabsContent>
@@ -1022,16 +1464,16 @@ const AdminDashboard: React.FC = () => {
 
             <div className="space-y-4">
               <div>
-                <Label className="text-sm font-medium text-gray-700">Email</Label>
-                <div className="mt-1 p-3 bg-gray-50 rounded-md border">
-                  <span className="text-sm">{selectedAgentForAction?.email}</span>
+                <Label className="text-sm font-medium" style={{ color: 'hsl(var(--deep-charcoal))' }}>Email</Label>
+                <div className="mt-1 p-3 bg-soft-ivory rounded-md border border-satin-silver">
+                  <span className="text-sm" style={{ color: 'hsl(var(--deep-charcoal))' }}>{selectedAgentForAction?.email}</span>
                 </div>
               </div>
 
               <div>
-                <Label className="text-sm font-medium text-gray-700">Password</Label>
-                <div className="mt-1 p-3 bg-gray-50 rounded-md border flex items-center justify-between">
-                  <span className="text-sm font-mono">
+                <Label className="text-sm font-medium" style={{ color: 'hsl(var(--deep-charcoal))' }}>Password</Label>
+                <div className="mt-1 p-3 bg-soft-ivory rounded-md border border-satin-silver flex items-center justify-between">
+                  <span className="text-sm font-mono" style={{ color: 'hsl(var(--deep-charcoal))' }}>
                     {showPassword ? (selectedAgentForAction?.tempPassword || 'Click "Reset Password" to generate new password') : '••••••••'}
                   </span>
                   <div className="flex space-x-1">

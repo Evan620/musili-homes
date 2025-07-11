@@ -40,13 +40,25 @@
 
     --radius: 0.5rem;
 
-    /* Custom luxury colors */
+    /* Enhanced luxury color palette */
     --pure-white: 0 0% 100%; /* #FFFFFF */
     --soft-ivory: 34 28% 96%; /* #F8F1E9 */
+    --warm-ivory: 35 30% 94%; /* #F5EDE3 */
     --satin-silver: 0 0% 88%; /* #E0E0E0 */
+    --pearl-silver: 0 0% 92%; /* #EBEBEB */
     --deep-charcoal: 0 0% 17%; /* #2B2B2B */
+    --rich-charcoal: 0 0% 12%; /* #1F1F1F */
     --gold-whisper: 45 85% 46%; /* #D4A017 */
+    --gold-accent: 45 90% 55%; /* #E6B800 */
+    --gold-light: 45 85% 65%; /* #F4D03F */
     --soft-crimson: 354 70% 54%; /* #E63946 */
+
+    /* New gradient colors */
+    --gradient-start: 45 85% 46%; /* Gold */
+    --gradient-end: 45 90% 55%; /* Lighter Gold */
+    --shadow-light: 0 0% 0% / 0.05;
+    --shadow-medium: 0 0% 0% / 0.1;
+    --shadow-heavy: 0 0% 0% / 0.15;
   }
 }
 
@@ -66,17 +78,26 @@
     font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display', 'San Francisco', system-ui, sans-serif;
   }
 
-  /* FORCE ALL TEXT TO BE VISIBLE WITH PROPER CONTRAST */
+  /* ENHANCED TEXT VISIBILITY WITH PROPER CONTRAST */
   h1, h2, h3, h4, h5, h6 {
     color: hsl(var(--deep-charcoal)) !important;
     font-weight: 300 !important;
   }
 
-  p, span, div, td, th, label, li, a {
+  p, span, div, td, th, label, li {
     color: hsl(var(--deep-charcoal)) !important;
   }
 
-  /* Button text visibility - CRITICAL FIX */
+  /* Links with proper contrast */
+  a {
+    color: hsl(var(--deep-charcoal)) !important;
+  }
+
+  a:hover {
+    color: hsl(var(--gold-whisper)) !important;
+  }
+
+  /* Button text visibility - ENHANCED */
   button, .btn, [role="button"] {
     color: hsl(var(--deep-charcoal)) !important;
   }
@@ -85,8 +106,13 @@
     color: inherit !important;
   }
 
-  /* Specific button variant overrides */
-  .bg-gold-whisper, .bg-gold-whisper *, [class*="bg-gold-whisper"] * {
+  /* Specific button and background variant overrides */
+  .bg-gold-whisper, .bg-gold-whisper *,
+  .bg-gold-accent, .bg-gold-accent *,
+  [class*="bg-gold-whisper"] *,
+  [class*="bg-gold-accent"] *,
+  [class*="from-gold-whisper"] *,
+  [class*="to-gold-accent"] * {
     color: hsl(var(--pure-white)) !important;
   }
 
@@ -94,7 +120,12 @@
     color: hsl(var(--pure-white)) !important;
   }
 
-  .bg-deep-charcoal, .bg-deep-charcoal *, [class*="bg-deep-charcoal"] * {
+  .bg-deep-charcoal, .bg-deep-charcoal *,
+  .bg-rich-charcoal, .bg-rich-charcoal *,
+  [class*="bg-deep-charcoal"] *,
+  [class*="bg-rich-charcoal"] *,
+  [class*="from-deep-charcoal"] *,
+  [class*="to-rich-charcoal"] * {
     color: hsl(var(--pure-white)) !important;
   }
 
@@ -128,68 +159,142 @@
     color: hsl(var(--pure-white)) !important;
   }
 
-  /* Luxury color utility classes */
+  /* Enhanced luxury color utility classes */
   .bg-pure-white {
     background-color: hsl(var(--pure-white));
   }
-  
+
   .bg-soft-ivory {
     background-color: hsl(var(--soft-ivory));
   }
-  
+
+  .bg-warm-ivory {
+    background-color: hsl(var(--warm-ivory));
+  }
+
   .bg-satin-silver {
     background-color: hsl(var(--satin-silver));
   }
-  
+
+  .bg-pearl-silver {
+    background-color: hsl(var(--pearl-silver));
+  }
+
   .bg-deep-charcoal {
     background-color: hsl(var(--deep-charcoal));
   }
-  
+
+  .bg-rich-charcoal {
+    background-color: hsl(var(--rich-charcoal));
+  }
+
   .bg-gold-whisper {
     background-color: hsl(var(--gold-whisper));
   }
-  
+
+  .bg-gold-accent {
+    background-color: hsl(var(--gold-accent));
+  }
+
+  .bg-gold-light {
+    background-color: hsl(var(--gold-light));
+  }
+
   .text-pure-white {
     color: hsl(var(--pure-white)) !important;
   }
-  
+
   .text-soft-ivory {
     color: hsl(var(--soft-ivory)) !important;
   }
-  
+
+  .text-warm-ivory {
+    color: hsl(var(--warm-ivory)) !important;
+  }
+
   .text-satin-silver {
     color: hsl(var(--satin-silver)) !important;
   }
-  
+
+  .text-pearl-silver {
+    color: hsl(var(--pearl-silver)) !important;
+  }
+
   .text-deep-charcoal {
     color: hsl(var(--deep-charcoal)) !important;
   }
-  
+
+  .text-rich-charcoal {
+    color: hsl(var(--rich-charcoal)) !important;
+  }
+
   .text-gold-whisper {
     color: hsl(var(--gold-whisper)) !important;
   }
-  
+
+  .text-gold-accent {
+    color: hsl(var(--gold-accent)) !important;
+  }
+
+  .text-gold-light {
+    color: hsl(var(--gold-light)) !important;
+  }
+
   .border-satin-silver {
     border-color: hsl(var(--satin-silver));
   }
-  
+
+  .border-pearl-silver {
+    border-color: hsl(var(--pearl-silver));
+  }
+
   .border-gold-whisper {
     border-color: hsl(var(--gold-whisper));
   }
 
-  /* Enhanced luxury styling */
+  .border-gold-accent {
+    border-color: hsl(var(--gold-accent));
+  }
+
+  /* Enhanced luxury styling with modern effects */
   .luxury-card {
-    @apply bg-pure-white border border-satin-silver shadow-sm;
+    @apply bg-pure-white border border-satin-silver shadow-lg;
     color: hsl(var(--deep-charcoal)) !important;
+    box-shadow: 0 4px 6px -1px hsl(var(--shadow-light)), 0 2px 4px -1px hsl(var(--shadow-light));
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .luxury-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 20px 25px -5px hsl(var(--shadow-medium)), 0 10px 10px -5px hsl(var(--shadow-light));
   }
 
   .luxury-card * {
     color: hsl(var(--deep-charcoal)) !important;
   }
 
+  .luxury-card-elevated {
+    @apply bg-pure-white border border-pearl-silver;
+    color: hsl(var(--deep-charcoal)) !important;
+    box-shadow: 0 10px 15px -3px hsl(var(--shadow-medium)), 0 4px 6px -2px hsl(var(--shadow-light));
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .luxury-card-elevated:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 25px 50px -12px hsl(var(--shadow-heavy)), 0 10px 20px -5px hsl(var(--shadow-medium));
+  }
+
   .luxury-button-primary {
-    @apply bg-gold-whisper hover:opacity-90 transition-all duration-300;
+    @apply bg-gradient-to-r from-gold-whisper to-gold-accent hover:from-gold-accent hover:to-gold-light;
     color: hsl(var(--pure-white)) !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 14px 0 hsl(var(--gold-whisper) / 0.3);
+  }
+
+  .luxury-button-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 25px 0 hsl(var(--gold-whisper) / 0.4);
   }
 
   .luxury-button-primary * {
@@ -197,16 +302,23 @@
   }
 
   .luxury-button-secondary {
-    @apply border border-satin-silver hover:bg-soft-ivory transition-all duration-300;
+    @apply border border-satin-silver hover:border-gold-whisper hover:bg-warm-ivory;
     color: hsl(var(--deep-charcoal)) !important;
     background-color: hsl(var(--pure-white)) !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 4px 0 hsl(var(--shadow-light));
+  }
+
+  .luxury-button-secondary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px 0 hsl(var(--shadow-medium));
   }
 
   .luxury-button-secondary * {
     color: hsl(var(--deep-charcoal)) !important;
   }
 
-  /* Typography enhancements */
+  /* Enhanced typography with better visibility */
   .luxury-heading {
     color: hsl(var(--deep-charcoal)) !important;
     font-weight: 300 !important;
@@ -214,11 +326,23 @@
   }
 
   .luxury-text {
-    color: hsl(var(--deep-charcoal) / 0.8) !important;
+    color: hsl(var(--deep-charcoal)) !important;
     font-weight: 300;
+    opacity: 0.9;
   }
 
-  /* Chat Interface Animations */
+  /* Ensure text visibility in specific contexts */
+  .text-visible {
+    color: hsl(var(--deep-charcoal)) !important;
+    opacity: 1 !important;
+  }
+
+  .text-visible-light {
+    color: hsl(var(--deep-charcoal) / 0.8) !important;
+    opacity: 1 !important;
+  }
+
+  /* Enhanced animations and micro-interactions */
   @keyframes slide-in-from-bottom {
     from {
       opacity: 0;
@@ -230,12 +354,366 @@
     }
   }
 
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  @keyframes glow {
+    0%, 100% {
+      box-shadow: 0 0 5px rgba(59, 130, 246, 0.5);
+    }
+    50% {
+      box-shadow: 0 0 20px rgba(59, 130, 246, 0.8), 0 0 30px rgba(59, 130, 246, 0.6);
+    }
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% {
+      box-shadow: 0 0 5px hsl(var(--gold-whisper) / 0.5);
+    }
+    50% {
+      box-shadow: 0 0 20px hsl(var(--gold-whisper) / 0.8), 0 0 30px hsl(var(--gold-whisper) / 0.6);
+    }
+  }
+
+  @keyframes shimmer-loading {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
+  }
+
+  @keyframes bounce-gentle {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-5px);
+    }
+  }
+
   .animate-in {
     animation: slide-in-from-bottom 0.3s ease-out;
   }
 
   .slide-in-from-bottom-2 {
     animation: slide-in-from-bottom 0.3s ease-out;
+  }
+
+  .animate-pulse-glow {
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+
+  .animate-shimmer {
+    background: linear-gradient(90deg,
+      hsl(var(--satin-silver)) 25%,
+      hsl(var(--pearl-silver)) 50%,
+      hsl(var(--satin-silver)) 75%);
+    background-size: 200% 100%;
+    animation: shimmer-loading 1.5s infinite;
+  }
+
+  .animate-bounce-gentle {
+    animation: bounce-gentle 2s ease-in-out infinite;
+  }
+
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  .animate-glow {
+    animation: glow 2s ease-in-out infinite;
+  }
+
+  /* Modern admin dashboard styles */
+  .admin-card-modern {
+    @apply bg-white/80 backdrop-blur-sm border-0 shadow-lg hover:shadow-2xl transition-all duration-500 hover:scale-105 rounded-3xl;
+  }
+
+  .admin-button-modern {
+    @apply group relative overflow-hidden rounded-2xl p-6 h-auto flex-col items-start shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border-0;
+  }
+
+  .admin-gradient-overlay {
+    @apply absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300;
+  }
+
+  .admin-icon-modern {
+    @apply h-8 w-8 mb-3 group-hover:scale-110 transition-transform duration-300;
+  }
+
+  .admin-text-primary {
+    @apply font-semibold text-lg mb-1;
+  }
+
+  .admin-text-secondary {
+    @apply text-sm;
+  }
+
+  /* ADMIN DASHBOARD FINAL POLISH */
+  /* Ensure all admin dashboard text is visible */
+  .admin-dashboard, .admin-dashboard *,
+  [class*="bg-white/80"], [class*="bg-white/80"] *,
+  [class*="backdrop-blur"], [class*="backdrop-blur"] *,
+  .bg-gradient-to-r.from-slate-100, .bg-gradient-to-r.from-slate-100 *,
+  .bg-gradient-to-r.from-slate-50, .bg-gradient-to-r.from-slate-50 * {
+    color: hsl(var(--deep-charcoal)) !important;
+  }
+
+  /* Admin footer text visibility */
+  .bg-gradient-to-r.from-slate-100.to-slate-200,
+  .bg-gradient-to-r.from-slate-100.to-slate-200 *,
+  div[class*="bg-gradient-to-r"][class*="from-slate-100"],
+  div[class*="bg-gradient-to-r"][class*="from-slate-100"] * {
+    color: hsl(var(--deep-charcoal)) !important;
+  }
+
+  /* Modern table styling */
+  .admin-table-modern {
+    @apply bg-white rounded-2xl shadow-lg border border-slate-200/50 overflow-hidden;
+  }
+
+  .admin-table-modern thead tr {
+    @apply bg-gradient-to-r from-slate-50 to-slate-100 border-b border-slate-200;
+  }
+
+  .admin-table-modern th {
+    @apply py-4 px-6 text-left font-semibold text-slate-700 uppercase tracking-wide text-xs;
+  }
+
+  .admin-table-modern tbody {
+    @apply bg-white;
+  }
+
+  .admin-table-modern tbody tr {
+    @apply border-b border-slate-100 hover:bg-slate-50/80 transition-all duration-200;
+  }
+
+  .admin-table-modern td {
+    @apply py-5 px-6 text-slate-700;
+  }
+
+  /* MOBILE-FIRST RESPONSIVE DESIGN SYSTEM */
+  /* Base mobile styles (320px and up) */
+  @media (max-width: 640px) {
+    /* Typography scaling for mobile */
+    .mobile-text-scale h1 {
+      @apply text-2xl leading-tight;
+    }
+
+    .mobile-text-scale h2 {
+      @apply text-xl leading-tight;
+    }
+
+    .mobile-text-scale h3 {
+      @apply text-lg leading-tight;
+    }
+
+    /* Container padding for mobile */
+    .mobile-container {
+      @apply px-4 py-6;
+    }
+
+    /* Card spacing for mobile */
+    .mobile-card {
+      @apply p-4 rounded-2xl;
+    }
+
+    /* Button sizing for mobile */
+    .mobile-button {
+      @apply py-3 px-4 text-base;
+    }
+
+    /* Grid adjustments for mobile */
+    .mobile-grid {
+      @apply grid-cols-1 gap-4;
+    }
+
+    /* Image aspect ratios for mobile */
+    .mobile-image {
+      @apply aspect-[4/3];
+    }
+
+    /* Navigation adjustments */
+    .mobile-nav {
+      @apply flex-col space-y-2;
+    }
+  }
+
+  /* Small mobile devices (up to 375px) */
+  @media (max-width: 375px) {
+    .ultra-mobile-text h1 {
+      @apply text-xl;
+    }
+
+    .ultra-mobile-container {
+      @apply px-3 py-4;
+    }
+
+    .ultra-mobile-card {
+      @apply p-3 rounded-xl;
+    }
+  }
+
+  /* Touch-friendly interactions */
+  .touch-friendly {
+    @apply min-h-[44px] min-w-[44px];
+  }
+
+  /* Mobile-optimized animations */
+  @media (prefers-reduced-motion: no-preference) {
+    .mobile-animate {
+      @apply transition-all duration-300 ease-out;
+    }
+  }
+
+  /* Reduce animations on mobile for performance */
+  @media (prefers-reduced-motion: reduce) {
+    .mobile-animate {
+      @apply transition-none;
+    }
+  }
+
+  /* MOBILE-SPECIFIC UTILITIES */
+  /* Hide scrollbars on mobile for cleaner look */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Mobile-safe text sizing */
+  @media (max-width: 640px) {
+    /* Prevent text from being too small on mobile */
+    .mobile-text-safe {
+      font-size: max(16px, 1rem);
+    }
+
+    /* Ensure buttons are touch-friendly */
+    .mobile-button-safe {
+      min-height: 44px;
+      min-width: 44px;
+      padding: 12px 16px;
+    }
+
+    /* Mobile-optimized spacing */
+    .mobile-spacing {
+      padding: 1rem;
+      margin: 0.5rem 0;
+    }
+
+    /* Mobile-friendly form inputs */
+    .mobile-input {
+      font-size: 16px; /* Prevents zoom on iOS */
+      padding: 12px 16px;
+      border-radius: 8px;
+    }
+  }
+
+  /* Landscape mobile optimizations */
+  @media (max-height: 500px) and (orientation: landscape) {
+    .landscape-mobile {
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+    }
+
+    .landscape-mobile h1 {
+      font-size: 1.5rem;
+    }
+
+    .landscape-mobile h2 {
+      font-size: 1.25rem;
+    }
+  }
+
+  /* High DPI mobile displays */
+  @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .retina-optimized {
+      image-rendering: -webkit-optimize-contrast;
+      image-rendering: crisp-edges;
+    }
+  }
+
+  /* Mobile-first breakpoint utilities */
+  .mobile-only {
+    @apply block sm:hidden;
+  }
+
+  .mobile-hidden {
+    @apply hidden sm:block;
+  }
+
+  .tablet-only {
+    @apply hidden sm:block lg:hidden;
+  }
+
+  .desktop-only {
+    @apply hidden lg:block;
+  }
+
+  /* ADMIN HEADER TEXT VISIBILITY - MAXIMUM PRIORITY */
+  /* Force white text in admin header */
+  .bg-gradient-to-r.from-slate-900 h1,
+  .bg-gradient-to-r.from-slate-900 h1 *,
+  .bg-gradient-to-r.from-slate-900 p,
+  .bg-gradient-to-r.from-slate-900 p *,
+  .bg-gradient-to-r.from-slate-900 span,
+  .bg-gradient-to-r.from-slate-900 span *,
+  .bg-gradient-to-r.from-slate-900 button,
+  .bg-gradient-to-r.from-slate-900 button *,
+  .bg-gradient-to-r.from-slate-900 svg,
+  .bg-gradient-to-r.from-slate-900 svg *,
+  /* Specific header elements */
+  div[class*="bg-gradient-to-r"][class*="from-slate-900"] h1,
+  div[class*="bg-gradient-to-r"][class*="from-slate-900"] h1 *,
+  div[class*="bg-gradient-to-r"][class*="from-slate-900"] p,
+  div[class*="bg-gradient-to-r"][class*="from-slate-900"] p *,
+  div[class*="bg-gradient-to-r"][class*="from-slate-900"] span,
+  div[class*="bg-gradient-to-r"][class*="from-slate-900"] span *,
+  div[class*="bg-gradient-to-r"][class*="from-slate-900"] button,
+  div[class*="bg-gradient-to-r"][class*="from-slate-900"] button *,
+  div[class*="bg-gradient-to-r"][class*="from-slate-900"] svg,
+  div[class*="bg-gradient-to-r"][class*="from-slate-900"] svg * {
+    color: #ffffff !important;
+    fill: #ffffff !important;
+  }
+
+  /* Hover effects */
+  .hover-lift {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .hover-lift:hover {
+    transform: translateY(-4px);
+  }
+
+  .hover-scale {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .hover-scale:hover {
+    transform: scale(1.05);
+  }
+
+  /* Loading states */
+  .loading-skeleton {
+    background: linear-gradient(90deg,
+      hsl(var(--satin-silver)) 25%,
+      hsl(var(--pearl-silver)) 50%,
+      hsl(var(--satin-silver)) 75%);
+    background-size: 200% 100%;
+    animation: shimmer-loading 1.5s infinite;
+    border-radius: 0.5rem;
   }
 
   /* Custom scrollbar for chat */
@@ -257,13 +735,62 @@
     background: hsl(var(--gold-whisper) / 0.5);
   }
 
-  /* Enhanced gradients */
+  /* Enhanced gradients and modern effects */
   .bg-gradient-luxury {
     background: linear-gradient(135deg, hsl(var(--pure-white)) 0%, hsl(var(--soft-ivory)) 100%);
   }
 
+  .bg-gradient-luxury-warm {
+    background: linear-gradient(135deg, hsl(var(--soft-ivory)) 0%, hsl(var(--warm-ivory)) 100%);
+  }
+
   .bg-gradient-gold {
-    background: linear-gradient(135deg, hsl(var(--gold-whisper)) 0%, hsl(var(--gold-whisper) / 0.8) 100%);
+    background: linear-gradient(135deg, hsl(var(--gold-whisper)) 0%, hsl(var(--gold-accent)) 100%);
+  }
+
+  .bg-gradient-gold-light {
+    background: linear-gradient(135deg, hsl(var(--gold-light)) 0%, hsl(var(--gold-accent)) 100%);
+  }
+
+  .bg-gradient-charcoal {
+    background: linear-gradient(135deg, hsl(var(--deep-charcoal)) 0%, hsl(var(--rich-charcoal)) 100%);
+  }
+
+  .bg-gradient-hero {
+    background: linear-gradient(135deg,
+      hsl(var(--deep-charcoal) / 0.8) 0%,
+      hsl(var(--deep-charcoal) / 0.6) 50%,
+      hsl(var(--deep-charcoal) / 0.4) 100%);
+  }
+
+  /* Glass morphism effects */
+  .glass-effect {
+    backdrop-filter: blur(16px) saturate(180%);
+    background-color: hsl(var(--pure-white) / 0.75);
+    border: 1px solid hsl(var(--satin-silver) / 0.3);
+  }
+
+  .glass-effect-dark {
+    backdrop-filter: blur(16px) saturate(180%);
+    background-color: hsl(var(--deep-charcoal) / 0.75);
+    border: 1px solid hsl(var(--satin-silver) / 0.2);
+  }
+
+  /* Modern shadows */
+  .shadow-luxury {
+    box-shadow: 0 10px 15px -3px hsl(var(--shadow-medium)), 0 4px 6px -2px hsl(var(--shadow-light));
+  }
+
+  .shadow-luxury-lg {
+    box-shadow: 0 20px 25px -5px hsl(var(--shadow-medium)), 0 10px 10px -5px hsl(var(--shadow-light));
+  }
+
+  .shadow-luxury-xl {
+    box-shadow: 0 25px 50px -12px hsl(var(--shadow-heavy)), 0 10px 20px -5px hsl(var(--shadow-medium));
+  }
+
+  .shadow-gold {
+    box-shadow: 0 10px 15px -3px hsl(var(--gold-whisper) / 0.3), 0 4px 6px -2px hsl(var(--gold-whisper) / 0.2);
   }
 
   /* FORCE WHITE TEXT FOR HERO AND CTA SECTIONS */
@@ -288,16 +815,395 @@
     color: hsl(var(--gold-whisper)) !important;
   }
 
-  /* Footer specific styles */
-  footer {
-    background-color: hsl(var(--deep-charcoal)) !important;
+  /* Enhanced text visibility for cards and components */
+  .luxury-card, .luxury-card-elevated {
+    color: hsl(var(--deep-charcoal)) !important;
   }
 
-  footer, footer * {
+  .luxury-card *, .luxury-card-elevated * {
+    color: hsl(var(--deep-charcoal)) !important;
+  }
+
+  .luxury-card h1, .luxury-card h2, .luxury-card h3, .luxury-card h4, .luxury-card h5, .luxury-card h6,
+  .luxury-card-elevated h1, .luxury-card-elevated h2, .luxury-card-elevated h3, .luxury-card-elevated h4, .luxury-card-elevated h5, .luxury-card-elevated h6 {
+    color: hsl(var(--deep-charcoal)) !important;
+  }
+
+  .luxury-card p, .luxury-card span, .luxury-card div, .luxury-card a,
+  .luxury-card-elevated p, .luxury-card-elevated span, .luxury-card-elevated div, .luxury-card-elevated a {
+    color: hsl(var(--deep-charcoal)) !important;
+  }
+
+  /* FOOTER TEXT VISIBILITY - NUCLEAR OPTION - MAXIMUM PRIORITY */
+  /* Force white text in footer with ultra-high specificity */
+  footer,
+  footer *,
+  footer h1, footer h2, footer h3, footer h4, footer h5, footer h6,
+  footer p, footer span, footer div, footer a, footer li, footer ul,
+  footer svg, footer path,
+  footer .container, footer .container *,
+  footer .grid, footer .grid *,
+  footer .flex, footer .flex *,
+  footer .space-y-3, footer .space-y-3 *,
+  footer .space-y-4, footer .space-y-4 *,
+  footer .space-y-6, footer .space-y-6 *,
+  footer .mb-6, footer .mb-6 *,
+  footer .leading-relaxed, footer .leading-relaxed *,
+  /* Background gradient classes */
+  .bg-gradient-charcoal,
+  .bg-gradient-charcoal *,
+  .bg-gradient-charcoal h1, .bg-gradient-charcoal h2, .bg-gradient-charcoal h3,
+  .bg-gradient-charcoal p, .bg-gradient-charcoal span, .bg-gradient-charcoal div,
+  .bg-gradient-charcoal a, .bg-gradient-charcoal li, .bg-gradient-charcoal ul,
+  .bg-gradient-charcoal svg, .bg-gradient-charcoal path,
+  /* Specific footer text classes */
+  .text-pure-white, .text-pure-white *,
+  [class*="text-pure-white"], [class*="text-pure-white"] *,
+  .font-light, .font-medium, .font-thin,
+  /* Footer container selectors with higher specificity */
+  footer[class*="bg-gradient"], footer[class*="bg-gradient"] *,
+  footer[class*="text-pure-white"], footer[class*="text-pure-white"] *,
+  /* Specific footer elements by structure */
+  footer .col-span-1, footer .col-span-1 *,
+  footer .grid, footer .grid *,
+  footer .gap-12, footer .gap-12 *,
+  /* Link elements in footer */
+  footer .group, footer .group *,
+  /* Footer bottom section */
+  footer .mt-16, footer .mt-16 *,
+  footer .pt-8, footer .pt-8 *,
+  footer .border-t, footer .border-t *,
+  footer .justify-between, footer .justify-between *,
+  footer .items-center, footer .items-center *,
+  footer .gap-6, footer .gap-6 *,
+  footer .gap-4, footer .gap-4 *,
+  footer .gap-2, footer .gap-2 *,
+  footer .text-sm, footer .text-sm *,
+  footer .text-xs, footer .text-xs * {
+    color: #ffffff !important;
+    fill: #ffffff !important;
+  }
+
+  /* Footer hover states with maximum specificity */
+  footer a:hover, footer a:hover *,
+  footer .group:hover, footer .group:hover *,
+  footer [class*="hover:text-gold"], footer [class*="hover:text-gold"] *,
+  footer .transition-colors, footer .transition-colors *,
+  footer .transition-all, footer .transition-all *,
+  .bg-gradient-charcoal a:hover, .bg-gradient-charcoal a:hover *,
+  .bg-gradient-charcoal .group:hover, .bg-gradient-charcoal .group:hover * {
+    color: #D4A017 !important;
+    fill: #D4A017 !important;
+  }
+
+  /* Footer background enforcement */
+  footer, .bg-gradient-charcoal {
+    background: linear-gradient(135deg, #2B2B2B 0%, #1F1F1F 100%) !important;
+  }
+
+  /* Specific footer brand text */
+  footer .text-2xl, footer .text-2xl *,
+  footer .font-thin, footer .font-thin *,
+  footer .text-gold-whisper, footer .text-gold-whisper *,
+  footer .font-medium, footer .font-medium * {
+    color: #ffffff !important;
+  }
+
+  /* Footer gold accents */
+  footer .text-gold-whisper,
+  footer [class*="text-gold"],
+  .bg-gradient-charcoal .text-gold-whisper,
+  .bg-gradient-charcoal [class*="text-gold"] {
+    color: #D4A017 !important;
+  }
+
+  /* TARGETED FOOTER TEXT VISIBILITY */
+  /* Only target text elements, not backgrounds */
+  footer h1, footer h2, footer h3, footer h4, footer h5, footer h6,
+  footer p, footer span, footer a, footer li {
+    color: #ffffff !important;
+  }
+
+  /* Footer gold elements */
+  footer .text-gold-whisper,
+  footer [class*="text-gold"] {
+    color: #D4A017 !important;
+  }
+
+  /* Footer SVG icons */
+  footer svg, footer svg * {
+    color: #ffffff !important;
+    fill: #ffffff !important;
+  }
+
+  /* Property card specific text visibility */
+  .property-card, .property-card * {
+    color: hsl(var(--deep-charcoal)) !important;
+  }
+
+  /* Navigation text visibility */
+  nav, nav * {
+    color: hsl(var(--deep-charcoal)) !important;
+  }
+
+  nav a:hover, nav button:hover {
+    color: hsl(var(--gold-whisper)) !important;
+  }
+
+  /* COMPREHENSIVE TEXT VISIBILITY FIX */
+  /* Ensure all text elements are visible with proper contrast */
+  .container *, .max-w-4xl *, .max-w-5xl *, .max-w-3xl *, .max-w-2xl *, .max-w-xl *, .max-w-lg *, .max-w-md *, .max-w-sm * {
+    color: hsl(var(--deep-charcoal)) !important;
+  }
+
+  /* Override for specific background contexts */
+  .hero-text, .hero-text *, .cta-text, .cta-text * {
     color: hsl(var(--pure-white)) !important;
   }
 
-  footer a:hover {
+  /* Ensure gradient text is visible */
+  .bg-clip-text {
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    color: transparent !important;
+  }
+
+  /* Force visibility for common text elements */
+  section p, section span, section div:not(.bg-gradient-to-r):not(.bg-gold-whisper):not(.bg-deep-charcoal):not(.bg-rich-charcoal) {
+    color: hsl(var(--deep-charcoal)) !important;
+  }
+
+  section h1, section h2, section h3, section h4, section h5, section h6 {
+    color: hsl(var(--deep-charcoal)) !important;
+  }
+
+  /* Specific fixes for common components */
+  .grid *, .flex *, .space-y-4 *, .space-y-6 *, .space-y-8 * {
+    color: hsl(var(--deep-charcoal)) !important;
+  }
+
+  /* Exception for elements that should be white */
+  .text-pure-white, .text-pure-white *,
+  .hero-text, .hero-text *,
+  .cta-text, .cta-text *,
+  footer, footer *,
+  .bg-gold-whisper *, .bg-gold-accent *,
+  .bg-deep-charcoal *, .bg-rich-charcoal *,
+  [style*="background"] .text-pure-white {
+    color: hsl(var(--pure-white)) !important;
+  }
+
+  /* FINAL TEXT VISIBILITY OVERRIDE - MOST IMPORTANT */
+  /* This ensures ALL text is visible by default, but excludes buttons and footer */
+  *:not(button):not([role="button"]):not(.btn):not(footer):not(footer *) {
+    color: hsl(var(--deep-charcoal)) !important;
+  }
+
+  /* Specific text elements that should be dark, but exclude footer */
+  p:not(footer p):not(footer *),
+  span:not(footer span):not(footer *),
+  div:not(button):not([role="button"]):not(.btn):not(footer):not(footer *),
+  h1:not(footer h1):not(footer *),
+  h2:not(footer h2):not(footer *),
+  h3:not(footer h3):not(footer *),
+  h4:not(footer h4):not(footer *),
+  h5:not(footer h5):not(footer *),
+  h6:not(footer h6):not(footer *),
+  td:not(footer td):not(footer *),
+  th:not(footer th):not(footer *),
+  label:not(footer label):not(footer *),
+  li:not(footer li):not(footer *),
+  a:not(button):not([role="button"]):not(.btn):not(footer a):not(footer *) {
+    color: hsl(var(--deep-charcoal)) !important;
+  }
+
+  /* CRITICAL BUTTON TEXT FIXES - MAXIMUM SPECIFICITY */
+  /* FORCE WHITE TEXT ON ALL BUTTONS - NUCLEAR OPTION */
+  button[style*="background-color: #1e3a8a"],
+  button[style*="background-color: #1e3a8a"] *,
+  button[style*="background-color: #1e3a8a"] span,
+  button[style*="background-color: #1e3a8a"] svg,
+  button[style*="background-color: #1e3a8a"] path,
+  /* Navy buttons - ULTRA HIGH SPECIFICITY */
+  button.bg-navy.text-white.admin-button-white-text,
+  button.bg-navy.text-white.admin-button-white-text *,
+  button.bg-navy.text-white.admin-button-white-text svg,
+  button.bg-navy.text-white.admin-button-white-text path,
+  button.bg-navy.text-white,
+  button.bg-navy.text-white *,
+  button.bg-navy.text-white svg,
+  button.bg-navy.text-white path,
+  button.bg-navy,
+  button.bg-navy *,
+  button.bg-navy svg,
+  button.bg-navy path,
+  button[class*="bg-navy"],
+  button[class*="bg-navy"] *,
+  button[class*="bg-navy"] svg,
+  button[class*="bg-navy"] path,
+  .admin-button-white-text,
+  .admin-button-white-text *,
+  .admin-button-white-text svg,
+  .admin-button-white-text path,
+  /* Other dark background buttons */
+  button[class*="bg-blue-"], button[class*="bg-blue-"] *,
+  button[class*="bg-green-"], button[class*="bg-green-"] *,
+  button[class*="bg-red-"], button[class*="bg-red-"] *,
+  button[class*="bg-purple-"], button[class*="bg-purple-"] *,
+  button[class*="bg-orange-"], button[class*="bg-orange-"] *,
+  .bg-navy button, .bg-navy button *,
+  [class*="bg-navy"] button, [class*="bg-navy"] button *,
+  [class*="bg-blue-"] button, [class*="bg-blue-"] button *,
+  [class*="bg-green-"] button, [class*="bg-green-"] button *,
+  [class*="bg-red-"] button, [class*="bg-red-"] button *,
+  [class*="bg-purple-"] button, [class*="bg-purple-"] button *,
+  [class*="bg-orange-"] button, [class*="bg-orange-"] button *,
+  /* Default button variant (primary buttons) */
+  button[data-variant="default"], button[data-variant="default"] *,
+  button[data-button-variant="default"], button[data-button-variant="default"] *,
+  button[data-variant="destructive"], button[data-variant="destructive"] *,
+  button[data-button-variant="destructive"], button[data-button-variant="destructive"] *,
+  /* Shadcn button variants with specific backgrounds */
+  button[class*="bg-gold-whisper"], button[class*="bg-gold-whisper"] *,
+  button[class*="bg-soft-crimson"], button[class*="bg-soft-crimson"] *,
+  .bg-gold-whisper, .bg-gold-whisper *,
+  .bg-soft-crimson, .bg-soft-crimson *,
+  /* Force white text on any button with inline style override */
+  button[style*="color: hsl(var(--pure-white))"], button[style*="color: hsl(var(--pure-white))"] *,
+  button[style*="color: #ffffff"], button[style*="color: #ffffff"] *,
+  /* Catch-all for buttons that should have white text */
+  .bg-navy, .bg-navy *,
+  .text-white, .text-white *,
+  [class*="bg-navy"], [class*="bg-navy"] *,
+  [class*="text-white"], [class*="text-white"] * {
+    color: #ffffff !important;
+    fill: #ffffff !important;
+  }
+
+  /* ADMIN DASHBOARD BUTTON COLOR FIXES - SPECIFIC COLORS */
+  /* Blue buttons */
+  button.text-blue-600, button.text-blue-600 *,
+  .text-blue-600, .text-blue-600 *,
+  button[class*="text-blue"], button[class*="text-blue"] * {
+    color: #2563eb !important;
+  }
+
+  /* Green buttons */
+  button.text-green-600, button.text-green-600 *,
+  .text-green-600, .text-green-600 *,
+  button[class*="text-green"], button[class*="text-green"] * {
+    color: #16a34a !important;
+  }
+
+  /* Red buttons */
+  button.text-red-600, button.text-red-600 *,
+  .text-red-600, .text-red-600 *,
+  button[class*="text-red"], button[class*="text-red"] * {
+    color: #dc2626 !important;
+  }
+
+  /* Purple buttons */
+  button.text-purple-600, button.text-purple-600 *,
+  .text-purple-600, .text-purple-600 *,
+  button[class*="text-purple"], button[class*="text-purple"] * {
+    color: #9333ea !important;
+  }
+
+  /* Orange buttons */
+  button.text-orange-600, button.text-orange-600 *,
+  .text-orange-600, .text-orange-600 *,
+  button[class*="text-orange"], button[class*="text-orange"] * {
+    color: #ea580c !important;
+  }
+
+  /* Gold buttons with navy text */
+  button.bg-gold, button.bg-gold *,
+  button[class*="bg-gold"], button[class*="bg-gold"] *,
+  .bg-gold, .bg-gold *,
+  [class*="bg-gold"], [class*="bg-gold"] * {
+    color: hsl(var(--deep-charcoal)) !important;
+  }
+
+  /* HIGHEST PRIORITY - White text for dark backgrounds */
+  /* Using higher specificity to override the universal selector */
+  section .hero-text, section .hero-text *,
+  section .cta-text, section .cta-text *,
+  .hero-text, .hero-text *,
+  .cta-text, .cta-text *,
+  footer, footer *,
+  .bg-gold-whisper *, .bg-gold-accent *, .bg-deep-charcoal *, .bg-rich-charcoal *,
+  .text-pure-white, .text-pure-white *, .text-white, .text-white *,
+  [class*="bg-gradient-to"] button *,
+  .luxury-button-primary *,
+  .hero-button-outline, .hero-button-outline *,
+  .cta-button-outline, .cta-button-outline *,
+  /* Specific selectors for CTA section */
+  section[class*="relative"] .cta-text,
+  section[class*="relative"] .cta-text *,
+  div[class*="max-w-5xl"] .cta-text,
+  div[class*="max-w-5xl"] .cta-text * {
+    color: hsl(var(--pure-white)) !important;
+  }
+
+  /* Gold text for accents */
+  .text-gold-whisper, .text-gold-accent, .luxury-accent {
     color: hsl(var(--gold-whisper)) !important;
   }
+
+  /* Ensure icons maintain their colors */
+  svg {
+    color: inherit !important;
+  }
+
+  /* ADMIN DASHBOARD SPECIFIC FIXES */
+  /* Ensure all admin dashboard content is visible */
+  [data-radix-collection-item], [data-radix-collection-item] *,
+  .admin-dashboard *, .admin-dashboard,
+  [role="tabpanel"] *, [role="tabpanel"],
+  [role="tab"] *, [role="tab"],
+  .tabs-content *, .tabs-content,
+  .card *, .card,
+  table *, table,
+  thead *, thead,
+  tbody *, tbody,
+  tr *, tr,
+  td *, td,
+  th *, th {
+    color: hsl(var(--deep-charcoal)) !important;
+  }
+
+  /* Specific overrides for colored elements in admin */
+  .text-blue-600, .text-orange-600, .text-green-600, .text-purple-600, .text-red-600 {
+    color: inherit !important;
+  }
+
+  /* Dialog content visibility */
+  [role="dialog"] *, [role="dialog"],
+  .dialog-content *, .dialog-content {
+    color: hsl(var(--deep-charcoal)) !important;
+  }
+
+  /* Button text in admin dashboard */
+  .admin-dashboard button *, .admin-dashboard button,
+  [role="tabpanel"] button *, [role="tabpanel"] button {
+    color: hsl(var(--deep-charcoal)) !important;
+  }
+
+  /* Exception for buttons with specific backgrounds */
+  .bg-blue-600 *, .bg-green-600 *, .bg-red-600 *, .bg-purple-600 *, .bg-orange-600 *,
+  .bg-blue-500 *, .bg-green-500 *, .bg-red-500 *, .bg-purple-500 *, .bg-orange-500 *,
+  .bg-navy *, .bg-navy,
+  [class*="bg-navy"] *, [class*="bg-navy"],
+  [class*="bg-blue-"] *, [class*="bg-blue-"],
+  [class*="bg-green-"] *, [class*="bg-green-"],
+  [class*="bg-red-"] *, [class*="bg-red-"],
+  [class*="bg-purple-"] *, [class*="bg-purple-"],
+  [class*="bg-orange-"] *, [class*="bg-orange-"],
+  /* Default button variant (should have white text on gold background) */
+  button[class*="bg-gold-whisper"] *, button[class*="bg-gold-whisper"],
+  .luxury-button-primary *, .luxury-button-primary {
+    color: hsl(var(--pure-white)) !important;
+  }
+
+
 }

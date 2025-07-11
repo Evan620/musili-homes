@@ -63,46 +63,120 @@ const PropertyDetail: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-offWhite pb-12">
-      {/* Hero Section Title/Info Above Carousel */}
-      <div className="w-full bg-navy pt-8 pb-2">
-        <div className="max-w-5xl mx-auto px-4">
-          <div className="bg-white/95 rounded-2xl shadow-xl border-t-4 border-gold flex flex-col md:flex-row md:items-center md:justify-between p-6 md:p-8 mb-4">
-            <div className="flex-1 min-w-0">
-              <h1 className="text-3xl md:text-4xl font-extrabold text-navy mb-2 tracking-tight relative">
-                <span className="pr-2">{property.title}</span>
-                <span className="block w-16 h-1 bg-gradient-to-r from-gold to-gold/60 rounded-full mt-2 mb-1"></span>
-              </h1>
-              <div className="flex items-center text-lg text-charcoal/80 font-medium mb-1">
-                <MapPin className="h-5 w-5 mr-2 text-gold" />
-                <span className="truncate">{property.address}</span>
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100">
+      {/* Modern Hero Section */}
+      <div className="relative w-full bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 overflow-hidden">
+        {/* Background Pattern */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-gold-whisper/20 to-transparent"></div>
+          <div className="absolute -top-40 -right-40 w-80 h-80 bg-gold-whisper/10 rounded-full blur-3xl"></div>
+          <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gold-accent/10 rounded-full blur-3xl"></div>
+        </div>
+
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
+          <div className="bg-white/95 backdrop-blur-sm rounded-2xl sm:rounded-3xl shadow-2xl border border-white/20 p-4 sm:p-8 md:p-12">
+            <div className="flex flex-col gap-6 sm:gap-8">
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
+                  <div className="bg-gradient-to-r from-gold-whisper to-gold-accent p-1.5 sm:p-2 rounded-lg sm:rounded-xl shadow-lg">
+                    <Bed className="h-4 w-4 sm:h-6 sm:w-6 text-white" />
+                  </div>
+                  <span className="text-gold-whisper font-semibold text-xs sm:text-sm uppercase tracking-wide">Premium Property</span>
+                </div>
+
+                <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-slate-800 mb-3 sm:mb-4 leading-tight">
+                  {property.title}
+                </h1>
+
+                <div className="flex items-start sm:items-center text-base sm:text-xl text-slate-600 font-medium mb-4 sm:mb-6">
+                  <MapPin className="h-5 w-5 sm:h-6 sm:w-6 mr-2 sm:mr-3 text-gold-whisper flex-shrink-0 mt-0.5 sm:mt-0" />
+                  <span className="break-words">{property.address}</span>
+                </div>
+
+                {/* Mobile-optimized feature pills */}
+                <div className="grid grid-cols-2 sm:flex sm:items-center gap-2 sm:gap-4">
+                  <div className="flex items-center gap-1.5 sm:gap-2 bg-slate-100 px-2 sm:px-4 py-1.5 sm:py-2 rounded-full">
+                    <Bed className="h-3 w-3 sm:h-4 sm:w-4 text-slate-600" />
+                    <span className="text-xs sm:text-sm text-slate-700 font-medium">{property.bedrooms} Beds</span>
+                  </div>
+                  <div className="flex items-center gap-1.5 sm:gap-2 bg-slate-100 px-2 sm:px-4 py-1.5 sm:py-2 rounded-full">
+                    <Bath className="h-3 w-3 sm:h-4 sm:w-4 text-slate-600" />
+                    <span className="text-xs sm:text-sm text-slate-700 font-medium">{property.bathrooms} Baths</span>
+                  </div>
+                  <div className="col-span-2 sm:col-span-1 flex items-center gap-1.5 sm:gap-2 bg-slate-100 px-2 sm:px-4 py-1.5 sm:py-2 rounded-full justify-center sm:justify-start">
+                    <Maximize2 className="h-3 w-3 sm:h-4 sm:w-4 text-slate-600" />
+                    <span className="text-xs sm:text-sm text-slate-700 font-medium">{property.size} sqft</span>
+                  </div>
+                </div>
               </div>
-            </div>
-            <div className="mt-4 md:mt-0 md:ml-8 flex-shrink-0">
-              <div className="inline-block bg-gradient-to-br from-gold/90 to-gold/60 text-navy font-extrabold text-2xl md:text-3xl px-6 py-3 rounded-xl shadow border-2 border-gold">
-                {formatCurrency(property.price)} KES
+
+              {/* Mobile-optimized price display */}
+              <div className="w-full sm:flex-shrink-0 sm:max-w-xs">
+                <div className="bg-gradient-to-br from-gold-whisper to-gold-accent p-4 sm:p-6 lg:p-8 rounded-2xl sm:rounded-3xl shadow-2xl text-center">
+                  <div className="text-white/80 text-xs sm:text-sm font-medium uppercase tracking-wide mb-1 sm:mb-2">Price</div>
+                  <div className="text-white font-bold text-xl sm:text-2xl md:text-3xl lg:text-4xl mb-1 sm:mb-2 break-words">
+                    {formatCurrency(property.price)}
+                  </div>
+                  <div className="text-white/90 text-sm sm:text-base lg:text-lg font-medium">KES</div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      {/* Carousel with Thumbnails */}
-      <div className="relative w-full bg-navy">
-        <Carousel className="w-full max-w-5xl mx-auto"
-          opts={{
-            startIndex: activeIndex,
-            skipSnaps: false,
-            containScroll: 'trimSnaps',
-          }}
-          setApi={api => {
-            if (api) {
-              api.on('select', () => {
-                setActiveIndex(api.selectedScrollSnap());
-              });
-            }
-          }}
-        >
-          <CarouselContent>
+      {/* Mobile-Optimized Image Gallery */}
+      <div className="relative w-full bg-gradient-to-b from-slate-900 to-slate-800 py-4 sm:py-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <Carousel
+            className="w-full"
+            opts={{
+              startIndex: activeIndex,
+              skipSnaps: false,
+              containScroll: 'trimSnaps',
+            }}
+            setApi={api => {
+              if (api) {
+                api.on('select', () => {
+                  setActiveIndex(api.selectedScrollSnap());
+                });
+              }
+            }}
+          >
+            <CarouselContent>
+              {property.images.map((image, idx) => {
+                let src = '';
+                if (typeof image === 'string') {
+                  src = image;
+                } else if (typeof image === 'object' && image !== null && 'image_url' in image) {
+                  src = (image as { image_url: string }).image_url;
+                }
+                return (
+                  <CarouselItem key={idx} className="aspect-[4/3] sm:aspect-[16/10]">
+                    <div className="relative group overflow-hidden rounded-2xl sm:rounded-3xl shadow-2xl">
+                      <img
+                        src={src}
+                        alt={`${property.title} - View ${idx + 1}`}
+                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+
+                      {/* Mobile-optimized image counter */}
+                      <div className="absolute top-3 right-3 sm:top-6 sm:right-6 bg-black/50 backdrop-blur-sm text-white px-2 py-1 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-medium">
+                        {idx + 1} / {property.images.length}
+                      </div>
+                    </div>
+                  </CarouselItem>
+                );
+              })}
+            </CarouselContent>
+
+            {/* Mobile-friendly navigation buttons */}
+            <CarouselPrevious className="z-10 left-2 sm:left-6 w-8 h-8 sm:w-10 sm:h-10 bg-white/90 hover:bg-white text-slate-800 border-0 shadow-lg hover:scale-110 transition-all duration-200" />
+            <CarouselNext className="z-10 right-2 sm:right-6 w-8 h-8 sm:w-10 sm:h-10 bg-white/90 hover:bg-white text-slate-800 border-0 shadow-lg hover:scale-110 transition-all duration-200" />
+          </Carousel>
+
+          {/* Mobile-optimized thumbnails */}
+          <div className="flex gap-2 sm:gap-3 mt-4 sm:mt-8 justify-center overflow-x-auto pb-2 scrollbar-hide">
             {property.images.map((image, idx) => {
               let src = '';
               if (typeof image === 'string') {
@@ -111,134 +185,184 @@ const PropertyDetail: React.FC = () => {
                 src = (image as { image_url: string }).image_url;
               }
               return (
-                <CarouselItem key={idx} className="aspect-video">
+                <button
+                  key={idx}
+                  onClick={() => setActiveIndex(idx)}
+                  className={`relative flex-shrink-0 w-16 h-12 sm:w-24 sm:h-16 rounded-lg sm:rounded-xl overflow-hidden transition-all duration-300 touch-friendly ${
+                    activeIndex === idx
+                      ? 'ring-2 sm:ring-4 ring-gold-whisper shadow-lg shadow-gold-whisper/25'
+                      : 'ring-1 sm:ring-2 ring-white/20 hover:ring-white/40'
+                  }`}
+                >
                   <img
                     src={src}
-                    alt={`${property.title} - View ${idx + 1}`}
-                    className="w-full h-full object-cover rounded-b-3xl shadow-xl border-4 border-gold"
+                    alt={`Thumbnail ${idx + 1}`}
+                    className="w-full h-full object-cover"
                   />
-                </CarouselItem>
+                  {activeIndex === idx && (
+                    <div className="absolute inset-0 bg-gold-whisper/20 flex items-center justify-center">
+                      <div className="w-2 h-2 sm:w-3 sm:h-3 bg-gold-whisper rounded-full"></div>
+                    </div>
+                  )}
+                </button>
               );
             })}
-          </CarouselContent>
-          <CarouselPrevious className="z-10 bg-white/80 hover:bg-gold text-navy border-gold" />
-          <CarouselNext className="z-10 bg-white/80 hover:bg-gold text-navy border-gold" />
-        </Carousel>
-        {/* Thumbnails below carousel */}
-        <div className="max-w-5xl mx-auto flex flex-row gap-3 mt-4 px-4 justify-center">
-          {property.images.map((image, idx) => {
-            let src = '';
-            if (typeof image === 'string') {
-              src = image;
-            } else if (typeof image === 'object' && image !== null && 'image_url' in image) {
-              src = (image as { image_url: string }).image_url;
-            }
-            return (
-              <button
-                key={idx}
-                onClick={() => setActiveIndex(idx)}
-                className={`relative w-20 h-14 rounded-lg overflow-hidden border-2 transition-all duration-200 ${
-                  activeIndex === idx ? 'border-gold shadow-lg ring-2 ring-gold' : 'border-gray-300'
-                }`}
-                style={{ outline: 'none' }}
-              >
-                <img
-                  src={src}
-                  alt={`Thumbnail ${idx + 1}`}
-                  className="w-full h-full object-cover"
-                />
-                {activeIndex === idx && (
-                  <span className="absolute inset-0 border-4 border-gold rounded-lg pointer-events-none"></span>
-                )}
-              </button>
-            );
-          })}
+          </div>
         </div>
       </div>
-      {/* Main Content */}
-      <div className="container mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-2">
-            {/* Property details */}
-            <div className="bg-white p-8 rounded-3xl shadow-xl mb-8 border-t-4 border-gold">
-              <h2 className="text-2xl font-bold text-navy mb-6">Property Details</h2>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
-                <div className="flex flex-col items-center p-4 bg-offWhite rounded-xl border border-gold/20">
-                  <Bed className="h-7 w-7 text-gold mb-2" />
-                  <span className="text-base text-charcoal/70">Bedrooms</span>
-                  <span className="text-2xl font-bold text-navy">{property.bedrooms}</span>
+      {/* Mobile-Optimized Main Content */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12 lg:py-16">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-12">
+          <div className="lg:col-span-2 space-y-6 sm:space-y-8">
+            {/* Mobile-Optimized Property Features */}
+            <div className="bg-white/80 backdrop-blur-sm p-4 sm:p-6 lg:p-8 rounded-2xl sm:rounded-3xl shadow-xl border border-slate-200/50">
+              <div className="flex items-center gap-2 sm:gap-3 mb-6 sm:mb-8">
+                <div className="bg-gradient-to-r from-blue-500 to-blue-600 p-2 sm:p-3 rounded-xl sm:rounded-2xl shadow-lg">
+                  <Bed className="h-4 w-4 sm:h-6 sm:w-6 text-white" />
                 </div>
-                <div className="flex flex-col items-center p-4 bg-offWhite rounded-xl border border-gold/20">
-                  <Bath className="h-7 w-7 text-gold mb-2" />
-                  <span className="text-base text-charcoal/70">Bathrooms</span>
-                  <span className="text-2xl font-bold text-navy">{property.bathrooms}</span>
-                </div>
-                <div className="flex flex-col items-center p-4 bg-offWhite rounded-xl border border-gold/20">
-                  <Maximize2 className="h-7 w-7 text-gold mb-2" />
-                  <span className="text-base text-charcoal/70">Area</span>
-                  <span className="text-2xl font-bold text-navy">{property.size} sqft</span>
-                </div>
-                <div className="flex flex-col items-center p-4 bg-offWhite rounded-xl border border-gold/20">
-                  <MapPin className="h-7 w-7 text-gold mb-2" />
-                  <span className="text-base text-charcoal/70">Location</span>
-                  <span className="text-2xl font-bold text-navy">{property.location}</span>
+                <div>
+                  <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-slate-800">Property Features</h2>
+                  <p className="text-xs sm:text-sm text-slate-500 hidden sm:block">Key details and specifications</p>
                 </div>
               </div>
-              <h3 className="text-xl font-bold text-navy mb-3">Description</h3>
-              <p className="text-charcoal/90 text-lg leading-relaxed mb-6">
-                {property.description}
-              </p>
+
+              {/* Mobile-first grid layout */}
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6 mb-6 sm:mb-8">
+                <div className="group bg-gradient-to-br from-blue-50 to-blue-100 p-3 sm:p-4 lg:p-6 rounded-xl sm:rounded-2xl border border-blue-200/50 hover:shadow-lg transition-all duration-300 hover:scale-105">
+                  <div className="bg-gradient-to-r from-blue-500 to-blue-600 p-2 sm:p-3 rounded-lg sm:rounded-xl mb-2 sm:mb-4 group-hover:scale-110 transition-transform duration-300">
+                    <Bed className="h-4 w-4 sm:h-5 sm:w-5 lg:h-6 lg:w-6 text-white" />
+                  </div>
+                  <span className="text-slate-600 text-xs sm:text-sm font-medium block mb-1">Bedrooms</span>
+                  <span className="text-lg sm:text-xl lg:text-2xl font-bold text-slate-800">{property.bedrooms}</span>
+                </div>
+
+                <div className="group bg-gradient-to-br from-emerald-50 to-emerald-100 p-3 sm:p-4 lg:p-6 rounded-xl sm:rounded-2xl border border-emerald-200/50 hover:shadow-lg transition-all duration-300 hover:scale-105">
+                  <div className="bg-gradient-to-r from-emerald-500 to-emerald-600 p-2 sm:p-3 rounded-lg sm:rounded-xl mb-2 sm:mb-4 group-hover:scale-110 transition-transform duration-300">
+                    <Bath className="h-4 w-4 sm:h-5 sm:w-5 lg:h-6 lg:w-6 text-white" />
+                  </div>
+                  <span className="text-slate-600 text-xs sm:text-sm font-medium block mb-1">Bathrooms</span>
+                  <span className="text-lg sm:text-xl lg:text-2xl font-bold text-slate-800">{property.bathrooms}</span>
+                </div>
+
+                <div className="group bg-gradient-to-br from-purple-50 to-purple-100 p-3 sm:p-4 lg:p-6 rounded-xl sm:rounded-2xl border border-purple-200/50 hover:shadow-lg transition-all duration-300 hover:scale-105">
+                  <div className="bg-gradient-to-r from-purple-500 to-purple-600 p-2 sm:p-3 rounded-lg sm:rounded-xl mb-2 sm:mb-4 group-hover:scale-110 transition-transform duration-300">
+                    <Maximize2 className="h-4 w-4 sm:h-5 sm:w-5 lg:h-6 lg:w-6 text-white" />
+                  </div>
+                  <span className="text-slate-600 text-xs sm:text-sm font-medium block mb-1">Area</span>
+                  <span className="text-lg sm:text-xl lg:text-2xl font-bold text-slate-800">{property.size} sqft</span>
+                </div>
+
+                <div className="group bg-gradient-to-br from-amber-50 to-amber-100 p-3 sm:p-4 lg:p-6 rounded-xl sm:rounded-2xl border border-amber-200/50 hover:shadow-lg transition-all duration-300 hover:scale-105 col-span-2 lg:col-span-1">
+                  <div className="bg-gradient-to-r from-amber-500 to-amber-600 p-2 sm:p-3 rounded-lg sm:rounded-xl mb-2 sm:mb-4 group-hover:scale-110 transition-transform duration-300">
+                    <MapPin className="h-4 w-4 sm:h-5 sm:w-5 lg:h-6 lg:w-6 text-white" />
+                  </div>
+                  <span className="text-slate-600 text-xs sm:text-sm font-medium block mb-1">Location</span>
+                  <span className="text-base sm:text-lg lg:text-lg font-bold text-slate-800 break-words">{property.location}</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Mobile-Optimized Property Description */}
+            <div className="bg-white/80 backdrop-blur-sm p-4 sm:p-6 lg:p-8 rounded-2xl sm:rounded-3xl shadow-xl border border-slate-200/50">
+              <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
+                <div className="bg-gradient-to-r from-slate-600 to-slate-700 p-2 sm:p-3 rounded-xl sm:rounded-2xl shadow-lg">
+                  <Bed className="h-4 w-4 sm:h-6 sm:w-6 text-white" />
+                </div>
+                <div>
+                  <h3 className="text-lg sm:text-xl lg:text-2xl font-bold text-slate-800">About This Property</h3>
+                  <p className="text-xs sm:text-sm text-slate-500 hidden sm:block">Detailed description and highlights</p>
+                </div>
+              </div>
+
+              <div className="prose prose-sm sm:prose-base lg:prose-lg max-w-none">
+                <p className="text-slate-700 text-sm sm:text-base lg:text-lg leading-relaxed">
+                  {property.description}
+                </p>
+              </div>
             </div>
           </div>
-          {/* Sticky Sidebar */}
+          {/* Mobile-Optimized Sidebar */}
           <div className="lg:col-span-1">
-            <div className="lg:sticky lg:top-8 space-y-8">
-              {/* Agent info luxury card */}
+            <div className="lg:sticky lg:top-8 space-y-6 sm:space-y-8">
+              {/* Mobile-Optimized Agent Card */}
               {agent && (
-                <div className="bg-white p-8 rounded-3xl shadow-xl border-l-4 border-gold flex flex-col items-center mb-6">
-                  <div className="relative mb-4">
-                    {agent.photo ? (
-                      <img src={agent.photo} alt={agent.name} className="w-20 h-20 rounded-full border-4 border-gold shadow-lg object-cover" />
-                    ) : (
-                      <div className="w-20 h-20 rounded-full border-4 border-gold bg-gray-200 flex items-center justify-center text-gold text-3xl font-extrabold shadow-lg">
-                        {agent.name.charAt(0)}
+                <div className="bg-white/80 backdrop-blur-sm p-4 sm:p-6 lg:p-8 rounded-2xl sm:rounded-3xl shadow-xl border border-slate-200/50 overflow-hidden">
+                  <div className="relative">
+                    {/* Background Pattern */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-emerald-50 to-blue-50 opacity-50 rounded-xl sm:rounded-2xl"></div>
+
+                    <div className="relative flex flex-col items-center text-center">
+                      <div className="relative mb-4 sm:mb-6">
+                        {agent.photo ? (
+                          <img
+                            src={agent.photo}
+                            alt={agent.name}
+                            className="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 rounded-full border-2 sm:border-4 border-white shadow-xl object-cover ring-2 sm:ring-4 ring-emerald-100"
+                          />
+                        ) : (
+                          <div className="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 rounded-full border-2 sm:border-4 border-white shadow-xl bg-gradient-to-br from-emerald-500 to-blue-500 flex items-center justify-center ring-2 sm:ring-4 ring-emerald-100">
+                            <span className="text-lg sm:text-xl lg:text-2xl font-bold text-white">{agent.name.charAt(0)}</span>
+                          </div>
+                        )}
+                        <div className="absolute -bottom-1 -right-1 sm:-bottom-2 sm:-right-2 bg-gradient-to-r from-emerald-500 to-emerald-600 text-white text-xs font-bold px-2 py-0.5 sm:px-3 sm:py-1 rounded-full shadow-lg">
+                          ✓ Verified
+                        </div>
                       </div>
-                    )}
-                    {/* Badge example */}
-                    <span className="absolute -bottom-2 -right-2 bg-gold text-navy text-xs font-bold px-3 py-1 rounded-full shadow">Verified</span>
-                  </div>
-                  <h4 className="font-extrabold text-navy text-xl mb-1">{agent.name}</h4>
-                  <p className="text-gold font-semibold mb-2">Luxury Property Specialist</p>
-                  <div className="w-full space-y-2 mb-4">
-                    <div className="flex items-center justify-center">
-                      <Phone className="h-5 w-5 mr-2 text-gold" />
-                      <span className="text-base text-charcoal/80">{agent.phone}</span>
+
+                      <h4 className="text-lg sm:text-xl lg:text-2xl font-bold text-slate-800 mb-1 sm:mb-2">{agent.name}</h4>
+                      <p className="text-emerald-600 font-semibold mb-4 sm:mb-6 text-sm sm:text-base">Luxury Property Specialist</p>
+
+                      <div className="w-full space-y-3 sm:space-y-4 mb-6 sm:mb-8">
+                        <div className="flex items-center justify-center gap-2 sm:gap-3 bg-white/80 p-2 sm:p-3 rounded-lg sm:rounded-xl">
+                          <Phone className="h-4 w-4 sm:h-5 sm:w-5 text-emerald-500 flex-shrink-0" />
+                          <span className="text-slate-700 font-medium text-sm sm:text-base break-all">{agent.phone}</span>
+                        </div>
+                        <div className="flex items-center justify-center gap-2 sm:gap-3 bg-white/80 p-2 sm:p-3 rounded-lg sm:rounded-xl">
+                          <Mail className="h-4 w-4 sm:h-5 sm:w-5 text-emerald-500 flex-shrink-0" />
+                          <span className="text-slate-700 font-medium text-sm sm:text-base break-all">{agent.email}</span>
+                        </div>
+                      </div>
+
+                      <Button
+                        onClick={handleContactAgent}
+                        className="w-full bg-gradient-to-r from-emerald-500 to-emerald-600 text-white hover:from-emerald-600 hover:to-emerald-700 font-bold text-sm sm:text-base lg:text-lg py-3 sm:py-4 rounded-xl sm:rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 touch-friendly"
+                      >
+                        Contact Agent
+                      </Button>
                     </div>
-                    <div className="flex items-center justify-center">
-                      <Mail className="h-5 w-5 mr-2 text-gold" />
-                      <span className="text-base text-charcoal/80">{agent.email}</span>
-                    </div>
                   </div>
-                  <Button
-                    onClick={handleContactAgent}
-                    className="w-full bg-gold text-navy hover:bg-gold/90 font-bold text-lg py-3 rounded-xl shadow-md"
-                  >
-                    Contact Agent
-                  </Button>
                 </div>
               )}
-              {/* Schedule Viewing luxury card */}
-              <div className="bg-white p-8 rounded-3xl shadow-xl border-l-4 border-gold">
-                <h3 className="text-xl font-bold text-navy mb-4">Schedule a Viewing</h3>
-                <p className="text-charcoal/80 mb-4 text-lg">
-                  Interested in this property? Schedule a viewing at your convenience.
-                </p>
-                <Button
-                  onClick={handleRequestViewing}
-                  className="w-full bg-navy text-gold hover:bg-navy/90 font-bold text-lg py-3 rounded-xl shadow-md"
-                >
-                  Request Viewing
-                </Button>
+
+              {/* Mobile-Optimized Schedule Viewing Card */}
+              <div className="bg-white/80 backdrop-blur-sm p-4 sm:p-6 lg:p-8 rounded-2xl sm:rounded-3xl shadow-xl border border-slate-200/50 overflow-hidden">
+                <div className="relative">
+                  {/* Background Pattern */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-purple-50 opacity-50 rounded-xl sm:rounded-2xl"></div>
+
+                  <div className="relative">
+                    <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
+                      <div className="bg-gradient-to-r from-blue-500 to-purple-500 p-2 sm:p-3 rounded-xl sm:rounded-2xl shadow-lg">
+                        <Phone className="h-4 w-4 sm:h-6 sm:w-6 text-white" />
+                      </div>
+                      <div>
+                        <h3 className="text-lg sm:text-xl font-bold text-slate-800">Schedule Viewing</h3>
+                        <p className="text-slate-500 text-xs sm:text-sm hidden sm:block">Book your visit today</p>
+                      </div>
+                    </div>
+
+                    <p className="text-slate-600 mb-4 sm:mb-6 leading-relaxed text-sm sm:text-base">
+                      Interested in this property? Schedule a viewing at your convenience and explore this amazing space.
+                    </p>
+
+                    <Button
+                      onClick={handleRequestViewing}
+                      className="w-full bg-gradient-to-r from-blue-500 to-purple-500 text-white hover:from-blue-600 hover:to-purple-600 font-bold text-sm sm:text-base lg:text-lg py-3 sm:py-4 rounded-xl sm:rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 touch-friendly"
+                    >
+                      Request Viewing
+                    </Button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

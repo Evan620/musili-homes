@@ -5,13 +5,19 @@ import { Agent, Task } from '@/types';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { Card } from '@/components/ui/card';
-import { Home, DollarSign, Users, LogOut, CheckCircle, MessageSquare } from 'lucide-react';
+import {
+  Home, DollarSign, Users, LogOut, CheckCircle, MessageSquare,
+  TrendingUp, Activity, Clock, Star, Award, Target,
+  BarChart3, ArrowUpRight, ArrowDownRight, Zap, Bell,
+  Calendar, MapPin, Eye, User, Settings
+} from 'lucide-react';
 import { formatCurrency } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from '@/hooks/use-toast';
 import MessagePanel from '@/components/messaging/MessagePanel';
 import ClientList from '@/components/messaging/ClientList';
+import { Badge } from '@/components/ui/badge';
 
 const AgentDashboard: React.FC = () => {
   const { isAgent, user, logout } = useAuth();
@@ -208,246 +214,679 @@ const AgentDashboard: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-offWhite">
-      <div className="bg-navy py-6">
-        <div className="container mx-auto px-4 flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-white">Agent Dashboard</h1>
-          <div className="flex items-center gap-3">
-            <Button
-              variant="outline"
-              className="border-white text-white hover:bg-white/10"
-              onClick={handleLogout}
-            >
-              <LogOut className="mr-2 h-4 w-4" />
-              Logout
-            </Button>
+    <div className="min-h-screen bg-gradient-to-br from-[#f8fafc] via-[#f1f5f9] to-[#e2e8f0] relative overflow-hidden">
+      {/* Samsung-style floating background elements */}
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+        <div className="absolute top-20 left-20 w-96 h-96 bg-gradient-to-br from-blue-400/10 to-purple-400/10 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-20 right-20 w-80 h-80 bg-gradient-to-br from-emerald-400/10 to-blue-400/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-gradient-to-br from-amber-400/5 to-orange-400/5 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '4s' }}></div>
+      </div>
+
+      {/* Samsung-style Header */}
+      <div className="relative z-10 bg-white/80 backdrop-blur-xl border-b border-white/20 shadow-lg shadow-black/5">
+        <div className="container mx-auto px-8 py-6">
+          <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-6">
+            <div className="flex items-center space-x-6">
+              <div className="relative">
+                <div className="w-16 h-16 bg-gradient-to-br from-[#1e40af] via-[#3b82f6] to-[#60a5fa] rounded-2xl shadow-lg shadow-blue-500/25 flex items-center justify-center">
+                  <User className="h-8 w-8 text-white" />
+                </div>
+                <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-green-500 rounded-full border-2 border-white shadow-sm"></div>
+              </div>
+              <div>
+                <h1 className="text-3xl font-bold bg-gradient-to-r from-slate-900 via-slate-800 to-slate-700 bg-clip-text text-transparent tracking-tight">
+                  Agent Dashboard
+                </h1>
+                <p className="text-slate-600 text-lg font-medium">Welcome back, {user?.name}</p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-4">
+              <div className="hidden lg:flex items-center space-x-3 bg-white/60 backdrop-blur-sm rounded-2xl px-5 py-3 border border-white/40 shadow-lg shadow-black/5">
+                <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                <span className="text-sm font-semibold text-slate-700">Online</span>
+              </div>
+
+              <Button variant="ghost" size="sm" className="relative bg-white/60 backdrop-blur-sm rounded-2xl p-3 hover:bg-white/80 transition-all duration-300 shadow-lg shadow-black/5">
+                <Bell className="h-5 w-5 text-slate-700" />
+                <span className="absolute -top-1 -right-1 h-4 w-4 bg-gradient-to-r from-red-500 to-pink-500 rounded-full text-xs flex items-center justify-center text-white font-bold shadow-lg">3</span>
+              </Button>
+
+              <Button
+                variant="ghost"
+                className="bg-white/60 backdrop-blur-sm rounded-2xl px-6 py-3 font-semibold text-slate-700 hover:bg-white/80 transition-all duration-300 shadow-lg shadow-black/5 border border-white/40"
+                onClick={handleLogout}
+              >
+                <LogOut className="mr-2 h-4 w-4" />
+                Sign Out
+              </Button>
+            </div>
           </div>
         </div>
       </div>
-      
-      <div className="container mx-auto px-4 py-8">
-        <div className="mb-8">
-          <h2 className="text-xl font-bold text-navy mb-4">Welcome back, {user?.name}!</h2>
-          <p className="text-gray-700">
-            Manage your property listings and client inquiries from your personal dashboard.
-          </p>
+
+      <div className="container mx-auto px-8 py-12 relative z-10">
+        {/* Samsung-style Welcome Section */}
+        <div className="mb-12">
+          <div className="relative bg-white/70 backdrop-blur-xl rounded-3xl p-10 shadow-2xl shadow-black/10 border border-white/30 overflow-hidden">
+            {/* Floating decorative elements */}
+            <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-blue-400/20 to-purple-400/20 rounded-full blur-2xl"></div>
+            <div className="absolute bottom-0 left-0 w-32 h-32 bg-gradient-to-br from-emerald-400/20 to-blue-400/20 rounded-full blur-2xl"></div>
+
+            <div className="relative">
+              <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
+                <div className="flex-1">
+                  <div className="flex items-center gap-4 mb-6">
+                    <div className="text-4xl">👋</div>
+                    <div>
+                      <h2 className="text-4xl font-bold bg-gradient-to-r from-slate-900 via-slate-800 to-slate-700 bg-clip-text text-transparent mb-2">
+                        Good {new Date().getHours() < 12 ? 'Morning' : new Date().getHours() < 18 ? 'Afternoon' : 'Evening'}
+                      </h2>
+                      <p className="text-xl text-slate-600 font-medium">
+                        Ready to manage your portfolio today?
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8">
+                    <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-4 border border-white/50 shadow-lg shadow-black/5">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 bg-gradient-to-br from-green-500 to-emerald-500 rounded-xl flex items-center justify-center">
+                          <Activity className="w-5 h-5 text-white" />
+                        </div>
+                        <div>
+                          <p className="text-sm font-semibold text-slate-600">Status</p>
+                          <p className="text-lg font-bold text-slate-900">Active</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-4 border border-white/50 shadow-lg shadow-black/5">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center">
+                          <Star className="w-5 h-5 text-white" />
+                        </div>
+                        <div>
+                          <p className="text-sm font-semibold text-slate-600">Rating</p>
+                          <p className="text-lg font-bold text-slate-900">4.9/5</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-4 border border-white/50 shadow-lg shadow-black/5">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center">
+                          <Award className="w-5 h-5 text-white" />
+                        </div>
+                        <div>
+                          <p className="text-sm font-semibold text-slate-600">Rank</p>
+                          <p className="text-lg font-bold text-slate-900">Top 5%</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         
-        {/* Dashboard Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <Card className="p-6">
-            <div className="flex items-center">
-              <div className="bg-blue-100 p-3 rounded-full mr-4">
-                <Home className="h-6 w-6 text-blue-600" />
-              </div>
-              <div>
-                <p className="text-sm text-gray-500">My Properties</p>
-                <h3 className="text-2xl font-bold">{totalProperties}</h3>
+        {/* Samsung-style Dashboard Stats */}
+        <div className="mb-12">
+          <div className="flex items-center justify-between mb-8">
+            <div>
+              <h3 className="text-3xl font-bold bg-gradient-to-r from-slate-900 via-slate-800 to-slate-700 bg-clip-text text-transparent mb-2">
+                Performance Analytics
+              </h3>
+              <p className="text-slate-600 text-lg">Real-time insights into your portfolio</p>
+            </div>
+            <div className="bg-white/70 backdrop-blur-sm rounded-2xl px-6 py-3 border border-white/50 shadow-lg shadow-black/5">
+              <div className="flex items-center gap-2">
+                <Calendar className="h-4 w-4 text-slate-600" />
+                <span className="text-sm font-semibold text-slate-700">This Month</span>
               </div>
             </div>
-          </Card>
+          </div>
 
-          <Card className="p-6">
-            <div className="flex items-center">
-              <div className="bg-green-100 p-3 rounded-full mr-4">
-                <DollarSign className="h-6 w-6 text-green-600" />
-              </div>
-              <div>
-                <p className="text-sm text-gray-500">Total Value</p>
-                <h3 className="text-2xl font-bold">{formatCurrency(totalValue)} KES</h3>
-              </div>
-            </div>
-          </Card>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {/* Properties Card - Samsung Style */}
+            <div className="group relative bg-white/70 backdrop-blur-xl rounded-3xl p-8 shadow-2xl shadow-black/10 border border-white/30 hover:shadow-3xl hover:-translate-y-2 transition-all duration-500 overflow-hidden">
+              {/* Floating background gradient */}
+              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-400/20 to-cyan-400/20 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
 
-          <Card className="p-6">
-            <div className="flex items-center">
-              <div className="bg-amber-100 p-3 rounded-full mr-4">
-                <Users className="h-6 w-6 text-amber-600" />
-              </div>
-              <div>
-                <p className="text-sm text-gray-500">Client Inquiries</p>
-                <h3 className="text-2xl font-bold">{totalInquiries}</h3>
-              </div>
-            </div>
-          </Card>
+              <div className="relative">
+                <div className="flex items-center justify-between mb-6">
+                  <div className="w-16 h-16 bg-gradient-to-br from-[#3b82f6] via-[#1d4ed8] to-[#1e40af] rounded-2xl shadow-lg shadow-blue-500/30 flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
+                    <Home className="h-8 w-8 text-white" />
+                  </div>
+                  <div className="bg-green-500/10 backdrop-blur-sm rounded-full px-3 py-1 border border-green-500/20">
+                    <div className="flex items-center gap-1">
+                      <TrendingUp className="h-3 w-3 text-green-600" />
+                      <span className="text-xs font-bold text-green-600">+5%</span>
+                    </div>
+                  </div>
+                </div>
 
-          <Card className="p-6">
-            <div className="flex items-center">
-              <div className="bg-purple-100 p-3 rounded-full mr-4">
-                <CheckCircle className="h-6 w-6 text-purple-600" />
-              </div>
-              <div>
-                <p className="text-sm text-gray-500">Pending Tasks</p>
-                <h3 className="text-2xl font-bold">{pendingTasks}</h3>
+                <div className="space-y-3">
+                  <div className="text-4xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
+                    {totalProperties}
+                  </div>
+                  <div>
+                    <p className="text-lg font-semibold text-slate-700">Properties</p>
+                    <p className="text-sm text-slate-500">Active listings</p>
+                  </div>
+                </div>
+
+                {/* Progress bar */}
+                <div className="mt-6">
+                  <div className="w-full bg-slate-200/50 rounded-full h-2">
+                    <div className="bg-gradient-to-r from-blue-500 to-cyan-500 h-2 rounded-full w-3/4 shadow-lg shadow-blue-500/30"></div>
+                  </div>
+                  <p className="text-xs text-slate-500 mt-2">75% of monthly target</p>
+                </div>
               </div>
             </div>
-          </Card>
+
+            {/* Portfolio Value Card - Samsung Style */}
+            <div className="group relative bg-white/70 backdrop-blur-xl rounded-3xl p-8 shadow-2xl shadow-black/10 border border-white/30 hover:shadow-3xl hover:-translate-y-2 transition-all duration-500 overflow-hidden">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-emerald-400/20 to-green-400/20 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
+
+              <div className="relative">
+                <div className="flex items-center justify-between mb-6">
+                  <div className="w-16 h-16 bg-gradient-to-br from-[#10b981] via-[#059669] to-[#047857] rounded-2xl shadow-lg shadow-emerald-500/30 flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
+                    <DollarSign className="h-8 w-8 text-white" />
+                  </div>
+                  <div className="bg-emerald-500/10 backdrop-blur-sm rounded-full px-3 py-1 border border-emerald-500/20">
+                    <div className="flex items-center gap-1">
+                      <TrendingUp className="h-3 w-3 text-emerald-600" />
+                      <span className="text-xs font-bold text-emerald-600">+12%</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="space-y-3">
+                  <div className="text-3xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
+                    {formatCurrency(totalValue)}
+                  </div>
+                  <div>
+                    <p className="text-lg font-semibold text-slate-700">Portfolio Value</p>
+                    <p className="text-sm text-slate-500">Total KES value</p>
+                  </div>
+                </div>
+
+                <div className="mt-6">
+                  <div className="w-full bg-slate-200/50 rounded-full h-2">
+                    <div className="bg-gradient-to-r from-emerald-500 to-green-500 h-2 rounded-full w-4/5 shadow-lg shadow-emerald-500/30"></div>
+                  </div>
+                  <p className="text-xs text-slate-500 mt-2">80% growth this quarter</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Client Inquiries Card - Samsung Style */}
+            <div className="group relative bg-white/70 backdrop-blur-xl rounded-3xl p-8 shadow-2xl shadow-black/10 border border-white/30 hover:shadow-3xl hover:-translate-y-2 transition-all duration-500 overflow-hidden">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-amber-400/20 to-orange-400/20 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
+
+              <div className="relative">
+                <div className="flex items-center justify-between mb-6">
+                  <div className="w-16 h-16 bg-gradient-to-br from-[#f59e0b] via-[#d97706] to-[#b45309] rounded-2xl shadow-lg shadow-amber-500/30 flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
+                    <Users className="h-8 w-8 text-white" />
+                  </div>
+                  <div className="bg-amber-500/10 backdrop-blur-sm rounded-full px-3 py-1 border border-amber-500/20">
+                    <div className="flex items-center gap-1">
+                      <TrendingUp className="h-3 w-3 text-amber-600" />
+                      <span className="text-xs font-bold text-amber-600">+8%</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="space-y-3">
+                  <div className="text-4xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
+                    {totalInquiries}
+                  </div>
+                  <div>
+                    <p className="text-lg font-semibold text-slate-700">Inquiries</p>
+                    <p className="text-sm text-slate-500">Client interest</p>
+                  </div>
+                </div>
+
+                <div className="mt-6">
+                  <div className="w-full bg-slate-200/50 rounded-full h-2">
+                    <div className="bg-gradient-to-r from-amber-500 to-orange-500 h-2 rounded-full w-2/3 shadow-lg shadow-amber-500/30"></div>
+                  </div>
+                  <p className="text-xs text-slate-500 mt-2">67% conversion rate</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Pending Tasks Card - Samsung Style */}
+            <div className="group relative bg-white/70 backdrop-blur-xl rounded-3xl p-8 shadow-2xl shadow-black/10 border border-white/30 hover:shadow-3xl hover:-translate-y-2 transition-all duration-500 overflow-hidden">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-purple-400/20 to-pink-400/20 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
+
+              <div className="relative">
+                <div className="flex items-center justify-between mb-6">
+                  <div className="w-16 h-16 bg-gradient-to-br from-[#8b5cf6] via-[#7c3aed] to-[#6d28d9] rounded-2xl shadow-lg shadow-purple-500/30 flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
+                    <CheckCircle className="h-8 w-8 text-white" />
+                  </div>
+                  <div className="bg-red-500/10 backdrop-blur-sm rounded-full px-3 py-1 border border-red-500/20">
+                    <div className="flex items-center gap-1">
+                      <Clock className="h-3 w-3 text-red-600" />
+                      <span className="text-xs font-bold text-red-600">Urgent</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="space-y-3">
+                  <div className="text-4xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
+                    {pendingTasks}
+                  </div>
+                  <div>
+                    <p className="text-lg font-semibold text-slate-700">Tasks</p>
+                    <p className="text-sm text-slate-500">Pending completion</p>
+                  </div>
+                </div>
+
+                <div className="mt-6">
+                  <div className="w-full bg-slate-200/50 rounded-full h-2">
+                    <div className="bg-gradient-to-r from-purple-500 to-pink-500 h-2 rounded-full w-1/3 shadow-lg shadow-purple-500/30"></div>
+                  </div>
+                  <p className="text-xs text-slate-500 mt-2">33% completed today</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         
+        {/* Samsung-style Tabs Section */}
         <Tabs defaultValue="properties" className="w-full">
-          <TabsList className="mb-4">
-            <TabsTrigger value="properties">
-              <Home className="mr-1 h-4 w-4" /> Properties
-            </TabsTrigger>
-            <TabsTrigger value="tasks">
-              <CheckCircle className="mr-1 h-4 w-4" /> My Tasks
-            </TabsTrigger>
-            <TabsTrigger value="messages">
-              <MessageSquare className="mr-1 h-4 w-4" /> Messages
-            </TabsTrigger>
-          </TabsList>
+          <div className="relative bg-white/60 backdrop-blur-2xl rounded-3xl p-3 shadow-2xl shadow-black/10 border border-white/40 mb-12">
+            {/* Floating background for active tab */}
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 via-purple-500/5 to-emerald-500/5 rounded-3xl"></div>
 
-          <TabsContent value="properties" className="bg-white rounded-lg shadow-md p-6">
-            <h3 className="text-xl font-bold text-navy mb-4">My Properties</h3>
-            
+            <TabsList className="relative grid w-full grid-cols-3 bg-transparent gap-3 p-0">
+              <TabsTrigger
+                value="properties"
+                className="group relative data-[state=active]:bg-white data-[state=active]:shadow-2xl data-[state=active]:shadow-blue-500/20 rounded-2xl py-4 px-8 font-semibold transition-all duration-500 hover:scale-105 data-[state=active]:scale-105 overflow-hidden"
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-cyan-500 opacity-0 data-[state=active]:opacity-100 transition-opacity duration-500 rounded-2xl"></div>
+                <div className="relative flex items-center gap-3 data-[state=active]:text-white text-slate-600">
+                  <div className="w-8 h-8 bg-blue-500/10 data-[state=active]:bg-white/20 rounded-xl flex items-center justify-center transition-all duration-300">
+                    <Home className="h-5 w-5" />
+                  </div>
+                  <span className="hidden sm:inline">Properties</span>
+                </div>
+              </TabsTrigger>
+
+              <TabsTrigger
+                value="tasks"
+                className="group relative data-[state=active]:bg-white data-[state=active]:shadow-2xl data-[state=active]:shadow-emerald-500/20 rounded-2xl py-4 px-8 font-semibold transition-all duration-500 hover:scale-105 data-[state=active]:scale-105 overflow-hidden"
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-emerald-500 to-green-500 opacity-0 data-[state=active]:opacity-100 transition-opacity duration-500 rounded-2xl"></div>
+                <div className="relative flex items-center gap-3 data-[state=active]:text-white text-slate-600">
+                  <div className="w-8 h-8 bg-emerald-500/10 data-[state=active]:bg-white/20 rounded-xl flex items-center justify-center transition-all duration-300">
+                    <CheckCircle className="h-5 w-5" />
+                  </div>
+                  <span className="hidden sm:inline">Tasks</span>
+                </div>
+              </TabsTrigger>
+
+              <TabsTrigger
+                value="messages"
+                className="group relative data-[state=active]:bg-white data-[state=active]:shadow-2xl data-[state=active]:shadow-purple-500/20 rounded-2xl py-4 px-8 font-semibold transition-all duration-500 hover:scale-105 data-[state=active]:scale-105 overflow-hidden"
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-pink-500 opacity-0 data-[state=active]:opacity-100 transition-opacity duration-500 rounded-2xl"></div>
+                <div className="relative flex items-center gap-3 data-[state=active]:text-white text-slate-600">
+                  <div className="w-8 h-8 bg-purple-500/10 data-[state=active]:bg-white/20 rounded-xl flex items-center justify-center transition-all duration-300">
+                    <MessageSquare className="h-5 w-5" />
+                  </div>
+                  <span className="hidden sm:inline">Messages</span>
+                </div>
+              </TabsTrigger>
+            </TabsList>
+          </div>
+
+          <TabsContent value="properties" className="relative bg-white/60 backdrop-blur-2xl rounded-3xl shadow-2xl shadow-black/10 border border-white/40 overflow-hidden">
+            {/* Samsung-style header */}
+            <div className="relative px-10 py-8 border-b border-white/30">
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 via-cyan-500/5 to-blue-500/5"></div>
+              <div className="relative flex items-center justify-between">
+                <div className="flex items-center space-x-6">
+                  <div className="w-16 h-16 bg-gradient-to-br from-blue-500 via-blue-600 to-cyan-500 rounded-2xl shadow-lg shadow-blue-500/30 flex items-center justify-center">
+                    <Home className="h-8 w-8 text-white" />
+                  </div>
+                  <div>
+                    <h3 className="text-3xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
+                      Property Portfolio
+                    </h3>
+                    <p className="text-slate-600 text-lg">Manage your luxury listings</p>
+                  </div>
+                </div>
+                <div className="bg-white/70 backdrop-blur-sm rounded-2xl px-6 py-3 border border-white/50 shadow-lg shadow-black/5">
+                  <div className="flex items-center gap-3">
+                    <div className="w-3 h-3 bg-blue-500 rounded-full animate-pulse"></div>
+                    <span className="text-slate-700 font-bold text-lg">{agentProperties.length}</span>
+                    <span className="text-slate-600 font-medium">Properties</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             {agentProperties.length > 0 ? (
-              <div className="overflow-x-auto">
-                <table className="w-full">
-                  <thead>
-                    <tr className="bg-gray-100">
-                      <th className="py-3 px-4 text-left">Title</th>
-                      <th className="py-3 px-4 text-left">Location</th>
-                      <th className="py-3 px-4 text-left">Price (KES)</th>
-                      <th className="py-3 px-4 text-left">Status</th>
-                      <th className="py-3 px-4 text-left">Date Added</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {agentProperties.map((property) => (
-                      <tr key={property.id} className="border-b">
-                        <td className="py-3 px-4">{property.title}</td>
-                        <td className="py-3 px-4">{property.location}</td>
-                        <td className="py-3 px-4">{formatCurrency(property.price)}</td>
-                        <td className="py-3 px-4">
-                          <span className={`inline-block px-2 py-1 rounded text-xs font-medium ${
-                            property.status === 'For Sale' ? 'bg-red-500 text-white' :
-                            property.status === 'For Rent' ? 'bg-green-500 text-white' :
-                            property.status === 'Sold' ? 'bg-gray-500 text-white' :
-                            property.status === 'Rented' ? 'bg-purple-500 text-white' :
-                            'bg-gray-400 text-white'
+              <div className="p-10">
+                <div className="space-y-6">
+                  {agentProperties.map((property, index) => (
+                    <div
+                      key={property.id}
+                      className="group relative bg-white/70 backdrop-blur-xl rounded-2xl p-6 shadow-lg shadow-black/5 border border-white/50 hover:shadow-2xl hover:-translate-y-1 transition-all duration-500 overflow-hidden"
+                    >
+                      {/* Floating background gradient */}
+                      <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-400/10 to-cyan-400/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
+
+                      <div className="relative grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                        {/* Property Image & Info */}
+                        <div className="lg:col-span-4">
+                          <div className="flex items-center space-x-4">
+                            <div className="relative">
+                              <div className="w-20 h-20 bg-gradient-to-br from-blue-500 via-blue-600 to-cyan-500 rounded-2xl shadow-lg shadow-blue-500/30 flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
+                                <Home className="h-10 w-10 text-white" />
+                              </div>
+                              <div className="absolute -top-2 -right-2 w-6 h-6 bg-green-500 rounded-full border-2 border-white shadow-lg flex items-center justify-center">
+                                <div className="w-2 h-2 bg-white rounded-full"></div>
+                              </div>
+                            </div>
+                            <div className="flex-1">
+                              <h4 className="text-xl font-bold text-slate-900 mb-1">{property.title}</h4>
+                              <p className="text-slate-600 font-medium">Property #{property.id}</p>
+                              <div className="flex items-center gap-2 mt-2">
+                                <MapPin className="h-4 w-4 text-slate-400" />
+                                <span className="text-sm text-slate-600">{property.location}</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        {/* Price & Status */}
+                        <div className="lg:col-span-3">
+                          <div className="text-center lg:text-left">
+                            <div className="text-3xl font-bold bg-gradient-to-r from-emerald-600 to-green-600 bg-clip-text text-transparent mb-2">
+                              {formatCurrency(property.price)}
+                            </div>
+                            <p className="text-slate-600 font-medium">KES</p>
+                          </div>
+                        </div>
+
+                        {/* Status Badge */}
+                        <div className="lg:col-span-2">
+                          <div className={`inline-flex items-center px-4 py-2 rounded-2xl font-semibold text-sm shadow-lg ${
+                            property.status === 'For Sale' ? 'bg-gradient-to-r from-red-500 to-pink-500 text-white shadow-red-500/30' :
+                            property.status === 'For Rent' ? 'bg-gradient-to-r from-green-500 to-emerald-500 text-white shadow-green-500/30' :
+                            property.status === 'Sold' ? 'bg-gradient-to-r from-gray-500 to-slate-500 text-white shadow-gray-500/30' :
+                            property.status === 'Rented' ? 'bg-gradient-to-r from-purple-500 to-indigo-500 text-white shadow-purple-500/30' :
+                            'bg-gradient-to-r from-gray-500 to-slate-500 text-white shadow-gray-500/30'
                           }`}>
+                            <div className="w-2 h-2 bg-white rounded-full mr-2 animate-pulse"></div>
                             {property.status}
-                          </span>
-                        </td>
-                        <td className="py-3 px-4">{property.createdAt}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+                          </div>
+                        </div>
+
+                        {/* Date & Actions */}
+                        <div className="lg:col-span-3">
+                          <div className="flex items-center justify-between">
+                            <div>
+                              <p className="text-sm text-slate-500 mb-1">Added</p>
+                              <p className="font-semibold text-slate-700">{property.createdAt}</p>
+                            </div>
+                            <Button className="bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white shadow-lg shadow-blue-500/30 rounded-2xl px-6 py-3 font-semibold transition-all duration-300 hover:scale-105">
+                              <Eye className="h-4 w-4 mr-2" />
+                              View Details
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
             ) : (
-              <div className="text-center py-8">
-                <p className="text-gray-500">No properties assigned to you yet.</p>
+              <div className="text-center py-20">
+                <div className="flex flex-col items-center space-y-8">
+                  <div className="relative">
+                    <div className="w-32 h-32 bg-gradient-to-br from-blue-500/10 via-cyan-500/10 to-blue-500/10 rounded-3xl flex items-center justify-center">
+                      <Home className="h-16 w-16 text-slate-400" />
+                    </div>
+                    <div className="absolute -top-2 -right-2 w-8 h-8 bg-gradient-to-r from-amber-500 to-orange-500 rounded-full flex items-center justify-center shadow-lg shadow-amber-500/30">
+                      <span className="text-white text-sm font-bold">!</span>
+                    </div>
+                  </div>
+                  <div className="space-y-4">
+                    <h3 className="text-2xl font-bold text-slate-900">No Properties Yet</h3>
+                    <p className="text-slate-600 text-lg max-w-md">
+                      Your property portfolio will appear here once the admin assigns properties to you.
+                    </p>
+                    <div className="bg-blue-50 rounded-2xl p-4 border border-blue-200">
+                      <p className="text-blue-700 font-medium text-sm">
+                        💡 Tip: Contact your admin to get started with property assignments
+                      </p>
+                    </div>
+                  </div>
+                </div>
               </div>
             )}
           </TabsContent>
 
-          <TabsContent value="tasks" className="bg-white rounded-lg shadow-md p-6">
-            <h3 className="text-xl font-bold text-navy mb-4">My Tasks</h3>
-            
+          <TabsContent value="tasks" className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-2xl border border-slate-200/50 overflow-hidden">
+            <div className="px-8 py-6 border-b border-slate-200/50 bg-gradient-to-r from-slate-50 to-white">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-3">
+                  <div className="bg-gradient-to-br from-emerald-500 to-emerald-600 p-3 rounded-xl shadow-lg">
+                    <CheckCircle className="h-6 w-6 text-white" />
+                  </div>
+                  <div>
+                    <h3 className="text-2xl font-bold text-slate-900">My Tasks</h3>
+                    <p className="text-slate-600">Track and manage your assignments</p>
+                  </div>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <div className="bg-emerald-50 px-4 py-2 rounded-full">
+                    <span className="text-emerald-600 font-semibold text-sm">{agentTasks.length} Total</span>
+                  </div>
+                  <div className="bg-amber-50 px-4 py-2 rounded-full">
+                    <span className="text-amber-600 font-semibold text-sm">{pendingTasks} Pending</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             {agentTasks.length > 0 ? (
-              <div className="overflow-x-auto">
-                <table className="w-full">
-                  <thead>
-                    <tr className="bg-gray-100">
-                      <th className="py-3 px-4 text-left">Title</th>
-                      <th className="py-3 px-4 text-left">Description</th>
-                      <th className="py-3 px-4 text-left">Priority</th>
-                      <th className="py-3 px-4 text-left">Status</th>
-                      <th className="py-3 px-4 text-left">Due Date</th>
-                      <th className="py-3 px-4 text-left">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {agentTasks.map((task) => (
-                      <tr key={task.id} className="border-b">
-                        <td className="py-3 px-4 font-medium">{task.title}</td>
-                        <td className="py-3 px-4">{task.description}</td>
-                        <td className="py-3 px-4">
-                          <span className={`inline-block px-2 py-1 rounded text-xs font-medium ${
-                            task.priority === 'High' ? 'bg-red-100 text-red-800' : 
-                            task.priority === 'Medium' ? 'bg-amber-100 text-amber-800' :
-                            'bg-green-100 text-green-800'
-                          }`}>
-                            {task.priority}
-                          </span>
-                        </td>
-                        <td className="py-3 px-4">
-                          <span className={`inline-block px-2 py-1 rounded text-xs font-medium ${
-                            task.status === 'Completed' ? 'bg-green-100 text-green-800' : 
-                            task.status === 'In Progress' ? 'bg-blue-100 text-blue-800' :
-                            'bg-gray-100 text-gray-800'
-                          }`}>
-                            {task.status}
-                          </span>
-                        </td>
-                        <td className="py-3 px-4">{task.due_date}</td>
-                        <td className="py-3 px-4">
-                          {task.status !== 'Completed' ? (
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              className="text-green-600 border-green-600 hover:bg-green-50 hover:text-green-700 font-medium"
-                              onClick={() => handleCompleteTask(task.id)}
-                              disabled={isCompletingTask}
-                            >
-                              {isCompletingTask ? 'Completing...' : 'Mark Complete'}
-                            </Button>
-                          ) : (
-                            <span className="text-green-600 font-medium">✓ Completed</span>
-                          )}
-                        </td>
+              <div className="p-8">
+                <div className="overflow-x-auto">
+                  <table className="w-full">
+                    <thead>
+                      <tr className="bg-gradient-to-r from-slate-50 to-slate-100/50 border-b border-slate-200">
+                        <th className="text-left py-4 px-6 font-medium text-slate-700">Task</th>
+                        <th className="text-left py-4 px-6 font-medium text-slate-700">Description</th>
+                        <th className="text-left py-4 px-6 font-medium text-slate-700">Priority</th>
+                        <th className="text-left py-4 px-6 font-medium text-slate-700">Status</th>
+                        <th className="text-left py-4 px-6 font-medium text-slate-700">Due Date</th>
+                        <th className="text-left py-4 px-6 font-medium text-slate-700">Actions</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody className="divide-y divide-slate-200">
+                      {agentTasks.map((task, index) => (
+                        <tr
+                          key={task.id}
+                          className={`
+                            transition-all duration-200 hover:bg-slate-50/50 hover:shadow-sm
+                            ${index % 2 === 0 ? 'bg-white' : 'bg-slate-50/30'}
+                            ${task.status === 'Completed' ? 'opacity-75' : ''}
+                          `}
+                        >
+                          <td className="py-4 px-6">
+                            <div className="flex items-center space-x-4">
+                              <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${
+                                task.status === 'Completed' ? 'bg-green-100' :
+                                task.priority === 'High' ? 'bg-red-100' :
+                                task.priority === 'Medium' ? 'bg-amber-100' : 'bg-blue-100'
+                              }`}>
+                                {task.status === 'Completed' ? (
+                                  <CheckCircle className="h-6 w-6 text-green-600" />
+                                ) : (
+                                  <Clock className="h-6 w-6 text-slate-600" />
+                                )}
+                              </div>
+                              <div>
+                                <div className="font-semibold text-slate-900">{task.title}</div>
+                                <div className="text-sm text-slate-600">Task #{task.id}</div>
+                              </div>
+                            </div>
+                          </td>
+                          <td className="py-4 px-6">
+                            <div className="text-slate-700 max-w-xs truncate">{task.description}</div>
+                          </td>
+                          <td className="py-4 px-6">
+                            <Badge className={`font-medium ${
+                              task.priority === 'High' ? 'bg-red-50 text-red-700 border-red-200' :
+                              task.priority === 'Medium' ? 'bg-amber-50 text-amber-700 border-amber-200' :
+                              'bg-green-50 text-green-700 border-green-200'
+                            }`}>
+                              {task.priority}
+                            </Badge>
+                          </td>
+                          <td className="py-4 px-6">
+                            <Badge className={`font-medium ${
+                              task.status === 'Completed' ? 'bg-green-50 text-green-700 border-green-200' :
+                              task.status === 'In Progress' ? 'bg-blue-50 text-blue-700 border-blue-200' :
+                              'bg-gray-50 text-gray-700 border-gray-200'
+                            }`}>
+                              {task.status}
+                            </Badge>
+                          </td>
+                          <td className="py-4 px-6">
+                            <div className="flex items-center space-x-2">
+                              <Calendar className="h-4 w-4 text-slate-400" />
+                              <span className="text-sm font-medium text-slate-700">{task.due_date}</span>
+                            </div>
+                          </td>
+                          <td className="py-4 px-6">
+                            {task.status !== 'Completed' ? (
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                className="text-green-600 border-green-600 hover:bg-green-50 hover:text-green-700 font-medium transition-all duration-200"
+                                onClick={() => handleCompleteTask(task.id)}
+                                disabled={isCompletingTask}
+                              >
+                                {isCompletingTask ? (
+                                  <>
+                                    <div className="w-4 h-4 border-2 border-green-600/30 border-t-green-600 rounded-full animate-spin mr-2"></div>
+                                    Completing...
+                                  </>
+                                ) : (
+                                  <>
+                                    <CheckCircle className="h-4 w-4 mr-2" />
+                                    Complete
+                                  </>
+                                )}
+                              </Button>
+                            ) : (
+                              <div className="flex items-center space-x-2 text-green-600 font-medium">
+                                <CheckCircle className="h-4 w-4" />
+                                <span>Completed</span>
+                              </div>
+                            )}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
             ) : (
-              <div className="text-center py-8">
-                <p className="text-gray-500">No tasks assigned to you yet.</p>
+              <div className="text-center py-16">
+                <div className="flex flex-col items-center space-y-4">
+                  <div className="bg-slate-100 p-6 rounded-full">
+                    <CheckCircle className="h-12 w-12 text-slate-400" />
+                  </div>
+                  <div>
+                    <p className="text-slate-600 font-medium text-lg">No tasks assigned yet</p>
+                    <p className="text-slate-500">Tasks will appear here once assigned by admin</p>
+                  </div>
+                </div>
               </div>
             )}
           </TabsContent>
           
-          <TabsContent value="messages" className="bg-white rounded-lg shadow-md p-6">
-            <h3 className="text-xl font-bold text-navy mb-4">Messages</h3>
-
-            <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-              <div className="lg:col-span-1 space-y-4">
-                {/* Admin contact */}
-                <div
-                  className={`flex items-center gap-3 p-2 ${
-                    activeContact.role === 'admin'
-                    ? 'bg-blue-100'
-                    : 'bg-gray-100'
-                  } rounded-lg cursor-pointer transition-colors`}
-                  onClick={handleSelectAdmin}
-                >
-                  <div className="bg-blue-100 p-2 rounded-full">
-                    <MessageSquare className="h-5 w-5 text-blue-600" />
+          <TabsContent value="messages" className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-2xl border border-slate-200/50 overflow-hidden">
+            <div className="px-8 py-6 border-b border-slate-200/50 bg-gradient-to-r from-slate-50 to-white">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-3">
+                  <div className="bg-gradient-to-br from-purple-500 to-purple-600 p-3 rounded-xl shadow-lg">
+                    <MessageSquare className="h-6 w-6 text-white" />
                   </div>
                   <div>
-                    <p className="font-medium">Admin</p>
-                    <p className="text-xs text-gray-500">John Musili</p>
+                    <h3 className="text-2xl font-bold text-slate-900">Messages</h3>
+                    <p className="text-slate-600">Communicate with admin and clients</p>
                   </div>
                 </div>
-                
-                {/* Client list */}
-                <ClientList 
-                  agentId={user.id} 
-                  onSelectClient={handleSelectClient} 
-                />
+                <div className="flex items-center space-x-2">
+                  <div className="bg-green-50 px-4 py-2 rounded-full">
+                    <span className="text-green-600 font-semibold text-sm">Online</span>
+                  </div>
+                </div>
               </div>
-              
-              <div className="lg:col-span-3">
-                <MessagePanel 
-                  currentUser={{ id: user.id, name: user.name, role: 'agent' }}
-                  recipient={
-                    activeContact.role === 'admin'
-                      ? { id: activeContact.id, name: activeContact.name, role: 'admin' }
-                      : { id: activeContact.id, name: activeContact.name, role: 'agent' }
-                  }
-                />
+            </div>
+
+            <div className="p-8">
+              <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+                <div className="lg:col-span-1 space-y-4">
+                  {/* Enhanced Admin contact */}
+                  <div
+                    className={`group flex items-center gap-4 p-4 rounded-xl cursor-pointer transition-all duration-300 border ${
+                      activeContact.role === 'admin'
+                      ? 'bg-gradient-to-r from-blue-50 to-blue-100/50 border-blue-200 shadow-md'
+                      : 'bg-slate-50 border-slate-200 hover:bg-slate-100 hover:border-slate-300'
+                    }`}
+                    onClick={handleSelectAdmin}
+                  >
+                    <div className={`p-3 rounded-xl shadow-sm ${
+                      activeContact.role === 'admin' ? 'bg-blue-500' : 'bg-slate-400'
+                    } group-hover:scale-110 transition-transform duration-300`}>
+                      <User className="h-5 w-5 text-white" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="font-semibold text-slate-900">Admin</p>
+                      <p className="text-sm text-slate-600">John Musili</p>
+                      <p className="text-xs text-slate-500">System Administrator</p>
+                    </div>
+                    {activeContact.role === 'admin' && (
+                      <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
+                    )}
+                  </div>
+
+                  {/* Enhanced Client list */}
+                  <div className="bg-slate-50 rounded-xl p-4 border border-slate-200">
+                    <h4 className="font-semibold text-slate-900 mb-3 flex items-center">
+                      <Users className="h-4 w-4 mr-2" />
+                      Clients
+                    </h4>
+                    <ClientList
+                      agentId={user.id}
+                      onSelectClient={handleSelectClient}
+                    />
+                  </div>
+                </div>
+
+                <div className="lg:col-span-3">
+                  <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+                    <MessagePanel
+                      currentUser={{ id: user.id, name: user.name, role: 'agent' }}
+                      recipient={
+                        activeContact.role === 'admin'
+                          ? { id: activeContact.id, name: activeContact.name, role: 'admin' }
+                          : { id: activeContact.id, name: activeContact.name, role: 'agent' }
+                      }
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           </TabsContent>
