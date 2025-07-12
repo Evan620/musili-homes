@@ -10,7 +10,7 @@ import {
   Plus, Calendar, ListChecks, MessageSquare, Upload, Loader2,
   Edit, Trash2, Key, Eye, EyeOff, AlertTriangle, Copy,
   TrendingUp, Activity, Clock, Star, Award, Target,
-  BarChart3, ArrowUpRight, ArrowDownRight, Zap, Bell
+  BarChart3, ArrowUpRight, ArrowDownRight, Zap, Bell, UserPlus
 } from 'lucide-react';
 import { formatCurrency } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
@@ -47,7 +47,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from '@/components/ui/badge';
 import { Label } from '@/components/ui/label';
-import { deleteAgent, updateAgent, resetAgentPassword } from '@/services/adminUserService';
+import { deleteAgent, updateAgent, resetAgentPassword, getAgentPassword } from '@/services/adminUserService';
 import { useQueryClient } from '@tanstack/react-query';
 import { AGENT_QUERY_KEYS } from '@/hooks/useAgents';
 // import ThemeToggle from '@/components/ThemeToggle'; // Removed - dark mode disabled
@@ -312,6 +312,10 @@ const AdminDashboard: React.FC = () => {
   const handleUpdateAgent = async (values: AgentFormData) => {
     if (!user?.id || !selectedAgentForAction) return;
 
+    console.log('🔍 Selected agent for update:', selectedAgentForAction);
+    console.log('🔍 Agent ID being used:', selectedAgentForAction.id);
+    console.log('🔍 Update values:', values);
+
     setIsUpdating(true);
     try {
       const result = await updateAgent(selectedAgentForAction.id, values, user.id.toString());
@@ -351,6 +355,21 @@ const AdminDashboard: React.FC = () => {
     setSelectedAgentForAction(agent);
     setShowPassword(false);
     setIsCredentialsDialogOpen(true);
+
+    // Try to get stored password
+    if (user?.id) {
+      try {
+        const result = await getAgentPassword(agent.id.toString(), user.id);
+        if (result.success && result.password) {
+          setSelectedAgentForAction({
+            ...agent,
+            tempPassword: result.password
+          });
+        }
+      } catch (error) {
+        console.log('Could not retrieve stored password:', error);
+      }
+    }
   };
 
   const handleResetPassword = async () => {
@@ -360,16 +379,26 @@ const AdminDashboard: React.FC = () => {
       const result = await resetAgentPassword(selectedAgentForAction.id.toString(), user.id);
 
       if (result.success && result.credentials) {
-        // Update the selected agent with the new password
+        // Check if this is a password reset email or actual password
+        const isPasswordResetEmail = result.credentials.password.includes('password reset email');
+
+        // Update the selected agent with the new password info
         setSelectedAgentForAction({
           ...selectedAgentForAction,
           tempPassword: result.credentials.password
         });
-        
-        toast({
-          title: "Password Reset",
-          description: `New password generated for ${selectedAgentForAction.name}`,
-        });
+
+        if (isPasswordResetEmail) {
+          toast({
+            title: "Password Reset Email Sent",
+            description: `A password reset email has been sent to ${selectedAgentForAction.name} (${result.credentials.email}). They will need to check their email and follow the reset link to set a new password.`,
+          });
+        } else {
+          toast({
+            title: "New Password Generated",
+            description: `New password generated for ${selectedAgentForAction.name}. Share this password securely with the agent.`,
+          });
+        }
       } else {
         toast({
           title: "Error",
@@ -420,7 +449,7 @@ const AdminDashboard: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#f8fafc] via-[#f1f5f9] to-[#e2e8f0] relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-[#f8fafc] via-[#f1f5f9] to-[#e2e8f0] relative overflow-hidden font-samsung">
       {/* Samsung-style floating background elements */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
         <div className="absolute top-20 left-20 w-96 h-96 bg-gradient-to-br from-gold-whisper/10 to-amber-400/10 rounded-full blur-3xl animate-pulse"></div>
@@ -440,17 +469,17 @@ const AdminDashboard: React.FC = () => {
                 <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-green-500 rounded-full border-2 border-white shadow-sm"></div>
               </div>
               <div>
-                <h1 className="text-3xl font-bold bg-gradient-to-r from-slate-900 via-slate-800 to-slate-700 bg-clip-text text-transparent tracking-tight">
+                <h1 className="text-3xl font-samsung-bold bg-gradient-to-r from-slate-900 via-slate-800 to-slate-700 bg-clip-text text-transparent tracking-tight">
                   Admin Dashboard
                 </h1>
-                <p className="text-slate-600 text-lg font-medium">Welcome back, {user?.name}</p>
+                <p className="text-slate-600 text-lg font-samsung">Welcome back, {user?.name}</p>
               </div>
             </div>
 
             <div className="flex items-center gap-4">
               <div className="hidden lg:flex items-center space-x-3 bg-white/60 backdrop-blur-sm rounded-2xl px-5 py-3 border border-white/40 shadow-lg shadow-black/5">
                 <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                <span className="text-sm font-semibold text-slate-700">System Online</span>
+                <span className="text-sm font-samsung-bold text-slate-700">System Online</span>
               </div>
 
               <Button variant="ghost" size="sm" className="relative bg-white/60 backdrop-blur-sm rounded-2xl p-3 hover:bg-white/80 transition-all duration-300 shadow-lg shadow-black/5">
@@ -486,10 +515,10 @@ const AdminDashboard: React.FC = () => {
                   <div className="flex items-center gap-4 mb-6">
                     <div className="text-4xl">👋</div>
                     <div>
-                      <h2 className="text-4xl font-bold bg-gradient-to-r from-slate-900 via-slate-800 to-slate-700 bg-clip-text text-transparent mb-2">
+                      <h2 className="text-4xl font-samsung-bold bg-gradient-to-r from-slate-900 via-slate-800 to-slate-700 bg-clip-text text-transparent mb-2">
                         Good {new Date().getHours() < 12 ? 'Morning' : new Date().getHours() < 18 ? 'Afternoon' : 'Evening'}, Admin
                       </h2>
-                      <p className="text-xl text-slate-600 font-medium">
+                      <p className="text-xl text-slate-600 font-samsung">
                         Your real estate empire awaits your command
                       </p>
                     </div>
@@ -569,17 +598,17 @@ const AdminDashboard: React.FC = () => {
               </div>
 
               <div className="space-y-3">
-                <h3 className="text-2xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
+                <h3 className="text-2xl font-samsung-bold bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
                   Properties
                 </h3>
-                <p className="text-slate-600 leading-relaxed">
+                <p className="text-slate-600 leading-relaxed font-samsung">
                   Manage listings, pricing, and property details
                 </p>
               </div>
 
               {/* Progress indicator */}
               <div className="mt-6">
-                <div className="flex items-center justify-between text-sm text-slate-500 mb-2">
+                <div className="flex items-center justify-between text-sm text-slate-500 mb-2 font-samsung">
                   <span>Active listings</span>
                   <span>{totalProperties} properties</span>
                 </div>
@@ -592,24 +621,24 @@ const AdminDashboard: React.FC = () => {
 
           <Dialog open={taskDialogOpen} onOpenChange={setTaskDialogOpen}>
             <DialogTrigger asChild>
-              {/* Team Management Card - Samsung Style */}
+              {/* Assign New Task Card - Samsung Style */}
               <div className="group relative bg-white/70 backdrop-blur-xl rounded-3xl p-8 shadow-2xl shadow-black/10 border border-white/30 hover:shadow-3xl hover:-translate-y-2 transition-all duration-500 overflow-hidden cursor-pointer">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-emerald-400/20 to-green-400/20 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
 
                 <div className="relative">
                   <div className="flex items-center justify-between mb-6">
                     <div className="w-16 h-16 bg-gradient-to-br from-[#10b981] via-[#059669] to-[#047857] rounded-2xl shadow-lg shadow-emerald-500/30 flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
-                      <Users className="h-8 w-8 text-white" />
+                      <ListChecks className="h-8 w-8 text-white" />
                     </div>
                     <ArrowUpRight className="h-6 w-6 text-slate-400 group-hover:text-emerald-600 group-hover:translate-x-1 group-hover:-translate-y-1 transition-all duration-300" />
                   </div>
 
                   <div className="space-y-3">
-                    <h3 className="text-2xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
-                      Team
+                    <h3 className="text-2xl font-samsung-bold bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
+                      Assign New Task
                     </h3>
-                    <p className="text-slate-600 leading-relaxed">
-                      Manage agents and assign tasks
+                    <p className="text-slate-600 leading-relaxed font-samsung">
+                      Create and assign tasks to agents
                     </p>
                   </div>
 
@@ -837,24 +866,24 @@ const AdminDashboard: React.FC = () => {
 
           <Dialog open={agentDialogOpen} onOpenChange={setAgentDialogOpen}>
             <DialogTrigger asChild>
-              {/* Analytics Card - Samsung Style */}
+              {/* Create New Agent Card - Samsung Style */}
               <div className="group relative bg-white/70 backdrop-blur-xl rounded-3xl p-8 shadow-2xl shadow-black/10 border border-white/30 hover:shadow-3xl hover:-translate-y-2 transition-all duration-500 overflow-hidden cursor-pointer">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-indigo-400/20 to-purple-400/20 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
 
                 <div className="relative">
                   <div className="flex items-center justify-between mb-6">
                     <div className="w-16 h-16 bg-gradient-to-br from-[#6366f1] via-[#4f46e5] to-[#4338ca] rounded-2xl shadow-lg shadow-indigo-500/30 flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
-                      <BarChart3 className="h-8 w-8 text-white" />
+                      <UserPlus className="h-8 w-8 text-white" />
                     </div>
                     <ArrowUpRight className="h-6 w-6 text-slate-400 group-hover:text-indigo-600 group-hover:translate-x-1 group-hover:-translate-y-1 transition-all duration-300" />
                   </div>
 
                   <div className="space-y-3">
-                    <h3 className="text-2xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
-                      Analytics
+                    <h3 className="text-2xl font-samsung-bold bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
+                      Create New Agent
                     </h3>
-                    <p className="text-slate-600 leading-relaxed">
-                      View reports and performance metrics
+                    <p className="text-slate-600 leading-relaxed font-samsung">
+                      Add new team members to your agency
                     </p>
                   </div>
 
@@ -953,10 +982,10 @@ const AdminDashboard: React.FC = () => {
         <div className="mb-12">
           <div className="flex items-center justify-between mb-8">
             <div>
-              <h3 className="text-3xl font-bold bg-gradient-to-r from-slate-900 via-slate-800 to-slate-700 bg-clip-text text-transparent mb-2">
+              <h3 className="text-3xl font-samsung-bold bg-gradient-to-r from-slate-900 via-slate-800 to-slate-700 bg-clip-text text-transparent mb-2">
                 Portfolio Analytics
               </h3>
-              <p className="text-slate-600 text-lg">Real-time business intelligence</p>
+              <p className="text-slate-600 text-lg font-samsung">Real-time business intelligence</p>
             </div>
             <div className="bg-white/70 backdrop-blur-sm rounded-2xl px-6 py-3 border border-white/50 shadow-lg shadow-black/5">
               <div className="flex items-center gap-2">
@@ -985,12 +1014,12 @@ const AdminDashboard: React.FC = () => {
                 </div>
 
                 <div className="space-y-3">
-                  <div className="text-4xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
+                  <div className="text-4xl font-samsung-bold bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
                     {totalProperties}
                   </div>
                   <div>
-                    <p className="text-lg font-semibold text-slate-700">Properties</p>
-                    <p className="text-sm text-slate-500">Active listings</p>
+                    <p className="text-lg font-samsung-bold text-slate-700">Properties</p>
+                    <p className="text-sm font-samsung text-slate-500">Active listings</p>
                   </div>
                 </div>
 
@@ -1021,12 +1050,12 @@ const AdminDashboard: React.FC = () => {
                 </div>
 
                 <div className="space-y-3">
-                  <div className="text-4xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
+                  <div className="text-4xl font-samsung-bold bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
                     {totalAgents}
                   </div>
                   <div>
-                    <p className="text-lg font-semibold text-slate-700">Agents</p>
-                    <p className="text-sm text-slate-500">Team members</p>
+                    <p className="text-lg font-samsung-bold text-slate-700">Agents</p>
+                    <p className="text-sm font-samsung text-slate-500">Team members</p>
                   </div>
                 </div>
 
@@ -1057,12 +1086,12 @@ const AdminDashboard: React.FC = () => {
                 </div>
 
                 <div className="space-y-3">
-                  <div className="text-3xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
+                  <div className="text-3xl font-samsung-bold bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
                     {formatCurrency(totalSaleValue)}
                   </div>
                   <div>
-                    <p className="text-lg font-semibold text-slate-700">Portfolio Value</p>
-                    <p className="text-sm text-slate-500">Total KES worth</p>
+                    <p className="text-lg font-samsung-bold text-slate-700">Portfolio Value</p>
+                    <p className="text-sm font-samsung text-slate-500">Total KES worth</p>
                   </div>
                 </div>
 
@@ -1093,12 +1122,12 @@ const AdminDashboard: React.FC = () => {
                 </div>
 
                 <div className="space-y-3">
-                  <div className="text-3xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
+                  <div className="text-3xl font-samsung-bold bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
                     {formatCurrency(averagePropertyValue)}
                   </div>
                   <div>
-                    <p className="text-lg font-semibold text-slate-700">Avg. Value</p>
-                    <p className="text-sm text-slate-500">Per property</p>
+                    <p className="text-lg font-samsung-bold text-slate-700">Avg. Value</p>
+                    <p className="text-sm font-samsung text-slate-500">Per property</p>
                   </div>
                 </div>
 
@@ -1474,10 +1503,10 @@ const AdminDashboard: React.FC = () => {
                 <Label className="text-sm font-medium" style={{ color: 'hsl(var(--deep-charcoal))' }}>Password</Label>
                 <div className="mt-1 p-3 bg-soft-ivory rounded-md border border-satin-silver flex items-center justify-between">
                   <span className="text-sm font-mono" style={{ color: 'hsl(var(--deep-charcoal))' }}>
-                    {showPassword ? (selectedAgentForAction?.tempPassword || 'Click "Reset Password" to generate new password') : '••••••••'}
+                    {showPassword ? (selectedAgentForAction?.tempPassword || 'No password available') : '••••••••'}
                   </span>
                   <div className="flex space-x-1">
-                    {selectedAgentForAction?.tempPassword && (
+                    {selectedAgentForAction?.tempPassword && !selectedAgentForAction.tempPassword.includes('Password reset email') && (
                       <>
                         <Button
                           variant="ghost"
@@ -1506,15 +1535,29 @@ const AdminDashboard: React.FC = () => {
                 {!selectedAgentForAction?.tempPassword && (
                   <div className="mt-2 p-2 bg-amber-50 border border-amber-200 rounded">
                     <p className="text-xs text-amber-700">
-                      <strong>No password available:</strong> Click "Reset Password" below to generate a new password for this agent.
+                      <strong>No password available:</strong> Click "Generate New Password" below to create a new password for this agent.
                     </p>
                   </div>
                 )}
-                {selectedAgentForAction?.tempPassword && (
+                {selectedAgentForAction?.tempPassword && selectedAgentForAction.tempPassword.includes('Password reset email') && (
+                  <div className="mt-2 p-2 bg-green-50 border border-green-200 rounded">
+                    <p className="text-xs text-green-700">
+                      <strong>Password Reset Email Sent:</strong> The agent will receive an email to set a new password.
+                    </p>
+                  </div>
+                )}
+                {selectedAgentForAction?.tempPassword && !selectedAgentForAction.tempPassword.includes('Password reset email') && !selectedAgentForAction.tempPassword.includes('Password stored securely') && (
                   <div className="mt-2 p-2 bg-blue-50 border border-blue-200 rounded">
                     <p className="text-xs text-blue-700">
-                      <strong>Admin Access:</strong> This password is generated for administrative purposes.
-                      Agents can change their password after login.
+                      <strong>Initial Password:</strong> This is the password generated when the agent was created.
+                      Share this securely with the agent.
+                    </p>
+                  </div>
+                )}
+                {selectedAgentForAction?.tempPassword && selectedAgentForAction.tempPassword.includes('Password stored securely') && (
+                  <div className="mt-2 p-2 bg-blue-50 border border-blue-200 rounded">
+                    <p className="text-xs text-blue-700">
+                      <strong>Secure Storage:</strong> The password is stored securely. Use "Reset Password" to send new credentials to the agent.
                     </p>
                   </div>
                 )}
@@ -1522,19 +1565,19 @@ const AdminDashboard: React.FC = () => {
 
               <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
                 <p className="text-blue-800 text-sm">
-                  <strong>Note:</strong> Share these credentials securely with the agent.
-                  They can change their password after first login.
+                  <strong>Note:</strong> Share the generated password securely with the agent.
+                  They can change their password after logging in. Click "Generate New Password" to create a fresh password.
                 </p>
               </div>
             </div>
 
             <DialogFooter className="flex justify-between">
-              <Button 
-                variant="outline" 
+              <Button
+                variant="outline"
                 onClick={handleResetPassword}
                 className="bg-amber-50 border-amber-200 text-amber-700 hover:bg-amber-100"
               >
-                Reset Password
+                Generate New Password
               </Button>
               <Button onClick={() => setIsCredentialsDialogOpen(false)}>
                 Close

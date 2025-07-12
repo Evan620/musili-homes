@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { MapPin, Phone, Mail, Sparkles, Heart, Award } from 'lucide-react';
+import { MapPin, Phone, Mail, Home, Heart, Award } from 'lucide-react';
 
 const Footer: React.FC = () => {
   return (
@@ -25,13 +25,13 @@ const Footer: React.FC = () => {
             <Link to="/" className="group inline-block mb-6">
               <div className="flex items-center gap-3">
                 <div className="p-2 bg-gradient-to-r from-gold-whisper to-gold-accent rounded-lg shadow-gold group-hover:scale-110 transition-transform duration-300">
-                  <Sparkles className="w-6 h-6 text-pure-white" style={{ color: '#ffffff' }} />
+                  <Home className="w-6 h-6 text-pure-white" style={{ color: '#ffffff' }} />
                 </div>
                 <span
                   className="text-2xl font-thin text-pure-white group-hover:text-gold-whisper transition-colors duration-300"
                   style={{ color: '#ffffff' }}
                 >
-                  Musili <span className="text-gold-whisper font-medium" style={{ color: '#D4A017' }}>Homes</span>
+                  Musilli <span className="text-gold-whisper font-medium" style={{ color: '#D4A017' }}>Homes</span>
                 </span>
               </div>
             </Link>
@@ -163,11 +163,11 @@ const Footer: React.FC = () => {
               <div className="flex items-center gap-3">
                 <Mail className="w-5 h-5 text-gold-whisper flex-shrink-0" style={{ color: '#D4A017' }} />
                 <a
-                  href="mailto:info@musili.co.ke"
+                  href="mailto:info@musilli.co.ke"
                   className="text-pure-white/80 hover:text-gold-whisper transition-colors font-light"
                   style={{ color: '#ffffff', textDecoration: 'none' }}
                 >
-                  info@musili.co.ke
+                  info@musilli.co.ke
                 </a>
               </div>
               <div className="flex items-center gap-3">
@@ -192,7 +192,7 @@ const Footer: React.FC = () => {
                 className="text-pure-white/70 text-sm font-light"
                 style={{ color: '#ffffff', opacity: 0.8 }}
               >
-                &copy; {new Date().getFullYear()} Musili Homes. All rights reserved.
+                &copy; {new Date().getFullYear()} Musilli Homes. All rights reserved.
               </p>
               <div className="hidden md:flex items-center gap-2 text-gold-whisper" style={{ color: '#D4A017' }}>
                 <Heart className="w-4 h-4" style={{ color: '#D4A017' }} />

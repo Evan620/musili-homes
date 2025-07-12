@@ -54,7 +54,7 @@ export const SupabaseTest: React.FC = () => {
   const testSignup = async () => {
     setLoading(true);
     try {
-      const testEmail = 'test@musilihomes.co.ke';
+      const testEmail = 'test@musillihomes.co.ke';
       const testPassword = 'test123456';
 
       addResult('Signup Test', `Attempting signup with ${testEmail}`);
@@ -81,7 +81,7 @@ export const SupabaseTest: React.FC = () => {
   const testLogin = async () => {
     setLoading(true);
     try {
-      const testEmail = 'admin@musilihomes.co.ke';
+      const testEmail = 'admin@musillihomes.co.ke';
       const testPassword = 'admin123';
 
       addResult('Login Test', `Attempting login with ${testEmail}`);

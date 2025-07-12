@@ -65,17 +65,17 @@ const Contact: React.FC = () => {
 
             {/* Trust indicators */}
             <div className="flex flex-wrap justify-center gap-8 animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
-              <div className="flex items-center gap-2 text-pure-white/80">
+              <div className="flex items-center gap-2">
                 <Star className="w-5 h-5 text-gold-whisper" />
-                <span className="text-sm font-light">5-Star Service</span>
+                <span className="hero-text text-sm font-light opacity-80">5-Star Service</span>
               </div>
-              <div className="flex items-center gap-2 text-pure-white/80">
+              <div className="flex items-center gap-2">
                 <Award className="w-5 h-5 text-gold-whisper" />
-                <span className="text-sm font-light">Award Winning</span>
+                <span className="hero-text text-sm font-light opacity-80">Award Winning</span>
               </div>
-              <div className="flex items-center gap-2 text-pure-white/80">
+              <div className="flex items-center gap-2">
                 <MessageCircle className="w-5 h-5 text-gold-whisper" />
-                <span className="text-sm font-light">24/7 Support</span>
+                <span className="hero-text text-sm font-light opacity-80">24/7 Support</span>
               </div>
             </div>
           </div>
@@ -154,7 +154,7 @@ const Contact: React.FC = () => {
                     </div>
                     <div className="flex-1">
                       <h3 className="text-xl md:text-2xl font-light luxury-heading mb-3 tracking-wide">Email Address</h3>
-                      <p className="luxury-text text-lg font-medium">info@musilihomes.co.ke</p>
+                      <p className="luxury-text text-lg font-medium">info@musillihomes.co.ke</p>
                       <p className="luxury-text text-sm opacity-70">We respond within 2 hours</p>
                       <p className="text-gold-whisper text-sm mt-2 font-medium">Professional consultation</p>
                     </div>

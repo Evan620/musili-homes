@@ -29,36 +29,65 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+    // Fallback timeout to prevent infinite loading
+    const fallbackTimeout = setTimeout(() => {
+      console.log('⚠️ Auth initialization timeout, setting loading to false');
+      setLoading(false);
+    }, 10000); // 10 second timeout
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
+      console.log('🔄 Auth state change:', _event, session?.user?.email);
       setSession(session);
+
       if (session?.user) {
+        // Use metadata role directly - it's reliable and fast
+        const userRole = session.user.user_metadata?.role || 'agent';
+        console.log('✅ Using metadata role:', userRole, 'for user:', session.user.email);
+
         setUser({
           id: session.user.id,
           email: session.user.email || '',
           name: session.user.user_metadata?.name || session.user.email?.split('@')[0],
-          role: session.user.user_metadata?.role || 'agent',
+          role: userRole,
         });
       } else {
         setUser(null);
       }
       setLoading(false);
+      clearTimeout(fallbackTimeout); // Clear timeout when auth completes
     });
+
     // Get initial session
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    supabase.auth.getSession().then(async ({ data: { session } }) => {
+      console.log('🔄 Initial session check:', session?.user?.email);
       setSession(session);
+
       if (session?.user) {
+        // Use metadata role directly - it's reliable and fast
+        const userRole = session.user.user_metadata?.role || 'agent';
+        console.log('✅ Using initial metadata role:', userRole, 'for user:', session.user.email);
+
         setUser({
           id: session.user.id,
           email: session.user.email || '',
           name: session.user.user_metadata?.name || session.user.email?.split('@')[0],
-          role: session.user.user_metadata?.role || 'agent',
+          role: userRole,
         });
       } else {
         setUser(null);
       }
       setLoading(false);
+      clearTimeout(fallbackTimeout); // Clear timeout when initial session completes
+    }).catch((error) => {
+      console.error('❌ Failed to get initial session:', error);
+      setLoading(false);
+      clearTimeout(fallbackTimeout); // Clear timeout on error
     });
-    return () => subscription.unsubscribe();
+
+    return () => {
+      subscription.unsubscribe();
+      clearTimeout(fallbackTimeout); // Clear timeout on cleanup
+    };
   }, []);
 
   const login = async (email: string, password: string) => {
@@ -83,7 +112,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           password: '', // Not used
           auth_id: id, // Link to Supabase Auth user
           created_at: new Date().toISOString()
-        })
+        } as any)
         .select()
         .single();
 
@@ -118,7 +147,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
               .from('users')
               .update({ auth_id: id } as any)
               .eq('id', existingUser.id)
-              .is('auth_id', null);
+              .is('auth_id' as any, null);
 
             if (updateUserError) {
               console.error('User auth_id update error:', updateUserError);
@@ -151,7 +180,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
               .from('agents')
               .update({ user_auth_id: (existingUser as any).auth_id || id } as any)
               .eq('id', existingUser.id)
-              .is('user_auth_id', null);
+              .is('user_auth_id' as any, null);
 
             if (updateAgentError) {
               console.error('Agent user_auth_id update error:', updateAgentError);

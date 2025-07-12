@@ -90,7 +90,7 @@ export class AIDatabaseService {
   // Company Information
   getCompanyInfo(): CompanyInfo {
     return {
-      name: "Musili Homes",
+      name: "Musilli Homes",
       description: "Kenya's premier luxury real estate company, dedicated to providing exceptional real estate experiences for discerning clients seeking the most prestigious properties.",
       services: [
         "Luxury Property Sales",
@@ -119,8 +119,8 @@ export class AIDatabaseService {
       ],
       contactInfo: {
         phone: "+254 700 123 456",
-        email: "info@musilihomes.co.ke",
-        address: "Musili Homes Tower, Westlands, Nairobi, Kenya"
+        email: "info@musillihomes.co.ke",
+        address: "Musilli Homes Tower, Westlands, Nairobi, Kenya"
       }
     };
   }

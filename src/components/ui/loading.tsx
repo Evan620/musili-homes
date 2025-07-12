@@ -1,6 +1,6 @@
 import React from 'react';
 import { cn } from '@/lib/utils';
-import { Loader2, Sparkles } from 'lucide-react';
+import { Loader2, Home } from 'lucide-react';
 
 interface LoadingSpinnerProps {
   size?: 'sm' | 'md' | 'lg';
@@ -28,7 +28,7 @@ export const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
             sizeClasses[size]
           )}
         />
-        <Sparkles className={cn(
+        <Home className={cn(
           'absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-gold-whisper animate-pulse',
           size === 'sm' ? 'h-2 w-2' : size === 'md' ? 'h-4 w-4' : 'h-6 w-6'
         )} />

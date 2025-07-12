@@ -9,7 +9,7 @@ import { ArrowLeft, User, Shield, Mail, Key } from 'lucide-react';
 
 const AuthTest: React.FC = () => {
   const { user, session, isAuthenticated, isAdmin, isAgent, login, logout } = useAuth();
-  const [testEmail, setTestEmail] = useState('test@musili.co.ke');
+  const [testEmail, setTestEmail] = useState('test@musilli.co.ke');
   const [testPassword, setTestPassword] = useState('test123456');
   const [testName, setTestName] = useState('Test User');
   const [testRole, setTestRole] = useState<'admin' | 'agent'>('agent');
@@ -123,7 +123,7 @@ const AuthTest: React.FC = () => {
                   type="email"
                   value={testEmail}
                   onChange={(e) => setTestEmail(e.target.value)}
-                  placeholder="test@musili.co.ke"
+                  placeholder="test@musilli.co.ke"
                 />
               </div>
               

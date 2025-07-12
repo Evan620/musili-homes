@@ -16,6 +16,7 @@ import PropertyDetail from "./pages/PropertyDetail";
 import Contact from "./pages/Contact";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
+import ResetPassword from "./pages/ResetPassword";
 
 import AuthTest from "./pages/AuthTest";
 
@@ -73,6 +74,7 @@ const App = () => {
                   <Route path="/login" element={<Login />} />
                   <Route path="/test-auth" element={<AuthTest />} />
                   <Route path="/sign_up" element={<SignUp />} />
+                  <Route path="/reset-password" element={<ResetPassword />} />
 
                     {/* Protected Routes - Auth Required */}
                     <Route path="/admin/dashboard" element={

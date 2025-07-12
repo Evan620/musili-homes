@@ -45,7 +45,7 @@ const AgentDashboard: React.FC = () => {
       const { data: userData, error: userError } = await supabase
         .from('users')
         .select('id')
-        .eq('auth_id', user.id)
+        .eq('auth_id' as any, user.id)
         .single();
 
       if (userError || !userData) {
@@ -96,7 +96,7 @@ const AgentDashboard: React.FC = () => {
       const { data: userData, error: userError } = await supabase
         .from('users')
         .select('id')
-        .eq('auth_id', user.id)
+        .eq('auth_id' as any, user.id)
         .single();
 
       if (userError || !userData) {
@@ -204,17 +204,17 @@ const AgentDashboard: React.FC = () => {
   // Show loading state while data is being fetched
   if (propertiesLoading || tasksLoading) {
     return (
-      <div className="min-h-screen bg-offWhite flex items-center justify-center">
+      <div className="min-h-screen bg-offWhite flex items-center justify-center font-samsung">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-navy mx-auto mb-4"></div>
-          <p className="text-navy">Loading your dashboard...</p>
+          <p className="text-navy font-samsung">Loading your dashboard...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#f8fafc] via-[#f1f5f9] to-[#e2e8f0] relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-[#f8fafc] via-[#f1f5f9] to-[#e2e8f0] relative overflow-hidden font-samsung">
       {/* Samsung-style floating background elements */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
         <div className="absolute top-20 left-20 w-96 h-96 bg-gradient-to-br from-blue-400/10 to-purple-400/10 rounded-full blur-3xl animate-pulse"></div>
@@ -234,27 +234,27 @@ const AgentDashboard: React.FC = () => {
                 <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-green-500 rounded-full border-2 border-white shadow-sm"></div>
               </div>
               <div>
-                <h1 className="text-3xl font-bold bg-gradient-to-r from-slate-900 via-slate-800 to-slate-700 bg-clip-text text-transparent tracking-tight">
+                <h1 className="text-3xl font-samsung-bold bg-gradient-to-r from-slate-900 via-slate-800 to-slate-700 bg-clip-text text-transparent tracking-tight">
                   Agent Dashboard
                 </h1>
-                <p className="text-slate-600 text-lg font-medium">Welcome back, {user?.name}</p>
+                <p className="text-slate-600 text-lg font-samsung">Welcome back, {user?.name}</p>
               </div>
             </div>
 
             <div className="flex items-center gap-4">
               <div className="hidden lg:flex items-center space-x-3 bg-white/60 backdrop-blur-sm rounded-2xl px-5 py-3 border border-white/40 shadow-lg shadow-black/5">
                 <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                <span className="text-sm font-semibold text-slate-700">Online</span>
+                <span className="text-sm font-samsung-bold text-slate-700">Online</span>
               </div>
 
               <Button variant="ghost" size="sm" className="relative bg-white/60 backdrop-blur-sm rounded-2xl p-3 hover:bg-white/80 transition-all duration-300 shadow-lg shadow-black/5">
                 <Bell className="h-5 w-5 text-slate-700" />
-                <span className="absolute -top-1 -right-1 h-4 w-4 bg-gradient-to-r from-red-500 to-pink-500 rounded-full text-xs flex items-center justify-center text-white font-bold shadow-lg">3</span>
+                <span className="absolute -top-1 -right-1 h-4 w-4 bg-gradient-to-r from-red-500 to-pink-500 rounded-full text-xs flex items-center justify-center text-white font-samsung-bold shadow-lg">3</span>
               </Button>
 
               <Button
                 variant="ghost"
-                className="bg-white/60 backdrop-blur-sm rounded-2xl px-6 py-3 font-semibold text-slate-700 hover:bg-white/80 transition-all duration-300 shadow-lg shadow-black/5 border border-white/40"
+                className="bg-white/60 backdrop-blur-sm rounded-2xl px-6 py-3 font-samsung-bold text-slate-700 hover:bg-white/80 transition-all duration-300 shadow-lg shadow-black/5 border border-white/40"
                 onClick={handleLogout}
               >
                 <LogOut className="mr-2 h-4 w-4" />
@@ -279,10 +279,10 @@ const AgentDashboard: React.FC = () => {
                   <div className="flex items-center gap-4 mb-6">
                     <div className="text-4xl">👋</div>
                     <div>
-                      <h2 className="text-4xl font-bold bg-gradient-to-r from-slate-900 via-slate-800 to-slate-700 bg-clip-text text-transparent mb-2">
+                      <h2 className="text-4xl font-samsung-bold bg-gradient-to-r from-slate-900 via-slate-800 to-slate-700 bg-clip-text text-transparent mb-2">
                         Good {new Date().getHours() < 12 ? 'Morning' : new Date().getHours() < 18 ? 'Afternoon' : 'Evening'}
                       </h2>
-                      <p className="text-xl text-slate-600 font-medium">
+                      <p className="text-xl text-slate-600 font-samsung">
                         Ready to manage your portfolio today?
                       </p>
                     </div>
@@ -295,8 +295,8 @@ const AgentDashboard: React.FC = () => {
                           <Activity className="w-5 h-5 text-white" />
                         </div>
                         <div>
-                          <p className="text-sm font-semibold text-slate-600">Status</p>
-                          <p className="text-lg font-bold text-slate-900">Active</p>
+                          <p className="text-sm font-samsung-bold text-slate-600">Status</p>
+                          <p className="text-lg font-samsung-bold text-slate-900">Active</p>
                         </div>
                       </div>
                     </div>
@@ -307,8 +307,8 @@ const AgentDashboard: React.FC = () => {
                           <Star className="w-5 h-5 text-white" />
                         </div>
                         <div>
-                          <p className="text-sm font-semibold text-slate-600">Rating</p>
-                          <p className="text-lg font-bold text-slate-900">4.9/5</p>
+                          <p className="text-sm font-samsung-bold text-slate-600">Rating</p>
+                          <p className="text-lg font-samsung-bold text-slate-900">4.9/5</p>
                         </div>
                       </div>
                     </div>
@@ -319,8 +319,8 @@ const AgentDashboard: React.FC = () => {
                           <Award className="w-5 h-5 text-white" />
                         </div>
                         <div>
-                          <p className="text-sm font-semibold text-slate-600">Rank</p>
-                          <p className="text-lg font-bold text-slate-900">Top 5%</p>
+                          <p className="text-sm font-samsung-bold text-slate-600">Rank</p>
+                          <p className="text-lg font-samsung-bold text-slate-900">Top 5%</p>
                         </div>
                       </div>
                     </div>
@@ -335,15 +335,15 @@ const AgentDashboard: React.FC = () => {
         <div className="mb-12">
           <div className="flex items-center justify-between mb-8">
             <div>
-              <h3 className="text-3xl font-bold bg-gradient-to-r from-slate-900 via-slate-800 to-slate-700 bg-clip-text text-transparent mb-2">
+              <h3 className="text-3xl font-samsung-bold bg-gradient-to-r from-slate-900 via-slate-800 to-slate-700 bg-clip-text text-transparent mb-2">
                 Performance Analytics
               </h3>
-              <p className="text-slate-600 text-lg">Real-time insights into your portfolio</p>
+              <p className="text-slate-600 text-lg font-samsung">Real-time insights into your portfolio</p>
             </div>
             <div className="bg-white/70 backdrop-blur-sm rounded-2xl px-6 py-3 border border-white/50 shadow-lg shadow-black/5">
               <div className="flex items-center gap-2">
                 <Calendar className="h-4 w-4 text-slate-600" />
-                <span className="text-sm font-semibold text-slate-700">This Month</span>
+                <span className="text-sm font-samsung-bold text-slate-700">This Month</span>
               </div>
             </div>
           </div>
@@ -368,12 +368,12 @@ const AgentDashboard: React.FC = () => {
                 </div>
 
                 <div className="space-y-3">
-                  <div className="text-4xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
+                  <div className="text-4xl font-samsung-bold bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
                     {totalProperties}
                   </div>
                   <div>
-                    <p className="text-lg font-semibold text-slate-700">Properties</p>
-                    <p className="text-sm text-slate-500">Active listings</p>
+                    <p className="text-lg font-samsung-bold text-slate-700">Properties</p>
+                    <p className="text-sm font-samsung text-slate-500">Active listings</p>
                   </div>
                 </div>
 
@@ -382,7 +382,7 @@ const AgentDashboard: React.FC = () => {
                   <div className="w-full bg-slate-200/50 rounded-full h-2">
                     <div className="bg-gradient-to-r from-blue-500 to-cyan-500 h-2 rounded-full w-3/4 shadow-lg shadow-blue-500/30"></div>
                   </div>
-                  <p className="text-xs text-slate-500 mt-2">75% of monthly target</p>
+                  <p className="text-xs font-samsung text-slate-500 mt-2">75% of monthly target</p>
                 </div>
               </div>
             </div>
@@ -399,18 +399,18 @@ const AgentDashboard: React.FC = () => {
                   <div className="bg-emerald-500/10 backdrop-blur-sm rounded-full px-3 py-1 border border-emerald-500/20">
                     <div className="flex items-center gap-1">
                       <TrendingUp className="h-3 w-3 text-emerald-600" />
-                      <span className="text-xs font-bold text-emerald-600">+12%</span>
+                      <span className="text-xs font-samsung-bold text-emerald-600">+12%</span>
                     </div>
                   </div>
                 </div>
 
                 <div className="space-y-3">
-                  <div className="text-3xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
+                  <div className="text-3xl font-samsung-bold bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
                     {formatCurrency(totalValue)}
                   </div>
                   <div>
-                    <p className="text-lg font-semibold text-slate-700">Portfolio Value</p>
-                    <p className="text-sm text-slate-500">Total KES value</p>
+                    <p className="text-lg font-samsung-bold text-slate-700">Portfolio Value</p>
+                    <p className="text-sm font-samsung text-slate-500">Total KES value</p>
                   </div>
                 </div>
 
@@ -418,7 +418,7 @@ const AgentDashboard: React.FC = () => {
                   <div className="w-full bg-slate-200/50 rounded-full h-2">
                     <div className="bg-gradient-to-r from-emerald-500 to-green-500 h-2 rounded-full w-4/5 shadow-lg shadow-emerald-500/30"></div>
                   </div>
-                  <p className="text-xs text-slate-500 mt-2">80% growth this quarter</p>
+                  <p className="text-xs font-samsung text-slate-500 mt-2">80% growth this quarter</p>
                 </div>
               </div>
             </div>
@@ -435,18 +435,18 @@ const AgentDashboard: React.FC = () => {
                   <div className="bg-amber-500/10 backdrop-blur-sm rounded-full px-3 py-1 border border-amber-500/20">
                     <div className="flex items-center gap-1">
                       <TrendingUp className="h-3 w-3 text-amber-600" />
-                      <span className="text-xs font-bold text-amber-600">+8%</span>
+                      <span className="text-xs font-samsung-bold text-amber-600">+8%</span>
                     </div>
                   </div>
                 </div>
 
                 <div className="space-y-3">
-                  <div className="text-4xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
+                  <div className="text-4xl font-samsung-bold bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
                     {totalInquiries}
                   </div>
                   <div>
-                    <p className="text-lg font-semibold text-slate-700">Inquiries</p>
-                    <p className="text-sm text-slate-500">Client interest</p>
+                    <p className="text-lg font-samsung-bold text-slate-700">Inquiries</p>
+                    <p className="text-sm font-samsung text-slate-500">Client interest</p>
                   </div>
                 </div>
 
@@ -454,7 +454,7 @@ const AgentDashboard: React.FC = () => {
                   <div className="w-full bg-slate-200/50 rounded-full h-2">
                     <div className="bg-gradient-to-r from-amber-500 to-orange-500 h-2 rounded-full w-2/3 shadow-lg shadow-amber-500/30"></div>
                   </div>
-                  <p className="text-xs text-slate-500 mt-2">67% conversion rate</p>
+                  <p className="text-xs font-samsung text-slate-500 mt-2">67% conversion rate</p>
                 </div>
               </div>
             </div>
@@ -471,18 +471,18 @@ const AgentDashboard: React.FC = () => {
                   <div className="bg-red-500/10 backdrop-blur-sm rounded-full px-3 py-1 border border-red-500/20">
                     <div className="flex items-center gap-1">
                       <Clock className="h-3 w-3 text-red-600" />
-                      <span className="text-xs font-bold text-red-600">Urgent</span>
+                      <span className="text-xs font-samsung-bold text-red-600">Urgent</span>
                     </div>
                   </div>
                 </div>
 
                 <div className="space-y-3">
-                  <div className="text-4xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
+                  <div className="text-4xl font-samsung-bold bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
                     {pendingTasks}
                   </div>
                   <div>
-                    <p className="text-lg font-semibold text-slate-700">Tasks</p>
-                    <p className="text-sm text-slate-500">Pending completion</p>
+                    <p className="text-lg font-samsung-bold text-slate-700">Tasks</p>
+                    <p className="text-sm font-samsung text-slate-500">Pending completion</p>
                   </div>
                 </div>
 
@@ -490,7 +490,7 @@ const AgentDashboard: React.FC = () => {
                   <div className="w-full bg-slate-200/50 rounded-full h-2">
                     <div className="bg-gradient-to-r from-purple-500 to-pink-500 h-2 rounded-full w-1/3 shadow-lg shadow-purple-500/30"></div>
                   </div>
-                  <p className="text-xs text-slate-500 mt-2">33% completed today</p>
+                  <p className="text-xs font-samsung text-slate-500 mt-2">33% completed today</p>
                 </div>
               </div>
             </div>
@@ -506,7 +506,7 @@ const AgentDashboard: React.FC = () => {
             <TabsList className="relative grid w-full grid-cols-3 bg-transparent gap-3 p-0">
               <TabsTrigger
                 value="properties"
-                className="group relative data-[state=active]:bg-white data-[state=active]:shadow-2xl data-[state=active]:shadow-blue-500/20 rounded-2xl py-4 px-8 font-semibold transition-all duration-500 hover:scale-105 data-[state=active]:scale-105 overflow-hidden"
+                className="group relative data-[state=active]:bg-white data-[state=active]:shadow-2xl data-[state=active]:shadow-blue-500/20 rounded-2xl py-4 px-8 font-samsung-bold transition-all duration-500 hover:scale-105 data-[state=active]:scale-105 overflow-hidden"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-cyan-500 opacity-0 data-[state=active]:opacity-100 transition-opacity duration-500 rounded-2xl"></div>
                 <div className="relative flex items-center gap-3 data-[state=active]:text-white text-slate-600">
@@ -519,7 +519,7 @@ const AgentDashboard: React.FC = () => {
 
               <TabsTrigger
                 value="tasks"
-                className="group relative data-[state=active]:bg-white data-[state=active]:shadow-2xl data-[state=active]:shadow-emerald-500/20 rounded-2xl py-4 px-8 font-semibold transition-all duration-500 hover:scale-105 data-[state=active]:scale-105 overflow-hidden"
+                className="group relative data-[state=active]:bg-white data-[state=active]:shadow-2xl data-[state=active]:shadow-emerald-500/20 rounded-2xl py-4 px-8 font-samsung-bold transition-all duration-500 hover:scale-105 data-[state=active]:scale-105 overflow-hidden"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-emerald-500 to-green-500 opacity-0 data-[state=active]:opacity-100 transition-opacity duration-500 rounded-2xl"></div>
                 <div className="relative flex items-center gap-3 data-[state=active]:text-white text-slate-600">
@@ -532,7 +532,7 @@ const AgentDashboard: React.FC = () => {
 
               <TabsTrigger
                 value="messages"
-                className="group relative data-[state=active]:bg-white data-[state=active]:shadow-2xl data-[state=active]:shadow-purple-500/20 rounded-2xl py-4 px-8 font-semibold transition-all duration-500 hover:scale-105 data-[state=active]:scale-105 overflow-hidden"
+                className="group relative data-[state=active]:bg-white data-[state=active]:shadow-2xl data-[state=active]:shadow-purple-500/20 rounded-2xl py-4 px-8 font-samsung-bold transition-all duration-500 hover:scale-105 data-[state=active]:scale-105 overflow-hidden"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-pink-500 opacity-0 data-[state=active]:opacity-100 transition-opacity duration-500 rounded-2xl"></div>
                 <div className="relative flex items-center gap-3 data-[state=active]:text-white text-slate-600">
@@ -555,17 +555,17 @@ const AgentDashboard: React.FC = () => {
                     <Home className="h-8 w-8 text-white" />
                   </div>
                   <div>
-                    <h3 className="text-3xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
+                    <h3 className="text-3xl font-samsung-bold bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
                       Property Portfolio
                     </h3>
-                    <p className="text-slate-600 text-lg">Manage your luxury listings</p>
+                    <p className="text-slate-600 text-lg font-samsung">Manage your luxury listings</p>
                   </div>
                 </div>
                 <div className="bg-white/70 backdrop-blur-sm rounded-2xl px-6 py-3 border border-white/50 shadow-lg shadow-black/5">
                   <div className="flex items-center gap-3">
                     <div className="w-3 h-3 bg-blue-500 rounded-full animate-pulse"></div>
-                    <span className="text-slate-700 font-bold text-lg">{agentProperties.length}</span>
-                    <span className="text-slate-600 font-medium">Properties</span>
+                    <span className="text-slate-700 font-samsung-bold text-lg">{agentProperties.length}</span>
+                    <span className="text-slate-600 font-samsung">Properties</span>
                   </div>
                 </div>
               </div>
@@ -595,11 +595,11 @@ const AgentDashboard: React.FC = () => {
                               </div>
                             </div>
                             <div className="flex-1">
-                              <h4 className="text-xl font-bold text-slate-900 mb-1">{property.title}</h4>
-                              <p className="text-slate-600 font-medium">Property #{property.id}</p>
+                              <h4 className="text-xl font-samsung-bold text-slate-900 mb-1">{property.title}</h4>
+                              <p className="text-slate-600 font-samsung">Property #{property.id}</p>
                               <div className="flex items-center gap-2 mt-2">
                                 <MapPin className="h-4 w-4 text-slate-400" />
-                                <span className="text-sm text-slate-600">{property.location}</span>
+                                <span className="text-sm font-samsung text-slate-600">{property.location}</span>
                               </div>
                             </div>
                           </div>
@@ -607,16 +607,16 @@ const AgentDashboard: React.FC = () => {
                         {/* Price & Status */}
                         <div className="lg:col-span-3">
                           <div className="text-center lg:text-left">
-                            <div className="text-3xl font-bold bg-gradient-to-r from-emerald-600 to-green-600 bg-clip-text text-transparent mb-2">
+                            <div className="text-3xl font-samsung-bold bg-gradient-to-r from-emerald-600 to-green-600 bg-clip-text text-transparent mb-2">
                               {formatCurrency(property.price)}
                             </div>
-                            <p className="text-slate-600 font-medium">KES</p>
+                            <p className="text-slate-600 font-samsung">KES</p>
                           </div>
                         </div>
 
                         {/* Status Badge */}
                         <div className="lg:col-span-2">
-                          <div className={`inline-flex items-center px-4 py-2 rounded-2xl font-semibold text-sm shadow-lg ${
+                          <div className={`inline-flex items-center px-4 py-2 rounded-2xl font-samsung-bold text-sm shadow-lg ${
                             property.status === 'For Sale' ? 'bg-gradient-to-r from-red-500 to-pink-500 text-white shadow-red-500/30' :
                             property.status === 'For Rent' ? 'bg-gradient-to-r from-green-500 to-emerald-500 text-white shadow-green-500/30' :
                             property.status === 'Sold' ? 'bg-gradient-to-r from-gray-500 to-slate-500 text-white shadow-gray-500/30' :
@@ -632,10 +632,10 @@ const AgentDashboard: React.FC = () => {
                         <div className="lg:col-span-3">
                           <div className="flex items-center justify-between">
                             <div>
-                              <p className="text-sm text-slate-500 mb-1">Added</p>
-                              <p className="font-semibold text-slate-700">{property.createdAt}</p>
+                              <p className="text-sm font-samsung text-slate-500 mb-1">Added</p>
+                              <p className="font-samsung-bold text-slate-700">{property.createdAt}</p>
                             </div>
-                            <Button className="bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white shadow-lg shadow-blue-500/30 rounded-2xl px-6 py-3 font-semibold transition-all duration-300 hover:scale-105">
+                            <Button className="bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white shadow-lg shadow-blue-500/30 rounded-2xl px-6 py-3 font-samsung-bold transition-all duration-300 hover:scale-105">
                               <Eye className="h-4 w-4 mr-2" />
                               View Details
                             </Button>
@@ -658,12 +658,12 @@ const AgentDashboard: React.FC = () => {
                     </div>
                   </div>
                   <div className="space-y-4">
-                    <h3 className="text-2xl font-bold text-slate-900">No Properties Yet</h3>
-                    <p className="text-slate-600 text-lg max-w-md">
+                    <h3 className="text-2xl font-samsung-bold text-slate-900">No Properties Yet</h3>
+                    <p className="text-slate-600 text-lg font-samsung max-w-md">
                       Your property portfolio will appear here once the admin assigns properties to you.
                     </p>
                     <div className="bg-blue-50 rounded-2xl p-4 border border-blue-200">
-                      <p className="text-blue-700 font-medium text-sm">
+                      <p className="text-blue-700 font-samsung text-sm">
                         💡 Tip: Contact your admin to get started with property assignments
                       </p>
                     </div>
@@ -681,16 +681,16 @@ const AgentDashboard: React.FC = () => {
                     <CheckCircle className="h-6 w-6 text-white" />
                   </div>
                   <div>
-                    <h3 className="text-2xl font-bold text-slate-900">My Tasks</h3>
-                    <p className="text-slate-600">Track and manage your assignments</p>
+                    <h3 className="text-2xl font-samsung-bold text-slate-900">My Tasks</h3>
+                    <p className="text-slate-600 font-samsung">Track and manage your assignments</p>
                   </div>
                 </div>
                 <div className="flex items-center space-x-2">
                   <div className="bg-emerald-50 px-4 py-2 rounded-full">
-                    <span className="text-emerald-600 font-semibold text-sm">{agentTasks.length} Total</span>
+                    <span className="text-emerald-600 font-samsung-bold text-sm">{agentTasks.length} Total</span>
                   </div>
                   <div className="bg-amber-50 px-4 py-2 rounded-full">
-                    <span className="text-amber-600 font-semibold text-sm">{pendingTasks} Pending</span>
+                    <span className="text-amber-600 font-samsung-bold text-sm">{pendingTasks} Pending</span>
                   </div>
                 </div>
               </div>
@@ -702,12 +702,12 @@ const AgentDashboard: React.FC = () => {
                   <table className="w-full">
                     <thead>
                       <tr className="bg-gradient-to-r from-slate-50 to-slate-100/50 border-b border-slate-200">
-                        <th className="text-left py-4 px-6 font-medium text-slate-700">Task</th>
-                        <th className="text-left py-4 px-6 font-medium text-slate-700">Description</th>
-                        <th className="text-left py-4 px-6 font-medium text-slate-700">Priority</th>
-                        <th className="text-left py-4 px-6 font-medium text-slate-700">Status</th>
-                        <th className="text-left py-4 px-6 font-medium text-slate-700">Due Date</th>
-                        <th className="text-left py-4 px-6 font-medium text-slate-700">Actions</th>
+                        <th className="text-left py-4 px-6 font-samsung-bold text-slate-700">Task</th>
+                        <th className="text-left py-4 px-6 font-samsung-bold text-slate-700">Description</th>
+                        <th className="text-left py-4 px-6 font-samsung-bold text-slate-700">Priority</th>
+                        <th className="text-left py-4 px-6 font-samsung-bold text-slate-700">Status</th>
+                        <th className="text-left py-4 px-6 font-samsung-bold text-slate-700">Due Date</th>
+                        <th className="text-left py-4 px-6 font-samsung-bold text-slate-700">Actions</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-200">
@@ -734,16 +734,16 @@ const AgentDashboard: React.FC = () => {
                                 )}
                               </div>
                               <div>
-                                <div className="font-semibold text-slate-900">{task.title}</div>
-                                <div className="text-sm text-slate-600">Task #{task.id}</div>
+                                <div className="font-samsung-bold text-slate-900">{task.title}</div>
+                                <div className="text-sm font-samsung text-slate-600">Task #{task.id}</div>
                               </div>
                             </div>
                           </td>
                           <td className="py-4 px-6">
-                            <div className="text-slate-700 max-w-xs truncate">{task.description}</div>
+                            <div className="font-samsung text-slate-700 max-w-xs truncate">{task.description}</div>
                           </td>
                           <td className="py-4 px-6">
-                            <Badge className={`font-medium ${
+                            <Badge className={`font-samsung-bold ${
                               task.priority === 'High' ? 'bg-red-50 text-red-700 border-red-200' :
                               task.priority === 'Medium' ? 'bg-amber-50 text-amber-700 border-amber-200' :
                               'bg-green-50 text-green-700 border-green-200'
@@ -752,7 +752,7 @@ const AgentDashboard: React.FC = () => {
                             </Badge>
                           </td>
                           <td className="py-4 px-6">
-                            <Badge className={`font-medium ${
+                            <Badge className={`font-samsung-bold ${
                               task.status === 'Completed' ? 'bg-green-50 text-green-700 border-green-200' :
                               task.status === 'In Progress' ? 'bg-blue-50 text-blue-700 border-blue-200' :
                               'bg-gray-50 text-gray-700 border-gray-200'
@@ -763,7 +763,7 @@ const AgentDashboard: React.FC = () => {
                           <td className="py-4 px-6">
                             <div className="flex items-center space-x-2">
                               <Calendar className="h-4 w-4 text-slate-400" />
-                              <span className="text-sm font-medium text-slate-700">{task.due_date}</span>
+                              <span className="text-sm font-samsung text-slate-700">{task.due_date}</span>
                             </div>
                           </td>
                           <td className="py-4 px-6">
@@ -771,7 +771,7 @@ const AgentDashboard: React.FC = () => {
                               <Button
                                 variant="outline"
                                 size="sm"
-                                className="text-green-600 border-green-600 hover:bg-green-50 hover:text-green-700 font-medium transition-all duration-200"
+                                className="text-green-600 border-green-600 hover:bg-green-50 hover:text-green-700 font-samsung-bold transition-all duration-200"
                                 onClick={() => handleCompleteTask(task.id)}
                                 disabled={isCompletingTask}
                               >
@@ -788,7 +788,7 @@ const AgentDashboard: React.FC = () => {
                                 )}
                               </Button>
                             ) : (
-                              <div className="flex items-center space-x-2 text-green-600 font-medium">
+                              <div className="flex items-center space-x-2 text-green-600 font-samsung-bold">
                                 <CheckCircle className="h-4 w-4" />
                                 <span>Completed</span>
                               </div>
@@ -807,8 +807,8 @@ const AgentDashboard: React.FC = () => {
                     <CheckCircle className="h-12 w-12 text-slate-400" />
                   </div>
                   <div>
-                    <p className="text-slate-600 font-medium text-lg">No tasks assigned yet</p>
-                    <p className="text-slate-500">Tasks will appear here once assigned by admin</p>
+                    <p className="text-slate-600 font-samsung text-lg">No tasks assigned yet</p>
+                    <p className="text-slate-500 font-samsung">Tasks will appear here once assigned by admin</p>
                   </div>
                 </div>
               </div>
@@ -823,13 +823,13 @@ const AgentDashboard: React.FC = () => {
                     <MessageSquare className="h-6 w-6 text-white" />
                   </div>
                   <div>
-                    <h3 className="text-2xl font-bold text-slate-900">Messages</h3>
-                    <p className="text-slate-600">Communicate with admin and clients</p>
+                    <h3 className="text-2xl font-samsung-bold text-slate-900">Messages</h3>
+                    <p className="text-slate-600 font-samsung">Communicate with admin and clients</p>
                   </div>
                 </div>
                 <div className="flex items-center space-x-2">
                   <div className="bg-green-50 px-4 py-2 rounded-full">
-                    <span className="text-green-600 font-semibold text-sm">Online</span>
+                    <span className="text-green-600 font-samsung-bold text-sm">Online</span>
                   </div>
                 </div>
               </div>
@@ -853,9 +853,9 @@ const AgentDashboard: React.FC = () => {
                       <User className="h-5 w-5 text-white" />
                     </div>
                     <div className="flex-1">
-                      <p className="font-semibold text-slate-900">Admin</p>
-                      <p className="text-sm text-slate-600">John Musili</p>
-                      <p className="text-xs text-slate-500">System Administrator</p>
+                      <p className="font-samsung-bold text-slate-900">Admin</p>
+                      <p className="text-sm font-samsung text-slate-600">John Musili</p>
+                      <p className="text-xs font-samsung text-slate-500">System Administrator</p>
                     </div>
                     {activeContact.role === 'admin' && (
                       <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
@@ -864,7 +864,7 @@ const AgentDashboard: React.FC = () => {
 
                   {/* Enhanced Client list */}
                   <div className="bg-slate-50 rounded-xl p-4 border border-slate-200">
-                    <h4 className="font-semibold text-slate-900 mb-3 flex items-center">
+                    <h4 className="font-samsung-bold text-slate-900 mb-3 flex items-center">
                       <Users className="h-4 w-4 mr-2" />
                       Clients
                     </h4>

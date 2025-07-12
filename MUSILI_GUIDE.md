@@ -1,8 +1,8 @@
-# 🏠 **MUSILI HOMES - COMPREHENSIVE DEVELOPMENT GUIDE**
+# 🏠 **MUSILLI HOMES - COMPREHENSIVE DEVELOPMENT GUIDE**
 
 ## 📋 **PROJECT OVERVIEW**
 
-**Musili Homes** is a luxury real estate website for Kenya's premium properties. Built with React, TypeScript, and Supabase, it features property listings, AI-powered search assistance, and role-based dashboards for admins and agents.
+**Musilli Homes** is a luxury real estate website for Kenya's premium properties. Built with React, TypeScript, and Supabase, it features property listings, AI-powered search assistance, and role-based dashboards for admins and agents.
 
 **Current Status**: ~70% Complete | **Tech Stack**: React 18 + TypeScript + Supabase + Tailwind CSS
 
@@ -250,7 +250,7 @@ Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 
 ### **2. Install & Start Development**
 ```bash
-cd musili-homes-main
+cd musilli-homes-main
 npm install
 npm run dev
 ```

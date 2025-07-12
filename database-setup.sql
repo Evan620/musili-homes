@@ -91,7 +91,7 @@ CREATE TABLE IF NOT EXISTS public.messages (
 -- First, let's create a temporary "unassigned" agent entry
 -- This will be replaced when real agents sign up
 INSERT INTO public.users (id, name, email, password, phone, photo, role) VALUES
-(999, 'Unassigned Agent', 'unassigned@musili.co.ke', 'temp', NULL, NULL, 'agent')
+(999, 'Unassigned Agent', 'unassigned@musilli.co.ke', 'temp', NULL, NULL, 'agent')
 ON CONFLICT (email) DO NOTHING;
 
 INSERT INTO public.agents (id, bio) VALUES

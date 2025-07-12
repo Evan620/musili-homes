@@ -204,7 +204,7 @@ export class CompanyKnowledgeBase {
   getFrequentlyAskedQuestions(): Array<{question: string; answer: string; category: string}> {
     return [
       {
-        question: "What areas does Musili Homes specialize in?",
+        question: "What areas does Musilli Homes specialize in?",
         answer: "We specialize in luxury properties across Kenya's prime locations including Nairobi (Westlands, Karen, Kilimani, Lavington), Naivasha lakefront estates, Mombasa coastal properties, and select developments in Nakuru and Kisumu.",
         category: "General"
       },
@@ -224,7 +224,7 @@ export class CompanyKnowledgeBase {
         category: "Financing"
       },
       {
-        question: "What makes Musili Homes different from other real estate companies?",
+        question: "What makes Musilli Homes different from other real estate companies?",
         answer: "Our focus on luxury properties, personalized service, extensive market knowledge, and commitment to transparency sets us apart. We provide comprehensive support from initial consultation through post-purchase services.",
         category: "General"
       },
@@ -255,15 +255,15 @@ export class CompanyKnowledgeBase {
       officeLocations: [
         {
           name: "Nairobi Head Office",
-          address: "Musili Homes Tower, Westlands, Nairobi",
+          address: "Musilli Homes Tower, Westlands, Nairobi",
           phone: "+254 700 123 456",
-          email: "nairobi@musilihomes.co.ke"
+          email: "nairobi@musillihomes.co.ke"
         },
         {
           name: "Mombasa Branch",
           address: "Nyali Bridge Plaza, Mombasa",
           phone: "+254 700 123 457",
-          email: "mombasa@musilihomes.co.ke"
+          email: "mombasa@musillihomes.co.ke"
         }
       ]
     };

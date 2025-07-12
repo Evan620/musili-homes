@@ -21,6 +21,8 @@ export const useProperties = () => {
     gcTime: 30 * 60 * 1000, // 30 minutes
     refetchOnWindowFocus: false, // Don't refetch on focus
     refetchInterval: false, // No background refetch
+    retry: 3, // Retry 3 times on failure
+    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000), // Exponential backoff
   });
 };
 

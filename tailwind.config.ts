@@ -150,6 +150,9 @@ export default {
 			},
 			fontFamily: {
 				'sans': ['-apple-system', 'BlinkMacSystemFont', 'SF Pro Text', 'SF Pro Display', 'San Francisco', 'system-ui', 'sans-serif'],
+				'samsung': ['Roboto', 'Noto Sans', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'sans-serif'],
+				'samsung-display': ['Roboto', 'system-ui', 'sans-serif'],
+				'samsung-ui': ['Noto Sans', 'Roboto', 'system-ui', 'sans-serif'],
 			}
 		}
 	},

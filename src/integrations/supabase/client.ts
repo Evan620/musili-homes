@@ -23,7 +23,7 @@ if (!SUPABASE_ANON_KEY) {
 console.log('🔧 Creating Supabase client...');
 
 // Custom storage for session persistence
-const STORAGE_KEY = 'musili-homes-auth';
+const STORAGE_KEY = 'musilli-homes-auth';
 
 const customStorage = {
   getItem: (key: string) => {

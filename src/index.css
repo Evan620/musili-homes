@@ -1,4 +1,8 @@
 
+/* Samsung-style fonts for admin dashboard */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -432,13 +436,44 @@
     animation: glow 2s ease-in-out infinite;
   }
 
+  /* Samsung-style font classes for admin dashboard */
+  .font-samsung {
+    font-family: 'Roboto', 'Noto Sans', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+  }
+
+  .font-samsung-display {
+    font-family: 'Roboto', system-ui, sans-serif;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+  }
+
+  .font-samsung-ui {
+    font-family: 'Noto Sans', 'Roboto', system-ui, sans-serif;
+    font-weight: 400;
+    letter-spacing: -0.005em;
+  }
+
+  .font-samsung-bold {
+    font-family: 'Roboto', 'Noto Sans', system-ui, sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+  }
+
+  .font-samsung-light {
+    font-family: 'Roboto', 'Noto Sans', system-ui, sans-serif;
+    font-weight: 300;
+    letter-spacing: 0.01em;
+  }
+
   /* Modern admin dashboard styles */
   .admin-card-modern {
-    @apply bg-white/80 backdrop-blur-sm border-0 shadow-lg hover:shadow-2xl transition-all duration-500 hover:scale-105 rounded-3xl;
+    @apply bg-white/80 backdrop-blur-sm border-0 shadow-lg hover:shadow-2xl transition-all duration-500 hover:scale-105 rounded-3xl font-samsung;
   }
 
   .admin-button-modern {
-    @apply group relative overflow-hidden rounded-2xl p-6 h-auto flex-col items-start shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border-0;
+    @apply group relative overflow-hidden rounded-2xl p-6 h-auto flex-col items-start shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border-0 font-samsung;
   }
 
   .admin-gradient-overlay {
@@ -450,21 +485,22 @@
   }
 
   .admin-text-primary {
-    @apply font-semibold text-lg mb-1;
+    @apply font-samsung-bold text-lg mb-1;
   }
 
   .admin-text-secondary {
-    @apply text-sm;
+    @apply text-sm font-samsung;
   }
 
   /* ADMIN DASHBOARD FINAL POLISH */
-  /* Ensure all admin dashboard text is visible */
+  /* Ensure all admin dashboard text is visible and uses Samsung fonts */
   .admin-dashboard, .admin-dashboard *,
   [class*="bg-white/80"], [class*="bg-white/80"] *,
   [class*="backdrop-blur"], [class*="backdrop-blur"] *,
   .bg-gradient-to-r.from-slate-100, .bg-gradient-to-r.from-slate-100 *,
   .bg-gradient-to-r.from-slate-50, .bg-gradient-to-r.from-slate-50 * {
     color: hsl(var(--deep-charcoal)) !important;
+    font-family: 'Roboto', 'Noto Sans', -apple-system, BlinkMacSystemFont, system-ui, sans-serif !important;
   }
 
   /* Admin footer text visibility */
@@ -485,7 +521,7 @@
   }
 
   .admin-table-modern th {
-    @apply py-4 px-6 text-left font-semibold text-slate-700 uppercase tracking-wide text-xs;
+    @apply py-4 px-6 text-left font-samsung-bold text-slate-700 uppercase tracking-wide text-xs;
   }
 
   .admin-table-modern tbody {
@@ -497,7 +533,7 @@
   }
 
   .admin-table-modern td {
-    @apply py-5 px-6 text-slate-700;
+    @apply py-5 px-6 text-slate-700 font-samsung;
   }
 
   /* MOBILE-FIRST RESPONSIVE DESIGN SYSTEM */
@@ -951,8 +987,16 @@
   }
 
   /* COMPREHENSIVE TEXT VISIBILITY FIX */
-  /* Ensure all text elements are visible with proper contrast */
-  .container *, .max-w-4xl *, .max-w-5xl *, .max-w-3xl *, .max-w-2xl *, .max-w-xl *, .max-w-lg *, .max-w-md *, .max-w-sm * {
+  /* Ensure all text elements are visible with proper contrast, but exclude white text classes */
+  .container *:not(.hero-text):not(.hero-text *):not(.cta-text):not(.cta-text *):not(.text-pure-white):not(.text-pure-white *),
+  .max-w-4xl *:not(.hero-text):not(.hero-text *):not(.cta-text):not(.cta-text *):not(.text-pure-white):not(.text-pure-white *),
+  .max-w-5xl *:not(.hero-text):not(.hero-text *):not(.cta-text):not(.cta-text *):not(.text-pure-white):not(.text-pure-white *),
+  .max-w-3xl *:not(.hero-text):not(.hero-text *):not(.cta-text):not(.cta-text *):not(.text-pure-white):not(.text-pure-white *),
+  .max-w-2xl *:not(.hero-text):not(.hero-text *):not(.cta-text):not(.cta-text *):not(.text-pure-white):not(.text-pure-white *),
+  .max-w-xl *:not(.hero-text):not(.hero-text *):not(.cta-text):not(.cta-text *):not(.text-pure-white):not(.text-pure-white *),
+  .max-w-lg *:not(.hero-text):not(.hero-text *):not(.cta-text):not(.cta-text *):not(.text-pure-white):not(.text-pure-white *),
+  .max-w-md *:not(.hero-text):not(.hero-text *):not(.cta-text):not(.cta-text *):not(.text-pure-white):not(.text-pure-white *),
+  .max-w-sm *:not(.hero-text):not(.hero-text *):not(.cta-text):not(.cta-text *):not(.text-pure-white):not(.text-pure-white *) {
     color: hsl(var(--deep-charcoal)) !important;
   }
 
@@ -968,17 +1012,28 @@
     color: transparent !important;
   }
 
-  /* Force visibility for common text elements */
-  section p, section span, section div:not(.bg-gradient-to-r):not(.bg-gold-whisper):not(.bg-deep-charcoal):not(.bg-rich-charcoal) {
+  /* Force visibility for common text elements, but exclude white text classes */
+  section p:not(.hero-text):not(.hero-text *):not(.cta-text):not(.cta-text *):not(.text-pure-white):not(.text-pure-white *),
+  section span:not(.hero-text):not(.hero-text *):not(.cta-text):not(.cta-text *):not(.text-pure-white):not(.text-pure-white *),
+  section div:not(.bg-gradient-to-r):not(.bg-gold-whisper):not(.bg-deep-charcoal):not(.bg-rich-charcoal):not(.hero-text):not(.hero-text *):not(.cta-text):not(.cta-text *):not(.text-pure-white):not(.text-pure-white *) {
     color: hsl(var(--deep-charcoal)) !important;
   }
 
-  section h1, section h2, section h3, section h4, section h5, section h6 {
+  section h1:not(.hero-text):not(.hero-text *):not(.cta-text):not(.cta-text *):not(.text-pure-white):not(.text-pure-white *),
+  section h2:not(.hero-text):not(.hero-text *):not(.cta-text):not(.cta-text *):not(.text-pure-white):not(.text-pure-white *),
+  section h3:not(.hero-text):not(.hero-text *):not(.cta-text):not(.cta-text *):not(.text-pure-white):not(.text-pure-white *),
+  section h4:not(.hero-text):not(.hero-text *):not(.cta-text):not(.cta-text *):not(.text-pure-white):not(.text-pure-white *),
+  section h5:not(.hero-text):not(.hero-text *):not(.cta-text):not(.cta-text *):not(.text-pure-white):not(.text-pure-white *),
+  section h6:not(.hero-text):not(.hero-text *):not(.cta-text):not(.cta-text *):not(.text-pure-white):not(.text-pure-white *) {
     color: hsl(var(--deep-charcoal)) !important;
   }
 
-  /* Specific fixes for common components */
-  .grid *, .flex *, .space-y-4 *, .space-y-6 *, .space-y-8 * {
+  /* Specific fixes for common components, but exclude white text classes */
+  .grid *:not(.hero-text):not(.hero-text *):not(.cta-text):not(.cta-text *):not(.text-pure-white):not(.text-pure-white *),
+  .flex *:not(.hero-text):not(.hero-text *):not(.cta-text):not(.cta-text *):not(.text-pure-white):not(.text-pure-white *),
+  .space-y-4 *:not(.hero-text):not(.hero-text *):not(.cta-text):not(.cta-text *):not(.text-pure-white):not(.text-pure-white *),
+  .space-y-6 *:not(.hero-text):not(.hero-text *):not(.cta-text):not(.cta-text *):not(.text-pure-white):not(.text-pure-white *),
+  .space-y-8 *:not(.hero-text):not(.hero-text *):not(.cta-text):not(.cta-text *):not(.text-pure-white):not(.text-pure-white *) {
     color: hsl(var(--deep-charcoal)) !important;
   }
 
@@ -994,26 +1049,26 @@
   }
 
   /* FINAL TEXT VISIBILITY OVERRIDE - MOST IMPORTANT */
-  /* This ensures ALL text is visible by default, but excludes buttons and footer */
-  *:not(button):not([role="button"]):not(.btn):not(footer):not(footer *) {
+  /* This ensures ALL text is visible by default, but excludes buttons, footer, and white text classes */
+  *:not(button):not([role="button"]):not(.btn):not(footer):not(footer *):not(.hero-text):not(.hero-text *):not(.cta-text):not(.cta-text *):not(.text-pure-white):not(.text-pure-white *) {
     color: hsl(var(--deep-charcoal)) !important;
   }
 
-  /* Specific text elements that should be dark, but exclude footer */
-  p:not(footer p):not(footer *),
-  span:not(footer span):not(footer *),
-  div:not(button):not([role="button"]):not(.btn):not(footer):not(footer *),
-  h1:not(footer h1):not(footer *),
-  h2:not(footer h2):not(footer *),
-  h3:not(footer h3):not(footer *),
-  h4:not(footer h4):not(footer *),
-  h5:not(footer h5):not(footer *),
-  h6:not(footer h6):not(footer *),
-  td:not(footer td):not(footer *),
-  th:not(footer th):not(footer *),
-  label:not(footer label):not(footer *),
-  li:not(footer li):not(footer *),
-  a:not(button):not([role="button"]):not(.btn):not(footer a):not(footer *) {
+  /* Specific text elements that should be dark, but exclude footer and white text classes */
+  p:not(footer p):not(footer *):not(.hero-text):not(.hero-text *):not(.cta-text):not(.cta-text *):not(.text-pure-white):not(.text-pure-white *),
+  span:not(footer span):not(footer *):not(.hero-text):not(.hero-text *):not(.cta-text):not(.cta-text *):not(.text-pure-white):not(.text-pure-white *),
+  div:not(button):not([role="button"]):not(.btn):not(footer):not(footer *):not(.hero-text):not(.hero-text *):not(.cta-text):not(.cta-text *):not(.text-pure-white):not(.text-pure-white *),
+  h1:not(footer h1):not(footer *):not(.hero-text):not(.hero-text *):not(.cta-text):not(.cta-text *):not(.text-pure-white):not(.text-pure-white *),
+  h2:not(footer h2):not(footer *):not(.hero-text):not(.hero-text *):not(.cta-text):not(.cta-text *):not(.text-pure-white):not(.text-pure-white *),
+  h3:not(footer h3):not(footer *):not(.hero-text):not(.hero-text *):not(.cta-text):not(.cta-text *):not(.text-pure-white):not(.text-pure-white *),
+  h4:not(footer h4):not(footer *):not(.hero-text):not(.hero-text *):not(.cta-text):not(.cta-text *):not(.text-pure-white):not(.text-pure-white *),
+  h5:not(footer h5):not(footer *):not(.hero-text):not(.hero-text *):not(.cta-text):not(.cta-text *):not(.text-pure-white):not(.text-pure-white *),
+  h6:not(footer h6):not(footer *):not(.hero-text):not(.hero-text *):not(.cta-text):not(.cta-text *):not(.text-pure-white):not(.text-pure-white *),
+  td:not(footer td):not(footer *):not(.hero-text):not(.hero-text *):not(.cta-text):not(.cta-text *):not(.text-pure-white):not(.text-pure-white *),
+  th:not(footer th):not(footer *):not(.hero-text):not(.hero-text *):not(.cta-text):not(.cta-text *):not(.text-pure-white):not(.text-pure-white *),
+  label:not(footer label):not(footer *):not(.hero-text):not(.hero-text *):not(.cta-text):not(.cta-text *):not(.text-pure-white):not(.text-pure-white *),
+  li:not(footer li):not(footer *):not(.hero-text):not(.hero-text *):not(.cta-text):not(.cta-text *):not(.text-pure-white):not(.text-pure-white *),
+  a:not(button):not([role="button"]):not(.btn):not(footer a):not(footer *):not(.hero-text):not(.hero-text *):not(.cta-text):not(.cta-text *):not(.text-pure-white):not(.text-pure-white *) {
     color: hsl(var(--deep-charcoal)) !important;
   }
 
@@ -1202,6 +1257,35 @@
   /* Default button variant (should have white text on gold background) */
   button[class*="bg-gold-whisper"] *, button[class*="bg-gold-whisper"],
   .luxury-button-primary *, .luxury-button-primary {
+    color: hsl(var(--pure-white)) !important;
+  }
+
+  /* ULTIMATE PRIORITY - WHITE TEXT CLASSES - MUST BE LAST */
+  /* These rules have the highest specificity and come last to override everything */
+  html .hero-text,
+  html .hero-text *,
+  html .cta-text,
+  html .cta-text *,
+  html .text-pure-white,
+  html .text-pure-white *,
+  html body .hero-text,
+  html body .hero-text *,
+  html body .cta-text,
+  html body .cta-text *,
+  html body .text-pure-white,
+  html body .text-pure-white *,
+  html body section .hero-text,
+  html body section .hero-text *,
+  html body section .cta-text,
+  html body section .cta-text *,
+  html body section .text-pure-white,
+  html body section .text-pure-white *,
+  html body section div .hero-text,
+  html body section div .hero-text *,
+  html body section div .cta-text,
+  html body section div .cta-text *,
+  html body section div .text-pure-white,
+  html body section div .text-pure-white * {
     color: hsl(var(--pure-white)) !important;
   }
 

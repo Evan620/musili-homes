@@ -17,6 +17,8 @@ export const useTasks = () => {
     queryFn: getTasks,
     staleTime: 2 * 60 * 1000, // 2 minutes (tasks change more frequently)
     gcTime: 5 * 60 * 1000, // 5 minutes
+    retry: 3, // Retry 3 times on failure
+    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000), // Exponential backoff
   });
 };
 

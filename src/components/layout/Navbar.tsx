@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Menu, X, Home as HomeIcon, Building, Phone, Sparkles } from 'lucide-react';
+import { Menu, X, Home as HomeIcon, Building, Phone, Home } from 'lucide-react';
 
 const Navbar: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -35,10 +35,10 @@ const Navbar: React.FC = () => {
         {/* Enhanced logo */}
         <Link to="/" className="flex items-center space-x-3 group">
           <div className="p-2 bg-gradient-to-r from-gold-whisper to-gold-accent rounded-lg shadow-gold group-hover:scale-110 transition-transform duration-300">
-            <Sparkles className="w-6 h-6 text-pure-white" />
+            <Home className="w-6 h-6 text-pure-white" />
           </div>
           <span className="text-2xl font-thin tracking-wider luxury-heading group-hover:text-gold-whisper transition-colors duration-300">
-            MUSILI <span className="luxury-accent font-medium">HOMES</span>
+            MUSILLI <span className="luxury-accent font-medium">HOMES</span>
           </span>
         </Link>
 

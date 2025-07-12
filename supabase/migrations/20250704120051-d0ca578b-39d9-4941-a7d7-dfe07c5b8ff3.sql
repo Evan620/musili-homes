@@ -78,10 +78,10 @@ CREATE TABLE IF NOT EXISTS public.messages (
 
 -- Insert sample data to match your existing mock data
 INSERT INTO public.users (id, name, email, password, phone, photo, role) VALUES
-(1, 'John Musili', 'admin@musili.co.ke', 'admin123', NULL, NULL, 'admin'),
-(2, 'Sarah Kimani', 'sarah@musili.co.ke', 'agent123', '+254 712 345 678', '/agent1.jpg', 'agent'),
-(3, 'David Ochieng', 'david@musili.co.ke', 'agent123', '+254 723 456 789', '/agent2.jpg', 'agent'),
-(4, 'Lisa Wanjiku', 'lisa@musili.co.ke', 'agent123', '+254 734 567 890', '/agent3.jpg', 'agent')
+(1, 'John Musilli', 'admin@musilli.co.ke', 'admin123', NULL, NULL, 'admin'),
+(2, 'Sarah Kimani', 'sarah@musilli.co.ke', 'agent123', '+254 712 345 678', '/agent1.jpg', 'agent'),
+(3, 'David Ochieng', 'david@musilli.co.ke', 'agent123', '+254 723 456 789', '/agent2.jpg', 'agent'),
+(4, 'Lisa Wanjiku', 'lisa@musilli.co.ke', 'agent123', '+254 734 567 890', '/agent3.jpg', 'agent')
 ON CONFLICT (email) DO NOTHING;
 
 -- Insert into admins table

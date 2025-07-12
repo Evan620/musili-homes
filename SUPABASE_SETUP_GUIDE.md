@@ -1,4 +1,4 @@
-# Supabase Setup Guide for Musili Homes
+# Supabase Setup Guide for Musilli Homes
 
 ## Current Issue: Authentication 400 Error
 
@@ -54,7 +54,7 @@ If no accounts exist, create one using either:
 1. Go to Authentication → Users in your Supabase dashboard
 2. Click "Add User"
 3. Create a user with:
-   - Email: `admin@musilihomes.co.ke`
+   - Email: `admin@musillihomes.co.ke`
    - Password: `admin123`
    - Email Confirm: `true`
 

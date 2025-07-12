@@ -1,6 +1,6 @@
-# Musili Homes
+# Musilli Homes
 
-Welcome to **Musili Homes** — a modern, luxury real estate platform for Kenya, built with React, TypeScript, Supabase, and Vite.
+Welcome to **Musilli Homes** — a modern, luxury real estate platform for Kenya, built with React, TypeScript, Supabase, and Vite.
 
 ---
 
@@ -20,8 +20,8 @@ Welcome to **Musili Homes** — a modern, luxury real estate platform for Kenya,
 
 ### 1. **Clone the Repository**
 ```bash
-git clone https://github.com/your-username/musili-homes.git
-cd musili-homes
+git clone https://github.com/your-username/musilli-homes.git
+cd musilli-homes
 ```
 
 ### 2. **Install Dependencies**
@@ -131,4 +131,4 @@ MIT (or your chosen license)
 
 ---
 
-**Happy coding and welcome to Musili Homes!**
+**Happy coding and welcome to Musilli Homes!**

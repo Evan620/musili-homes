@@ -74,51 +74,54 @@ const PropertyDetail: React.FC = () => {
         </div>
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
-          <div className="bg-white/95 backdrop-blur-sm rounded-2xl sm:rounded-3xl shadow-2xl border border-white/20 p-4 sm:p-8 md:p-12">
-            <div className="flex flex-col gap-6 sm:gap-8">
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
-                  <div className="bg-gradient-to-r from-gold-whisper to-gold-accent p-1.5 sm:p-2 rounded-lg sm:rounded-xl shadow-lg">
-                    <Bed className="h-4 w-4 sm:h-6 sm:w-6 text-white" />
+          <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
+            {/* Main content container */}
+            <div className="flex-1">
+              <div className="bg-white/95 backdrop-blur-sm rounded-2xl sm:rounded-3xl shadow-2xl border border-white/20 p-4 sm:p-8 md:p-12">
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
+                    <div className="bg-gradient-to-r from-gold-whisper to-gold-accent p-1.5 sm:p-2 rounded-lg sm:rounded-xl shadow-lg">
+                      <Bed className="h-4 w-4 sm:h-6 sm:w-6 text-white" />
+                    </div>
+                    <span className="text-gold-whisper font-semibold text-xs sm:text-sm uppercase tracking-wide">Premium Property</span>
                   </div>
-                  <span className="text-gold-whisper font-semibold text-xs sm:text-sm uppercase tracking-wide">Premium Property</span>
-                </div>
 
-                <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-slate-800 mb-3 sm:mb-4 leading-tight">
-                  {property.title}
-                </h1>
+                  <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-slate-800 mb-3 sm:mb-4 leading-tight">
+                    {property.title}
+                  </h1>
 
-                <div className="flex items-start sm:items-center text-base sm:text-xl text-slate-600 font-medium mb-4 sm:mb-6">
-                  <MapPin className="h-5 w-5 sm:h-6 sm:w-6 mr-2 sm:mr-3 text-gold-whisper flex-shrink-0 mt-0.5 sm:mt-0" />
-                  <span className="break-words">{property.address}</span>
-                </div>
-
-                {/* Mobile-optimized feature pills */}
-                <div className="grid grid-cols-2 sm:flex sm:items-center gap-2 sm:gap-4">
-                  <div className="flex items-center gap-1.5 sm:gap-2 bg-slate-100 px-2 sm:px-4 py-1.5 sm:py-2 rounded-full">
-                    <Bed className="h-3 w-3 sm:h-4 sm:w-4 text-slate-600" />
-                    <span className="text-xs sm:text-sm text-slate-700 font-medium">{property.bedrooms} Beds</span>
+                  <div className="flex items-start sm:items-center text-base sm:text-xl text-slate-600 font-medium mb-4 sm:mb-6">
+                    <MapPin className="h-5 w-5 sm:h-6 sm:w-6 mr-2 sm:mr-3 text-gold-whisper flex-shrink-0 mt-0.5 sm:mt-0" />
+                    <span className="break-words">{property.address}</span>
                   </div>
-                  <div className="flex items-center gap-1.5 sm:gap-2 bg-slate-100 px-2 sm:px-4 py-1.5 sm:py-2 rounded-full">
-                    <Bath className="h-3 w-3 sm:h-4 sm:w-4 text-slate-600" />
-                    <span className="text-xs sm:text-sm text-slate-700 font-medium">{property.bathrooms} Baths</span>
-                  </div>
-                  <div className="col-span-2 sm:col-span-1 flex items-center gap-1.5 sm:gap-2 bg-slate-100 px-2 sm:px-4 py-1.5 sm:py-2 rounded-full justify-center sm:justify-start">
-                    <Maximize2 className="h-3 w-3 sm:h-4 sm:w-4 text-slate-600" />
-                    <span className="text-xs sm:text-sm text-slate-700 font-medium">{property.size} sqft</span>
+
+                  {/* Mobile-optimized feature pills */}
+                  <div className="grid grid-cols-2 sm:flex sm:items-center gap-2 sm:gap-4">
+                    <div className="flex items-center gap-1.5 sm:gap-2 bg-slate-100 px-2 sm:px-4 py-1.5 sm:py-2 rounded-full">
+                      <Bed className="h-3 w-3 sm:h-4 sm:w-4 text-slate-600" />
+                      <span className="text-xs sm:text-sm text-slate-700 font-medium">{property.bedrooms} Beds</span>
+                    </div>
+                    <div className="flex items-center gap-1.5 sm:gap-2 bg-slate-100 px-2 sm:px-4 py-1.5 sm:py-2 rounded-full">
+                      <Bath className="h-3 w-3 sm:h-4 sm:w-4 text-slate-600" />
+                      <span className="text-xs sm:text-sm text-slate-700 font-medium">{property.bathrooms} Baths</span>
+                    </div>
+                    <div className="col-span-2 sm:col-span-1 flex items-center gap-1.5 sm:gap-2 bg-slate-100 px-2 sm:px-4 py-1.5 sm:py-2 rounded-full justify-center sm:justify-start">
+                      <Maximize2 className="h-3 w-3 sm:h-4 sm:w-4 text-slate-600" />
+                      <span className="text-xs sm:text-sm text-slate-700 font-medium">{property.size} sqft</span>
+                    </div>
                   </div>
                 </div>
               </div>
+            </div>
 
-              {/* Mobile-optimized price display */}
-              <div className="w-full sm:flex-shrink-0 sm:max-w-xs">
-                <div className="bg-gradient-to-br from-gold-whisper to-gold-accent p-4 sm:p-6 lg:p-8 rounded-2xl sm:rounded-3xl shadow-2xl text-center">
-                  <div className="text-white/80 text-xs sm:text-sm font-medium uppercase tracking-wide mb-1 sm:mb-2">Price</div>
-                  <div className="text-white font-bold text-xl sm:text-2xl md:text-3xl lg:text-4xl mb-1 sm:mb-2 break-words">
-                    {formatCurrency(property.price)}
-                  </div>
-                  <div className="text-white/90 text-sm sm:text-base lg:text-lg font-medium">KES</div>
+            {/* Price container moved to the right side */}
+            <div className="w-full lg:w-80 lg:flex-shrink-0">
+              <div className="bg-gradient-to-br from-gold-whisper to-gold-accent p-4 sm:p-6 lg:p-8 rounded-2xl sm:rounded-3xl shadow-2xl text-center lg:sticky lg:top-8">
+                <div className="text-white/80 text-xs sm:text-sm font-medium uppercase tracking-wide mb-1 sm:mb-2">Price</div>
+                <div className="text-white font-bold text-xl sm:text-2xl md:text-3xl lg:text-4xl mb-1 sm:mb-2 break-words">
+                  {formatCurrency(property.price)}
                 </div>
+                <div className="text-white/90 text-sm sm:text-base lg:text-lg font-medium">KES</div>
               </div>
             </div>
           </div>

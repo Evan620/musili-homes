@@ -1,8 +1,8 @@
-# 🔒 **MUSILI HOMES - ROW LEVEL SECURITY (RLS) POLICIES DOCUMENTATION**
+# 🔒 **MUSILLI HOMES - ROW LEVEL SECURITY (RLS) POLICIES DOCUMENTATION**
 
 ## 📋 **OVERVIEW**
 
-This document provides comprehensive documentation for all Row Level Security (RLS) policies implemented in the Musili Homes database. RLS policies ensure that users can only access data they are authorized to see, providing a robust security layer at the database level.
+This document provides comprehensive documentation for all Row Level Security (RLS) policies implemented in the Musilli Homes database. RLS policies ensure that users can only access data they are authorized to see, providing a robust security layer at the database level.
 
 ---
 

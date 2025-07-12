@@ -2,7 +2,7 @@ import React from 'react';
 import { cn } from '@/lib/utils';
 
 /**
- * Light-only theme utilities for Musili Homes
+ * Light-only theme utilities for Musilli Homes
  * Based on user preference to remove dark theme globally
  */
 

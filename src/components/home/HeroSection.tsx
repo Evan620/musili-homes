@@ -104,7 +104,7 @@ const HeroSection: React.FC = () => {
       {/* Enhanced scroll indicator */}
       <div className="absolute bottom-12 left-1/2 -translate-x-1/2 animate-fade-in-up" style={{ animationDelay: '1s' }}>
         <div className="flex flex-col items-center gap-2">
-          <div className="text-pure-white/70 text-sm uppercase tracking-wider">Scroll to explore</div>
+          <div className="hero-text text-sm uppercase tracking-wider opacity-70">Scroll to explore</div>
           <ChevronDown className="w-6 h-6 text-pure-white/70 animate-bounce" />
         </div>
       </div>

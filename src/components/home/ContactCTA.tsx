@@ -50,7 +50,7 @@ const ContactCTA: React.FC = () => {
               <Sparkles className="w-8 h-8 text-gold-whisper animate-glow" />
             </div>
 
-            <h2 className="text-5xl md:text-6xl lg:text-7xl font-thin mb-8 tracking-wide animate-fade-in-up" style={{ color: 'hsl(var(--deep-charcoal))' }}>
+            <h2 className="text-5xl md:text-6xl lg:text-7xl font-thin mb-8 tracking-wide animate-fade-in-up luxury-heading">
               Begin Your Journey
             </h2>
 
@@ -61,9 +61,9 @@ const ContactCTA: React.FC = () => {
             </div>
           </div>
 
-          <p className="text-2xl font-light mb-16 leading-relaxed max-w-4xl mx-auto animate-fade-in-up" style={{ animationDelay: '0.4s', color: 'hsl(var(--deep-charcoal))' }}>
+          <p className="text-2xl font-light mb-16 leading-relaxed max-w-4xl mx-auto animate-fade-in-up luxury-text" style={{ animationDelay: '0.4s' }}>
             Connect with our team of luxury property experts to discover your perfect Kenyan property.
-            <span className="block mt-4 text-xl opacity-90" style={{ color: 'hsl(var(--deep-charcoal))' }}>Your dream home awaits</span>
+            <span className="block mt-4 text-xl opacity-90 luxury-text">Your dream home awaits</span>
           </p>
 
           {/* Enhanced CTA buttons */}
@@ -96,7 +96,7 @@ const ContactCTA: React.FC = () => {
             <div className="luxury-card p-6 rounded-xl text-center shadow-luxury">
               <Mail className="w-8 h-8 text-gold-whisper mx-auto mb-3" />
               <p className="text-sm font-medium mb-1" style={{ color: 'hsl(var(--deep-charcoal))' }}>Email Us</p>
-              <p className="text-lg" style={{ color: 'hsl(var(--deep-charcoal))' }}>info@musilihomes.co.ke</p>
+              <p className="text-lg" style={{ color: 'hsl(var(--deep-charcoal))' }}>info@musillihomes.co.ke</p>
             </div>
             <div className="luxury-card p-6 rounded-xl text-center shadow-luxury">
               <MapPin className="w-8 h-8 text-gold-whisper mx-auto mb-3" />
