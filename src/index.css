@@ -1288,6 +1288,80 @@
   html body section div .text-pure-white * {
     color: hsl(var(--pure-white)) !important;
   }
+}
 
+/* Touch-friendly interactions for mobile devices */
+.touch-friendly {
+  min-height: 44px; /* iOS recommended minimum touch target */
+  min-width: 44px;
+  touch-action: manipulation; /* Prevents zoom on double-tap */
+}
 
+/* Improved mobile scrolling and responsiveness */
+@media (max-width: 768px) {
+  html {
+    -webkit-overflow-scrolling: touch;
+  }
+
+  body {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  /* Ensure proper spacing on mobile */
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  /* Mobile-specific performance optimizations */
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Prevent horizontal scroll on mobile */
+  body {
+    overflow-x: hidden;
+  }
+
+  /* Optimize mobile animations */
+  .animate-fade-in-up,
+  .animate-fade-in-down,
+  .animate-float,
+  .animate-pulse {
+    will-change: transform, opacity;
+  }
+}
+
+/* Additional mobile optimizations */
+@media (max-width: 640px) {
+  /* Ensure text remains readable on small screens */
+  .hero-text {
+    line-height: 1.2;
+  }
+
+  /* Optimize button spacing for touch */
+  .luxury-button,
+  .luxury-button-primary,
+  .hero-button-outline {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+  }
+
+  /* Mobile-friendly form inputs */
+  input, textarea, select {
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
+}
+
+/* Landscape mobile optimizations */
+@media (max-height: 500px) and (orientation: landscape) {
+  .hero-section {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+
+  .mobile-nav {
+    max-height: 60vh;
+    overflow-y: auto;
+  }
 }

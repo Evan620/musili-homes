@@ -459,72 +459,73 @@ const AdminDashboard: React.FC = () => {
 
       {/* Samsung-style Header */}
       <div className="relative z-10 bg-white/80 backdrop-blur-xl border-b border-white/20 shadow-lg shadow-black/5">
-        <div className="container mx-auto px-8 py-6">
-          <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-6">
-            <div className="flex items-center space-x-6">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
+          <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-4 lg:gap-6">
+            <div className="flex items-center space-x-3 sm:space-x-6">
               <div className="relative">
-                <div className="w-16 h-16 bg-gradient-to-br from-[#d97706] via-[#f59e0b] to-[#fbbf24] rounded-2xl shadow-lg shadow-amber-500/25 flex items-center justify-center">
-                  <PieChart className="h-8 w-8 text-white" />
+                <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-[#d97706] via-[#f59e0b] to-[#fbbf24] rounded-2xl shadow-lg shadow-amber-500/25 flex items-center justify-center">
+                  <PieChart className="h-6 w-6 sm:h-8 sm:w-8 text-white" />
                 </div>
-                <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-green-500 rounded-full border-2 border-white shadow-sm"></div>
+                <div className="absolute -bottom-1 -right-1 w-4 h-4 sm:w-5 sm:h-5 bg-green-500 rounded-full border-2 border-white shadow-sm"></div>
               </div>
               <div>
-                <h1 className="text-3xl font-samsung-bold bg-gradient-to-r from-slate-900 via-slate-800 to-slate-700 bg-clip-text text-transparent tracking-tight">
+                <h1 className="text-xl sm:text-2xl lg:text-3xl font-samsung-bold bg-gradient-to-r from-slate-900 via-slate-800 to-slate-700 bg-clip-text text-transparent tracking-tight">
                   Admin Dashboard
                 </h1>
-                <p className="text-slate-600 text-lg font-samsung">Welcome back, {user?.name}</p>
+                <p className="text-slate-600 text-sm sm:text-base lg:text-lg font-samsung">Welcome back, {user?.name}</p>
               </div>
             </div>
 
-            <div className="flex items-center gap-4">
-              <div className="hidden lg:flex items-center space-x-3 bg-white/60 backdrop-blur-sm rounded-2xl px-5 py-3 border border-white/40 shadow-lg shadow-black/5">
+            <div className="flex items-center gap-2 sm:gap-4">
+              <div className="hidden sm:flex items-center space-x-3 bg-white/60 backdrop-blur-sm rounded-2xl px-3 sm:px-5 py-2 sm:py-3 border border-white/40 shadow-lg shadow-black/5">
                 <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                <span className="text-sm font-samsung-bold text-slate-700">System Online</span>
+                <span className="text-xs sm:text-sm font-samsung-bold text-slate-700">System Online</span>
               </div>
 
-              <Button variant="ghost" size="sm" className="relative bg-white/60 backdrop-blur-sm rounded-2xl p-3 hover:bg-white/80 transition-all duration-300 shadow-lg shadow-black/5">
-                <Bell className="h-5 w-5 text-slate-700" />
-                <span className="absolute -top-1 -right-1 h-4 w-4 bg-gradient-to-r from-red-500 to-pink-500 rounded-full text-xs flex items-center justify-center text-white font-bold shadow-lg">5</span>
+              <Button variant="ghost" size="sm" className="relative bg-white/60 backdrop-blur-sm rounded-2xl p-2 sm:p-3 hover:bg-white/80 transition-all duration-300 shadow-lg shadow-black/5 touch-friendly">
+                <Bell className="h-4 w-4 sm:h-5 sm:w-5 text-slate-700" />
+                <span className="absolute -top-1 -right-1 h-3 w-3 sm:h-4 sm:w-4 bg-gradient-to-r from-red-500 to-pink-500 rounded-full text-xs flex items-center justify-center text-white font-samsung-bold shadow-lg">5</span>
               </Button>
 
               <Button
                 variant="ghost"
-                className="bg-white/60 backdrop-blur-sm rounded-2xl px-6 py-3 font-semibold text-slate-700 hover:bg-white/80 transition-all duration-300 shadow-lg shadow-black/5 border border-white/40"
+                className="bg-white/60 backdrop-blur-sm rounded-2xl px-3 sm:px-6 py-2 sm:py-3 font-samsung-bold text-slate-700 hover:bg-white/80 transition-all duration-300 shadow-lg shadow-black/5 border border-white/40 touch-friendly"
                 onClick={handleLogout}
               >
-                <LogOut className="mr-2 h-4 w-4" />
-                Sign Out
+                <LogOut className="mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4" />
+                <span className="hidden sm:inline">Sign Out</span>
+                <span className="sm:hidden">Exit</span>
               </Button>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="container mx-auto px-8 py-12 relative z-10">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-12 relative z-10">
         {/* Welcome Section with Modern Typography */}
         {/* Samsung-style Welcome Section */}
-        <div className="mb-12">
-          <div className="relative bg-white/70 backdrop-blur-xl rounded-3xl p-10 shadow-2xl shadow-black/10 border border-white/30 overflow-hidden">
+        <div className="mb-8 sm:mb-12">
+          <div className="relative bg-white/70 backdrop-blur-xl rounded-2xl sm:rounded-3xl p-6 sm:p-8 lg:p-10 shadow-2xl shadow-black/10 border border-white/30 overflow-hidden">
             {/* Floating decorative elements */}
-            <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-amber-400/20 to-orange-400/20 rounded-full blur-2xl"></div>
-            <div className="absolute bottom-0 left-0 w-32 h-32 bg-gradient-to-br from-blue-400/20 to-purple-400/20 rounded-full blur-2xl"></div>
+            <div className="absolute top-0 right-0 w-24 h-24 sm:w-40 sm:h-40 bg-gradient-to-br from-amber-400/20 to-orange-400/20 rounded-full blur-2xl"></div>
+            <div className="absolute bottom-0 left-0 w-20 h-20 sm:w-32 sm:h-32 bg-gradient-to-br from-blue-400/20 to-purple-400/20 rounded-full blur-2xl"></div>
 
             <div className="relative">
-              <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
+              <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 lg:gap-8">
                 <div className="flex-1">
-                  <div className="flex items-center gap-4 mb-6">
-                    <div className="text-4xl">👋</div>
+                  <div className="flex items-center gap-3 sm:gap-4 mb-4 sm:mb-6">
+                    <div className="text-2xl sm:text-3xl lg:text-4xl">👋</div>
                     <div>
-                      <h2 className="text-4xl font-samsung-bold bg-gradient-to-r from-slate-900 via-slate-800 to-slate-700 bg-clip-text text-transparent mb-2">
+                      <h2 className="text-2xl sm:text-3xl lg:text-4xl font-samsung-bold bg-gradient-to-r from-slate-900 via-slate-800 to-slate-700 bg-clip-text text-transparent mb-1 sm:mb-2">
                         Good {new Date().getHours() < 12 ? 'Morning' : new Date().getHours() < 18 ? 'Afternoon' : 'Evening'}, Admin
                       </h2>
-                      <p className="text-xl text-slate-600 font-samsung">
+                      <p className="text-base sm:text-lg lg:text-xl text-slate-600 font-samsung">
                         Your real estate empire awaits your command
                       </p>
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-8">
+                  <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mt-6 sm:mt-8">
                     <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-4 border border-white/50 shadow-lg shadow-black/5">
                       <div className="flex items-center gap-3">
                         <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center">
@@ -580,40 +581,40 @@ const AdminDashboard: React.FC = () => {
         </div>
 
         {/* Samsung-style Action Buttons Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8 mb-8 sm:mb-12">
           {/* Property Management Card - Samsung Style */}
           <div
-            className="group relative bg-white/70 backdrop-blur-xl rounded-3xl p-8 shadow-2xl shadow-black/10 border border-white/30 hover:shadow-3xl hover:-translate-y-2 transition-all duration-500 overflow-hidden cursor-pointer"
+            className="group relative bg-white/70 backdrop-blur-xl rounded-2xl sm:rounded-3xl p-4 sm:p-6 lg:p-8 shadow-2xl shadow-black/10 border border-white/30 hover:shadow-3xl hover:-translate-y-1 sm:hover:-translate-y-2 transition-all duration-500 overflow-hidden cursor-pointer touch-friendly"
             onClick={() => navigate('/admin/property-management')}
           >
             {/* Floating background gradient */}
-            <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-400/20 to-cyan-400/20 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
+            <div className="absolute top-0 right-0 w-20 h-20 sm:w-32 sm:h-32 bg-gradient-to-br from-blue-400/20 to-cyan-400/20 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
 
             <div className="relative">
-              <div className="flex items-center justify-between mb-6">
-                <div className="w-16 h-16 bg-gradient-to-br from-[#3b82f6] via-[#1d4ed8] to-[#1e40af] rounded-2xl shadow-lg shadow-blue-500/30 flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
-                  <Home className="h-8 w-8 text-white" />
+              <div className="flex items-center justify-between mb-4 sm:mb-6">
+                <div className="w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 bg-gradient-to-br from-[#3b82f6] via-[#1d4ed8] to-[#1e40af] rounded-xl sm:rounded-2xl shadow-lg shadow-blue-500/30 flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
+                  <Home className="h-6 w-6 sm:h-7 sm:w-7 lg:h-8 lg:w-8 text-white" />
                 </div>
-                <ArrowUpRight className="h-6 w-6 text-slate-400 group-hover:text-blue-600 group-hover:translate-x-1 group-hover:-translate-y-1 transition-all duration-300" />
+                <ArrowUpRight className="h-5 w-5 sm:h-6 sm:w-6 text-slate-400 group-hover:text-blue-600 group-hover:translate-x-1 group-hover:-translate-y-1 transition-all duration-300" />
               </div>
 
-              <div className="space-y-3">
-                <h3 className="text-2xl font-samsung-bold bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
+              <div className="space-y-2 sm:space-y-3">
+                <h3 className="text-lg sm:text-xl lg:text-2xl font-samsung-bold bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
                   Properties
                 </h3>
-                <p className="text-slate-600 leading-relaxed font-samsung">
+                <p className="text-slate-600 leading-relaxed font-samsung text-sm sm:text-base">
                   Manage listings, pricing, and property details
                 </p>
               </div>
 
               {/* Progress indicator */}
-              <div className="mt-6">
-                <div className="flex items-center justify-between text-sm text-slate-500 mb-2 font-samsung">
+              <div className="mt-4 sm:mt-6">
+                <div className="flex items-center justify-between text-xs sm:text-sm text-slate-500 mb-2 font-samsung">
                   <span>Active listings</span>
                   <span>{totalProperties} properties</span>
                 </div>
-                <div className="w-full bg-slate-200/50 rounded-full h-2">
-                  <div className="bg-gradient-to-r from-blue-500 to-cyan-500 h-2 rounded-full w-3/4 shadow-lg shadow-blue-500/30"></div>
+                <div className="w-full bg-slate-200/50 rounded-full h-1.5 sm:h-2">
+                  <div className="bg-gradient-to-r from-blue-500 to-cyan-500 h-1.5 sm:h-2 rounded-full w-3/4 shadow-lg shadow-blue-500/30"></div>
                 </div>
               </div>
             </div>

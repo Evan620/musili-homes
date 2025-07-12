@@ -114,42 +114,42 @@ const Properties: React.FC = () => {
         </div>
       </div>
 
-      <div className="container mx-auto px-6 relative z-10">
-        <div className="text-center mb-12">
-          <div className="flex items-center justify-center mb-6">
-            <Sparkles className="w-8 h-8 text-gold-whisper animate-glow" />
-            <span className="text-sm uppercase tracking-widest mx-4 font-medium text-gold-whisper">Premium Collection</span>
-            <Sparkles className="w-8 h-8 text-gold-whisper animate-glow" />
+      <div className="container mx-auto px-4 sm:px-6 relative z-10">
+        <div className="text-center mb-8 sm:mb-12">
+          <div className="flex items-center justify-center mb-4 sm:mb-6">
+            <Sparkles className="w-6 h-6 sm:w-8 sm:h-8 text-gold-whisper animate-glow" />
+            <span className="text-xs sm:text-sm uppercase tracking-widest mx-3 sm:mx-4 font-medium text-gold-whisper">Premium Collection</span>
+            <Sparkles className="w-6 h-6 sm:w-8 sm:h-8 text-gold-whisper animate-glow" />
           </div>
 
-          <h1 className="text-5xl md:text-6xl font-thin mb-6 tracking-wide animate-fade-in-up" style={{ color: 'hsl(var(--deep-charcoal))' }}>
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-thin mb-4 sm:mb-6 tracking-wide animate-fade-in-up" style={{ color: 'hsl(var(--deep-charcoal))' }}>
             Luxury Properties
           </h1>
 
-          <div className="flex items-center justify-center mb-8 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-            <div className="w-16 h-px bg-gold-whisper"></div>
-            <Building className="w-6 h-6 text-gold-whisper mx-4" />
-            <div className="w-16 h-px bg-gold-whisper"></div>
+          <div className="flex items-center justify-center mb-6 sm:mb-8 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+            <div className="w-12 sm:w-16 h-px bg-gold-whisper"></div>
+            <Building className="w-4 h-4 sm:w-6 sm:h-6 text-gold-whisper mx-3 sm:mx-4" />
+            <div className="w-12 sm:w-16 h-px bg-gold-whisper"></div>
           </div>
 
-          <p className="text-xl font-light max-w-3xl mx-auto leading-relaxed animate-fade-in-up" style={{ animationDelay: '0.4s', color: 'hsl(var(--deep-charcoal))' }}>
+          <p className="text-base sm:text-lg lg:text-xl font-light max-w-3xl mx-auto leading-relaxed animate-fade-in-up" style={{ animationDelay: '0.4s', color: 'hsl(var(--deep-charcoal))' }}>
             Discover Kenya's finest real estate offerings
-            <span className="block mt-2 text-lg opacity-80">Curated for the discerning buyer</span>
+            <span className="block mt-1 sm:mt-2 text-sm sm:text-base lg:text-lg opacity-80">Curated for the discerning buyer</span>
           </p>
 
           {/* Stats section */}
-          <div className="mt-12 grid grid-cols-3 gap-8 max-w-2xl mx-auto animate-fade-in-up" style={{ animationDelay: '0.6s' }}>
+          <div className="mt-8 sm:mt-12 grid grid-cols-3 gap-4 sm:gap-8 max-w-2xl mx-auto animate-fade-in-up" style={{ animationDelay: '0.6s' }}>
             <div className="text-center">
-              <div className="text-3xl font-thin mb-2" style={{ color: 'hsl(var(--deep-charcoal))' }}>{properties?.length || 0}</div>
-              <div className="text-sm uppercase tracking-wider opacity-70" style={{ color: 'hsl(var(--deep-charcoal))' }}>Properties</div>
+              <div className="text-2xl sm:text-3xl font-thin mb-1 sm:mb-2" style={{ color: 'hsl(var(--deep-charcoal))' }}>{properties?.length || 0}</div>
+              <div className="text-xs sm:text-sm uppercase tracking-wider opacity-70" style={{ color: 'hsl(var(--deep-charcoal))' }}>Properties</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-thin mb-2" style={{ color: 'hsl(var(--deep-charcoal))' }}>15+</div>
-              <div className="text-sm uppercase tracking-wider opacity-70" style={{ color: 'hsl(var(--deep-charcoal))' }}>Locations</div>
+              <div className="text-2xl sm:text-3xl font-thin mb-1 sm:mb-2" style={{ color: 'hsl(var(--deep-charcoal))' }}>15+</div>
+              <div className="text-xs sm:text-sm uppercase tracking-wider opacity-70" style={{ color: 'hsl(var(--deep-charcoal))' }}>Locations</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-thin mb-2" style={{ color: 'hsl(var(--deep-charcoal))' }}>100%</div>
-              <div className="text-sm uppercase tracking-wider opacity-70" style={{ color: 'hsl(var(--deep-charcoal))' }}>Premium</div>
+              <div className="text-2xl sm:text-3xl font-thin mb-1 sm:mb-2" style={{ color: 'hsl(var(--deep-charcoal))' }}>100%</div>
+              <div className="text-xs sm:text-sm uppercase tracking-wider opacity-70" style={{ color: 'hsl(var(--deep-charcoal))' }}>Premium</div>
             </div>
           </div>
         </div>

@@ -224,103 +224,104 @@ const AgentDashboard: React.FC = () => {
 
       {/* Samsung-style Header */}
       <div className="relative z-10 bg-white/80 backdrop-blur-xl border-b border-white/20 shadow-lg shadow-black/5">
-        <div className="container mx-auto px-8 py-6">
-          <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-6">
-            <div className="flex items-center space-x-6">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
+          <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-4 lg:gap-6">
+            <div className="flex items-center space-x-3 sm:space-x-6">
               <div className="relative">
-                <div className="w-16 h-16 bg-gradient-to-br from-[#1e40af] via-[#3b82f6] to-[#60a5fa] rounded-2xl shadow-lg shadow-blue-500/25 flex items-center justify-center">
-                  <User className="h-8 w-8 text-white" />
+                <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-[#1e40af] via-[#3b82f6] to-[#60a5fa] rounded-2xl shadow-lg shadow-blue-500/25 flex items-center justify-center">
+                  <User className="h-6 w-6 sm:h-8 sm:w-8 text-white" />
                 </div>
-                <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-green-500 rounded-full border-2 border-white shadow-sm"></div>
+                <div className="absolute -bottom-1 -right-1 w-4 h-4 sm:w-5 sm:h-5 bg-green-500 rounded-full border-2 border-white shadow-sm"></div>
               </div>
               <div>
-                <h1 className="text-3xl font-samsung-bold bg-gradient-to-r from-slate-900 via-slate-800 to-slate-700 bg-clip-text text-transparent tracking-tight">
+                <h1 className="text-xl sm:text-2xl lg:text-3xl font-samsung-bold bg-gradient-to-r from-slate-900 via-slate-800 to-slate-700 bg-clip-text text-transparent tracking-tight">
                   Agent Dashboard
                 </h1>
-                <p className="text-slate-600 text-lg font-samsung">Welcome back, {user?.name}</p>
+                <p className="text-slate-600 text-sm sm:text-base lg:text-lg font-samsung">Welcome back, {user?.name}</p>
               </div>
             </div>
 
-            <div className="flex items-center gap-4">
-              <div className="hidden lg:flex items-center space-x-3 bg-white/60 backdrop-blur-sm rounded-2xl px-5 py-3 border border-white/40 shadow-lg shadow-black/5">
+            <div className="flex items-center gap-2 sm:gap-4">
+              <div className="hidden sm:flex items-center space-x-3 bg-white/60 backdrop-blur-sm rounded-2xl px-3 sm:px-5 py-2 sm:py-3 border border-white/40 shadow-lg shadow-black/5">
                 <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                <span className="text-sm font-samsung-bold text-slate-700">Online</span>
+                <span className="text-xs sm:text-sm font-samsung-bold text-slate-700">Online</span>
               </div>
 
-              <Button variant="ghost" size="sm" className="relative bg-white/60 backdrop-blur-sm rounded-2xl p-3 hover:bg-white/80 transition-all duration-300 shadow-lg shadow-black/5">
-                <Bell className="h-5 w-5 text-slate-700" />
-                <span className="absolute -top-1 -right-1 h-4 w-4 bg-gradient-to-r from-red-500 to-pink-500 rounded-full text-xs flex items-center justify-center text-white font-samsung-bold shadow-lg">3</span>
+              <Button variant="ghost" size="sm" className="relative bg-white/60 backdrop-blur-sm rounded-2xl p-2 sm:p-3 hover:bg-white/80 transition-all duration-300 shadow-lg shadow-black/5 touch-friendly">
+                <Bell className="h-4 w-4 sm:h-5 sm:w-5 text-slate-700" />
+                <span className="absolute -top-1 -right-1 h-3 w-3 sm:h-4 sm:w-4 bg-gradient-to-r from-red-500 to-pink-500 rounded-full text-xs flex items-center justify-center text-white font-samsung-bold shadow-lg">3</span>
               </Button>
 
               <Button
                 variant="ghost"
-                className="bg-white/60 backdrop-blur-sm rounded-2xl px-6 py-3 font-samsung-bold text-slate-700 hover:bg-white/80 transition-all duration-300 shadow-lg shadow-black/5 border border-white/40"
+                className="bg-white/60 backdrop-blur-sm rounded-2xl px-3 sm:px-6 py-2 sm:py-3 font-samsung-bold text-slate-700 hover:bg-white/80 transition-all duration-300 shadow-lg shadow-black/5 border border-white/40 touch-friendly"
                 onClick={handleLogout}
               >
-                <LogOut className="mr-2 h-4 w-4" />
-                Sign Out
+                <LogOut className="mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4" />
+                <span className="hidden sm:inline">Sign Out</span>
+                <span className="sm:hidden">Exit</span>
               </Button>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="container mx-auto px-8 py-12 relative z-10">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-12 relative z-10">
         {/* Samsung-style Welcome Section */}
-        <div className="mb-12">
-          <div className="relative bg-white/70 backdrop-blur-xl rounded-3xl p-10 shadow-2xl shadow-black/10 border border-white/30 overflow-hidden">
+        <div className="mb-8 sm:mb-12">
+          <div className="relative bg-white/70 backdrop-blur-xl rounded-2xl sm:rounded-3xl p-6 sm:p-8 lg:p-10 shadow-2xl shadow-black/10 border border-white/30 overflow-hidden">
             {/* Floating decorative elements */}
-            <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-blue-400/20 to-purple-400/20 rounded-full blur-2xl"></div>
-            <div className="absolute bottom-0 left-0 w-32 h-32 bg-gradient-to-br from-emerald-400/20 to-blue-400/20 rounded-full blur-2xl"></div>
+            <div className="absolute top-0 right-0 w-24 h-24 sm:w-40 sm:h-40 bg-gradient-to-br from-blue-400/20 to-purple-400/20 rounded-full blur-2xl"></div>
+            <div className="absolute bottom-0 left-0 w-20 h-20 sm:w-32 sm:h-32 bg-gradient-to-br from-emerald-400/20 to-blue-400/20 rounded-full blur-2xl"></div>
 
             <div className="relative">
-              <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
+              <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 lg:gap-8">
                 <div className="flex-1">
-                  <div className="flex items-center gap-4 mb-6">
-                    <div className="text-4xl">👋</div>
+                  <div className="flex items-center gap-3 sm:gap-4 mb-4 sm:mb-6">
+                    <div className="text-2xl sm:text-3xl lg:text-4xl">👋</div>
                     <div>
-                      <h2 className="text-4xl font-samsung-bold bg-gradient-to-r from-slate-900 via-slate-800 to-slate-700 bg-clip-text text-transparent mb-2">
+                      <h2 className="text-2xl sm:text-3xl lg:text-4xl font-samsung-bold bg-gradient-to-r from-slate-900 via-slate-800 to-slate-700 bg-clip-text text-transparent mb-1 sm:mb-2">
                         Good {new Date().getHours() < 12 ? 'Morning' : new Date().getHours() < 18 ? 'Afternoon' : 'Evening'}
                       </h2>
-                      <p className="text-xl text-slate-600 font-samsung">
+                      <p className="text-base sm:text-lg lg:text-xl text-slate-600 font-samsung">
                         Ready to manage your portfolio today?
                       </p>
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8">
-                    <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-4 border border-white/50 shadow-lg shadow-black/5">
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 bg-gradient-to-br from-green-500 to-emerald-500 rounded-xl flex items-center justify-center">
-                          <Activity className="w-5 h-5 text-white" />
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 mt-6 sm:mt-8">
+                    <div className="bg-white/80 backdrop-blur-sm rounded-xl sm:rounded-2xl p-3 sm:p-4 border border-white/50 shadow-lg shadow-black/5">
+                      <div className="flex items-center gap-2 sm:gap-3">
+                        <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-green-500 to-emerald-500 rounded-lg sm:rounded-xl flex items-center justify-center">
+                          <Activity className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
                         </div>
                         <div>
-                          <p className="text-sm font-samsung-bold text-slate-600">Status</p>
-                          <p className="text-lg font-samsung-bold text-slate-900">Active</p>
+                          <p className="text-xs sm:text-sm font-samsung-bold text-slate-600">Status</p>
+                          <p className="text-sm sm:text-lg font-samsung-bold text-slate-900">Active</p>
                         </div>
                       </div>
                     </div>
 
-                    <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-4 border border-white/50 shadow-lg shadow-black/5">
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center">
-                          <Star className="w-5 h-5 text-white" />
+                    <div className="bg-white/80 backdrop-blur-sm rounded-xl sm:rounded-2xl p-3 sm:p-4 border border-white/50 shadow-lg shadow-black/5">
+                      <div className="flex items-center gap-2 sm:gap-3">
+                        <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-lg sm:rounded-xl flex items-center justify-center">
+                          <Star className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
                         </div>
                         <div>
-                          <p className="text-sm font-samsung-bold text-slate-600">Rating</p>
-                          <p className="text-lg font-samsung-bold text-slate-900">4.9/5</p>
+                          <p className="text-xs sm:text-sm font-samsung-bold text-slate-600">Rating</p>
+                          <p className="text-sm sm:text-lg font-samsung-bold text-slate-900">4.9/5</p>
                         </div>
                       </div>
                     </div>
 
-                    <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-4 border border-white/50 shadow-lg shadow-black/5">
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center">
-                          <Award className="w-5 h-5 text-white" />
+                    <div className="bg-white/80 backdrop-blur-sm rounded-xl sm:rounded-2xl p-3 sm:p-4 border border-white/50 shadow-lg shadow-black/5 sm:col-span-2 lg:col-span-1">
+                      <div className="flex items-center gap-2 sm:gap-3">
+                        <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg sm:rounded-xl flex items-center justify-center">
+                          <Award className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
                         </div>
                         <div>
-                          <p className="text-sm font-samsung-bold text-slate-600">Rank</p>
-                          <p className="text-lg font-samsung-bold text-slate-900">Top 5%</p>
+                          <p className="text-xs sm:text-sm font-samsung-bold text-slate-600">Rank</p>
+                          <p className="text-sm sm:text-lg font-samsung-bold text-slate-900">Top 5%</p>
                         </div>
                       </div>
                     </div>
@@ -332,57 +333,57 @@ const AgentDashboard: React.FC = () => {
         </div>
         
         {/* Samsung-style Dashboard Stats */}
-        <div className="mb-12">
-          <div className="flex items-center justify-between mb-8">
+        <div className="mb-8 sm:mb-12">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 sm:gap-0 mb-6 sm:mb-8">
             <div>
-              <h3 className="text-3xl font-samsung-bold bg-gradient-to-r from-slate-900 via-slate-800 to-slate-700 bg-clip-text text-transparent mb-2">
+              <h3 className="text-xl sm:text-2xl lg:text-3xl font-samsung-bold bg-gradient-to-r from-slate-900 via-slate-800 to-slate-700 bg-clip-text text-transparent mb-1 sm:mb-2">
                 Performance Analytics
               </h3>
-              <p className="text-slate-600 text-lg font-samsung">Real-time insights into your portfolio</p>
+              <p className="text-slate-600 text-sm sm:text-base lg:text-lg font-samsung">Real-time insights into your portfolio</p>
             </div>
-            <div className="bg-white/70 backdrop-blur-sm rounded-2xl px-6 py-3 border border-white/50 shadow-lg shadow-black/5">
+            <div className="bg-white/70 backdrop-blur-sm rounded-xl sm:rounded-2xl px-4 sm:px-6 py-2 sm:py-3 border border-white/50 shadow-lg shadow-black/5 self-start sm:self-auto">
               <div className="flex items-center gap-2">
-                <Calendar className="h-4 w-4 text-slate-600" />
-                <span className="text-sm font-samsung-bold text-slate-700">This Month</span>
+                <Calendar className="h-3 w-3 sm:h-4 sm:w-4 text-slate-600" />
+                <span className="text-xs sm:text-sm font-samsung-bold text-slate-700">This Month</span>
               </div>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
             {/* Properties Card - Samsung Style */}
-            <div className="group relative bg-white/70 backdrop-blur-xl rounded-3xl p-8 shadow-2xl shadow-black/10 border border-white/30 hover:shadow-3xl hover:-translate-y-2 transition-all duration-500 overflow-hidden">
+            <div className="group relative bg-white/70 backdrop-blur-xl rounded-2xl sm:rounded-3xl p-4 sm:p-6 lg:p-8 shadow-2xl shadow-black/10 border border-white/30 hover:shadow-3xl hover:-translate-y-1 sm:hover:-translate-y-2 transition-all duration-500 overflow-hidden">
               {/* Floating background gradient */}
-              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-400/20 to-cyan-400/20 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
+              <div className="absolute top-0 right-0 w-20 h-20 sm:w-32 sm:h-32 bg-gradient-to-br from-blue-400/20 to-cyan-400/20 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
 
               <div className="relative">
-                <div className="flex items-center justify-between mb-6">
-                  <div className="w-16 h-16 bg-gradient-to-br from-[#3b82f6] via-[#1d4ed8] to-[#1e40af] rounded-2xl shadow-lg shadow-blue-500/30 flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
-                    <Home className="h-8 w-8 text-white" />
+                <div className="flex items-center justify-between mb-4 sm:mb-6">
+                  <div className="w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 bg-gradient-to-br from-[#3b82f6] via-[#1d4ed8] to-[#1e40af] rounded-xl sm:rounded-2xl shadow-lg shadow-blue-500/30 flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
+                    <Home className="h-6 w-6 sm:h-7 sm:w-7 lg:h-8 lg:w-8 text-white" />
                   </div>
-                  <div className="bg-green-500/10 backdrop-blur-sm rounded-full px-3 py-1 border border-green-500/20">
+                  <div className="bg-green-500/10 backdrop-blur-sm rounded-full px-2 sm:px-3 py-1 border border-green-500/20">
                     <div className="flex items-center gap-1">
-                      <TrendingUp className="h-3 w-3 text-green-600" />
-                      <span className="text-xs font-bold text-green-600">+5%</span>
+                      <TrendingUp className="h-2 w-2 sm:h-3 sm:w-3 text-green-600" />
+                      <span className="text-xs font-samsung-bold text-green-600">+5%</span>
                     </div>
                   </div>
                 </div>
 
-                <div className="space-y-3">
-                  <div className="text-4xl font-samsung-bold bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
+                <div className="space-y-2 sm:space-y-3">
+                  <div className="text-2xl sm:text-3xl lg:text-4xl font-samsung-bold bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
                     {totalProperties}
                   </div>
                   <div>
-                    <p className="text-lg font-samsung-bold text-slate-700">Properties</p>
-                    <p className="text-sm font-samsung text-slate-500">Active listings</p>
+                    <p className="text-sm sm:text-base lg:text-lg font-samsung-bold text-slate-700">Properties</p>
+                    <p className="text-xs sm:text-sm font-samsung text-slate-500">Active listings</p>
                   </div>
                 </div>
 
                 {/* Progress bar */}
-                <div className="mt-6">
-                  <div className="w-full bg-slate-200/50 rounded-full h-2">
-                    <div className="bg-gradient-to-r from-blue-500 to-cyan-500 h-2 rounded-full w-3/4 shadow-lg shadow-blue-500/30"></div>
+                <div className="mt-4 sm:mt-6">
+                  <div className="w-full bg-slate-200/50 rounded-full h-1.5 sm:h-2">
+                    <div className="bg-gradient-to-r from-blue-500 to-cyan-500 h-1.5 sm:h-2 rounded-full w-3/4 shadow-lg shadow-blue-500/30"></div>
                   </div>
-                  <p className="text-xs font-samsung text-slate-500 mt-2">75% of monthly target</p>
+                  <p className="text-xs font-samsung text-slate-500 mt-1 sm:mt-2">75% of monthly target</p>
                 </div>
               </div>
             </div>
@@ -499,107 +500,107 @@ const AgentDashboard: React.FC = () => {
         
         {/* Samsung-style Tabs Section */}
         <Tabs defaultValue="properties" className="w-full">
-          <div className="relative bg-white/60 backdrop-blur-2xl rounded-3xl p-3 shadow-2xl shadow-black/10 border border-white/40 mb-12">
+          <div className="relative bg-white/60 backdrop-blur-2xl rounded-2xl sm:rounded-3xl p-2 sm:p-3 shadow-2xl shadow-black/10 border border-white/40 mb-8 sm:mb-12">
             {/* Floating background for active tab */}
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 via-purple-500/5 to-emerald-500/5 rounded-3xl"></div>
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 via-purple-500/5 to-emerald-500/5 rounded-2xl sm:rounded-3xl"></div>
 
-            <TabsList className="relative grid w-full grid-cols-3 bg-transparent gap-3 p-0">
+            <TabsList className="relative grid w-full grid-cols-3 bg-transparent gap-2 sm:gap-3 p-0">
               <TabsTrigger
                 value="properties"
-                className="group relative data-[state=active]:bg-white data-[state=active]:shadow-2xl data-[state=active]:shadow-blue-500/20 rounded-2xl py-4 px-8 font-samsung-bold transition-all duration-500 hover:scale-105 data-[state=active]:scale-105 overflow-hidden"
+                className="group relative data-[state=active]:bg-white data-[state=active]:shadow-2xl data-[state=active]:shadow-blue-500/20 rounded-xl sm:rounded-2xl py-3 sm:py-4 px-2 sm:px-4 lg:px-8 font-samsung-bold transition-all duration-500 hover:scale-105 data-[state=active]:scale-105 overflow-hidden touch-friendly"
               >
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-cyan-500 opacity-0 data-[state=active]:opacity-100 transition-opacity duration-500 rounded-2xl"></div>
-                <div className="relative flex items-center gap-3 data-[state=active]:text-white text-slate-600">
-                  <div className="w-8 h-8 bg-blue-500/10 data-[state=active]:bg-white/20 rounded-xl flex items-center justify-center transition-all duration-300">
-                    <Home className="h-5 w-5" />
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-cyan-500 opacity-0 data-[state=active]:opacity-100 transition-opacity duration-500 rounded-xl sm:rounded-2xl"></div>
+                <div className="relative flex items-center justify-center sm:justify-start gap-2 sm:gap-3 data-[state=active]:text-white text-slate-600">
+                  <div className="w-6 h-6 sm:w-8 sm:h-8 bg-blue-500/10 data-[state=active]:bg-white/20 rounded-lg sm:rounded-xl flex items-center justify-center transition-all duration-300">
+                    <Home className="h-4 w-4 sm:h-5 sm:w-5" />
                   </div>
-                  <span className="hidden sm:inline">Properties</span>
+                  <span className="hidden sm:inline text-sm lg:text-base">Properties</span>
                 </div>
               </TabsTrigger>
 
               <TabsTrigger
                 value="tasks"
-                className="group relative data-[state=active]:bg-white data-[state=active]:shadow-2xl data-[state=active]:shadow-emerald-500/20 rounded-2xl py-4 px-8 font-samsung-bold transition-all duration-500 hover:scale-105 data-[state=active]:scale-105 overflow-hidden"
+                className="group relative data-[state=active]:bg-white data-[state=active]:shadow-2xl data-[state=active]:shadow-emerald-500/20 rounded-xl sm:rounded-2xl py-3 sm:py-4 px-2 sm:px-4 lg:px-8 font-samsung-bold transition-all duration-500 hover:scale-105 data-[state=active]:scale-105 overflow-hidden touch-friendly"
               >
-                <div className="absolute inset-0 bg-gradient-to-r from-emerald-500 to-green-500 opacity-0 data-[state=active]:opacity-100 transition-opacity duration-500 rounded-2xl"></div>
-                <div className="relative flex items-center gap-3 data-[state=active]:text-white text-slate-600">
-                  <div className="w-8 h-8 bg-emerald-500/10 data-[state=active]:bg-white/20 rounded-xl flex items-center justify-center transition-all duration-300">
-                    <CheckCircle className="h-5 w-5" />
+                <div className="absolute inset-0 bg-gradient-to-r from-emerald-500 to-green-500 opacity-0 data-[state=active]:opacity-100 transition-opacity duration-500 rounded-xl sm:rounded-2xl"></div>
+                <div className="relative flex items-center justify-center sm:justify-start gap-2 sm:gap-3 data-[state=active]:text-white text-slate-600">
+                  <div className="w-6 h-6 sm:w-8 sm:h-8 bg-emerald-500/10 data-[state=active]:bg-white/20 rounded-lg sm:rounded-xl flex items-center justify-center transition-all duration-300">
+                    <CheckCircle className="h-4 w-4 sm:h-5 sm:w-5" />
                   </div>
-                  <span className="hidden sm:inline">Tasks</span>
+                  <span className="hidden sm:inline text-sm lg:text-base">Tasks</span>
                 </div>
               </TabsTrigger>
 
               <TabsTrigger
                 value="messages"
-                className="group relative data-[state=active]:bg-white data-[state=active]:shadow-2xl data-[state=active]:shadow-purple-500/20 rounded-2xl py-4 px-8 font-samsung-bold transition-all duration-500 hover:scale-105 data-[state=active]:scale-105 overflow-hidden"
+                className="group relative data-[state=active]:bg-white data-[state=active]:shadow-2xl data-[state=active]:shadow-purple-500/20 rounded-xl sm:rounded-2xl py-3 sm:py-4 px-2 sm:px-4 lg:px-8 font-samsung-bold transition-all duration-500 hover:scale-105 data-[state=active]:scale-105 overflow-hidden touch-friendly"
               >
-                <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-pink-500 opacity-0 data-[state=active]:opacity-100 transition-opacity duration-500 rounded-2xl"></div>
-                <div className="relative flex items-center gap-3 data-[state=active]:text-white text-slate-600">
-                  <div className="w-8 h-8 bg-purple-500/10 data-[state=active]:bg-white/20 rounded-xl flex items-center justify-center transition-all duration-300">
-                    <MessageSquare className="h-5 w-5" />
+                <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-pink-500 opacity-0 data-[state=active]:opacity-100 transition-opacity duration-500 rounded-xl sm:rounded-2xl"></div>
+                <div className="relative flex items-center justify-center sm:justify-start gap-2 sm:gap-3 data-[state=active]:text-white text-slate-600">
+                  <div className="w-6 h-6 sm:w-8 sm:h-8 bg-purple-500/10 data-[state=active]:bg-white/20 rounded-lg sm:rounded-xl flex items-center justify-center transition-all duration-300">
+                    <MessageSquare className="h-4 w-4 sm:h-5 sm:w-5" />
                   </div>
-                  <span className="hidden sm:inline">Messages</span>
+                  <span className="hidden sm:inline text-sm lg:text-base">Messages</span>
                 </div>
               </TabsTrigger>
             </TabsList>
           </div>
 
-          <TabsContent value="properties" className="relative bg-white/60 backdrop-blur-2xl rounded-3xl shadow-2xl shadow-black/10 border border-white/40 overflow-hidden">
+          <TabsContent value="properties" className="relative bg-white/60 backdrop-blur-2xl rounded-2xl sm:rounded-3xl shadow-2xl shadow-black/10 border border-white/40 overflow-hidden">
             {/* Samsung-style header */}
-            <div className="relative px-10 py-8 border-b border-white/30">
+            <div className="relative px-4 sm:px-6 lg:px-10 py-4 sm:py-6 lg:py-8 border-b border-white/30">
               <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 via-cyan-500/5 to-blue-500/5"></div>
-              <div className="relative flex items-center justify-between">
-                <div className="flex items-center space-x-6">
-                  <div className="w-16 h-16 bg-gradient-to-br from-blue-500 via-blue-600 to-cyan-500 rounded-2xl shadow-lg shadow-blue-500/30 flex items-center justify-center">
-                    <Home className="h-8 w-8 text-white" />
+              <div className="relative flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                <div className="flex items-center space-x-3 sm:space-x-6">
+                  <div className="w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 bg-gradient-to-br from-blue-500 via-blue-600 to-cyan-500 rounded-xl sm:rounded-2xl shadow-lg shadow-blue-500/30 flex items-center justify-center">
+                    <Home className="h-6 w-6 sm:h-7 sm:w-7 lg:h-8 lg:w-8 text-white" />
                   </div>
                   <div>
-                    <h3 className="text-3xl font-samsung-bold bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
+                    <h3 className="text-xl sm:text-2xl lg:text-3xl font-samsung-bold bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
                       Property Portfolio
                     </h3>
-                    <p className="text-slate-600 text-lg font-samsung">Manage your luxury listings</p>
+                    <p className="text-slate-600 text-sm sm:text-base lg:text-lg font-samsung">Manage your luxury listings</p>
                   </div>
                 </div>
-                <div className="bg-white/70 backdrop-blur-sm rounded-2xl px-6 py-3 border border-white/50 shadow-lg shadow-black/5">
-                  <div className="flex items-center gap-3">
-                    <div className="w-3 h-3 bg-blue-500 rounded-full animate-pulse"></div>
-                    <span className="text-slate-700 font-samsung-bold text-lg">{agentProperties.length}</span>
-                    <span className="text-slate-600 font-samsung">Properties</span>
+                <div className="bg-white/70 backdrop-blur-sm rounded-xl sm:rounded-2xl px-3 sm:px-6 py-2 sm:py-3 border border-white/50 shadow-lg shadow-black/5 self-start sm:self-auto">
+                  <div className="flex items-center gap-2 sm:gap-3">
+                    <div className="w-2 h-2 sm:w-3 sm:h-3 bg-blue-500 rounded-full animate-pulse"></div>
+                    <span className="text-slate-700 font-samsung-bold text-sm sm:text-base lg:text-lg">{agentProperties.length}</span>
+                    <span className="text-slate-600 font-samsung text-sm sm:text-base">Properties</span>
                   </div>
                 </div>
               </div>
             </div>
 
             {agentProperties.length > 0 ? (
-              <div className="p-10">
-                <div className="space-y-6">
+              <div className="p-4 sm:p-6 lg:p-10">
+                <div className="space-y-4 sm:space-y-6">
                   {agentProperties.map((property, index) => (
                     <div
                       key={property.id}
-                      className="group relative bg-white/70 backdrop-blur-xl rounded-2xl p-6 shadow-lg shadow-black/5 border border-white/50 hover:shadow-2xl hover:-translate-y-1 transition-all duration-500 overflow-hidden"
+                      className="group relative bg-white/70 backdrop-blur-xl rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-lg shadow-black/5 border border-white/50 hover:shadow-2xl hover:-translate-y-1 transition-all duration-500 overflow-hidden"
                     >
                       {/* Floating background gradient */}
-                      <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-400/10 to-cyan-400/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
+                      <div className="absolute top-0 right-0 w-20 h-20 sm:w-32 sm:h-32 bg-gradient-to-br from-blue-400/10 to-cyan-400/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
 
-                      <div className="relative grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                      <div className="relative grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6">
                         {/* Property Image & Info */}
                         <div className="lg:col-span-4">
-                          <div className="flex items-center space-x-4">
+                          <div className="flex items-center space-x-3 sm:space-x-4">
                             <div className="relative">
-                              <div className="w-20 h-20 bg-gradient-to-br from-blue-500 via-blue-600 to-cyan-500 rounded-2xl shadow-lg shadow-blue-500/30 flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
-                                <Home className="h-10 w-10 text-white" />
+                              <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-blue-500 via-blue-600 to-cyan-500 rounded-xl sm:rounded-2xl shadow-lg shadow-blue-500/30 flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
+                                <Home className="h-8 w-8 sm:h-10 sm:w-10 text-white" />
                               </div>
-                              <div className="absolute -top-2 -right-2 w-6 h-6 bg-green-500 rounded-full border-2 border-white shadow-lg flex items-center justify-center">
-                                <div className="w-2 h-2 bg-white rounded-full"></div>
+                              <div className="absolute -top-1 -right-1 sm:-top-2 sm:-right-2 w-5 h-5 sm:w-6 sm:h-6 bg-green-500 rounded-full border-2 border-white shadow-lg flex items-center justify-center">
+                                <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-white rounded-full"></div>
                               </div>
                             </div>
-                            <div className="flex-1">
-                              <h4 className="text-xl font-samsung-bold text-slate-900 mb-1">{property.title}</h4>
-                              <p className="text-slate-600 font-samsung">Property #{property.id}</p>
-                              <div className="flex items-center gap-2 mt-2">
-                                <MapPin className="h-4 w-4 text-slate-400" />
-                                <span className="text-sm font-samsung text-slate-600">{property.location}</span>
+                            <div className="flex-1 min-w-0">
+                              <h4 className="text-lg sm:text-xl font-samsung-bold text-slate-900 mb-1 truncate">{property.title}</h4>
+                              <p className="text-slate-600 font-samsung text-sm sm:text-base">Property #{property.id}</p>
+                              <div className="flex items-center gap-2 mt-1 sm:mt-2">
+                                <MapPin className="h-3 w-3 sm:h-4 sm:w-4 text-slate-400 flex-shrink-0" />
+                                <span className="text-xs sm:text-sm font-samsung text-slate-600 truncate">{property.location}</span>
                               </div>
                             </div>
                           </div>
