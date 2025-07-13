@@ -383,8 +383,11 @@ export const createOrUpdateUser = async (userData: {
   phone?: string;
   photo?: string;
   password?: string;
+  auth_id?: string;
 }): Promise<User | null> => {
   try {
+    console.log('🔄 Creating/updating user:', userData);
+
     // First check if user exists
     const { data: existingUser } = await supabase
       .from('users')
@@ -393,6 +396,7 @@ export const createOrUpdateUser = async (userData: {
       .single();
 
     if (existingUser) {
+      console.log('✅ User exists, updating:', existingUser);
       // Update existing user
       const { data, error } = await supabase
         .from('users')
@@ -400,7 +404,8 @@ export const createOrUpdateUser = async (userData: {
           name: userData.name,
           role: userData.role || existingUser.role,
           phone: userData.phone || existingUser.phone,
-          photo: userData.photo || existingUser.photo
+          photo: userData.photo || existingUser.photo,
+          auth_id: userData.auth_id || existingUser.auth_id
         })
         .eq('email', userData.email)
         .select()
@@ -412,27 +417,28 @@ export const createOrUpdateUser = async (userData: {
       }
 
       return {
-        id: data.id.toString(), // UUID
+        id: data.id.toString(),
         name: data.name,
         email: data.email,
-        password: '', // Don't expose passwords
+        password: '',
         role: data.role as 'admin' | 'agent',
         phone: data.phone || '',
         photo: data.photo || '',
-        bio: '', // Default bio for agents
-        properties: [] // Default empty properties array for agents
+        bio: '',
+        properties: []
       } as User;
     } else {
+      console.log('🆕 Creating new user');
       // Create new user
       const { data, error } = await supabase
         .from('users')
         .insert({
           email: userData.email,
           name: userData.name,
-          role: userData.role || 'user',
+          role: userData.role || 'agent',
           phone: userData.phone || null,
           photo: userData.photo || null,
-          password: userData.password || 'temp_password', // This should be handled by Supabase Auth
+          auth_id: userData.auth_id || null,
           created_at: new Date().toISOString()
         })
         .select()
@@ -440,26 +446,30 @@ export const createOrUpdateUser = async (userData: {
 
       if (error) {
         console.error('Error creating user:', error);
-        return null;
+        throw error;
       }
 
+      console.log('✅ User created successfully:', data);
+
       return {
-        id: data.id.toString(), // UUID
+        id: data.id.toString(),
         name: data.name,
         email: data.email,
-        password: '', // Don't expose passwords
+        password: '',
         role: data.role as 'admin' | 'agent',
         phone: data.phone || '',
         photo: data.photo || '',
-        bio: '', // Default bio for agents
-        properties: [] // Default empty properties array for agents
+        bio: '',
+        properties: []
       } as User;
     }
   } catch (error) {
     console.error('Error in createOrUpdateUser:', error);
-    return null;
+    throw error;
   }
 };
+
+
 
 // Authentication is now handled by Supabase Auth
 // This function is deprecated and should not be used

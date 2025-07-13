@@ -10,6 +10,9 @@ export const useRealtimeSubscriptions = () => {
   const queryClient = useQueryClient();
 
   useEffect(() => {
+    console.log('🔄 Real-time subscriptions temporarily disabled to fix database issues...');
+    return; // Temporarily disable real-time subscriptions
+
     console.log('🔄 Setting up real-time subscriptions for all tables...');
     // Subscribe to properties table changes
     const propertiesChannel = supabase

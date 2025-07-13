@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
-import type { Session, User as SupabaseUser } from '@supabase/supabase-js';
+import type { Session } from '@supabase/supabase-js';
 
 interface User {
   id: string;
@@ -40,14 +40,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setSession(session);
 
       if (session?.user) {
-        // Use metadata role directly - it's reliable and fast
+        // Use metadata role directly - no database queries to avoid hanging
         const userRole = session.user.user_metadata?.role || 'agent';
         console.log('✅ Using metadata role:', userRole, 'for user:', session.user.email);
 
         setUser({
           id: session.user.id,
           email: session.user.email || '',
-          name: session.user.user_metadata?.name || session.user.email?.split('@')[0],
+          name: session.user.user_metadata?.name || session.user.email?.split('@')[0] || '',
           role: userRole,
         });
       } else {
@@ -63,14 +63,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setSession(session);
 
       if (session?.user) {
-        // Use metadata role directly - it's reliable and fast
+        // Use metadata role directly - no database queries to avoid hanging
         const userRole = session.user.user_metadata?.role || 'agent';
-        console.log('✅ Using initial metadata role:', userRole, 'for user:', session.user.email);
+        console.log('✅ Using metadata role on initial load:', userRole, 'for user:', session.user.email);
 
         setUser({
           id: session.user.id,
           email: session.user.email || '',
-          name: session.user.user_metadata?.name || session.user.email?.split('@')[0],
+          name: session.user.user_metadata?.name || session.user.email?.split('@')[0] || '',
           role: userRole,
         });
       } else {
@@ -96,99 +96,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setLoading(false);
     if (error) return { success: false, error: error.message };
 
-    // After successful login, check if user profile exists in users table
-    if (data?.user) {
-      const { id, email: userEmail, user_metadata } = data.user;
-      
-      // Try to insert user profile directly (handle conflicts gracefully)
-      const { data: insertedUser, error: insertUserError } = await supabase
-        .from('users')
-        .insert({
-          email: userEmail,
-          name: user_metadata?.name || userEmail.split('@')[0],
-          role: user_metadata?.role || 'agent',
-          phone: user_metadata?.phone || null,
-          photo: user_metadata?.photo || null,
-          password: '', // Not used
-          auth_id: id, // Link to Supabase Auth user
-          created_at: new Date().toISOString()
-        } as any)
-        .select()
-        .single();
-
-      // If insert succeeded, create agent profile
-      if (insertedUser && !insertUserError) {
-        // Try to insert agent profile (handle conflicts gracefully)
-        const { error: agentError } = await supabase
-          .from('agents')
-          .insert({
-            id: insertedUser.id,
-            user_auth_id: id, // Link to Supabase Auth user ID
-            bio: user_metadata?.bio || ''
-          });
-
-        if (agentError && agentError.code !== '23505') { // Ignore unique constraint violations
-          console.error('Agent profile creation error:', agentError);
-        }
-      } else if (insertUserError && insertUserError.code !== '23505') { // Ignore unique constraint violations
-        console.error('User profile creation error:', insertUserError);
-        
-        // If user already exists, try to update agent profile
-        const { data: existingUser, error: userCheckError } = await supabase
-          .from('users')
-          .select('id, auth_id')
-          .eq('email', userEmail)
-          .single();
-
-        if (existingUser && !userCheckError) {
-          // Update auth_id in users table if it's null
-          if (!(existingUser as any).auth_id) {
-            const { error: updateUserError } = await supabase
-              .from('users')
-              .update({ auth_id: id } as any)
-              .eq('id', existingUser.id)
-              .is('auth_id' as any, null);
-
-            if (updateUserError) {
-              console.error('User auth_id update error:', updateUserError);
-            }
-          }
-
-          // Check if agent profile exists
-          const { data: agentProfile, error: agentCheckError } = await supabase
-            .from('agents')
-            .select('id')
-            .eq('id', existingUser.id)
-            .single();
-
-          if (!agentProfile && !agentCheckError) {
-            // Create agent profile if it doesn't exist
-            const { error: agentError } = await supabase
-              .from('agents')
-              .insert({
-                id: existingUser.id,
-                user_auth_id: (existingUser as any).auth_id || id, // Use existing auth_id or current id
-                bio: user_metadata?.bio || ''
-              });
-
-            if (agentError && agentError.code !== '23505') {
-              console.error('Agent profile creation error:', agentError);
-            }
-          } else if (agentProfile && !agentCheckError) {
-            // Update user_auth_id if it's null
-            const { error: updateAgentError } = await supabase
-              .from('agents')
-              .update({ user_auth_id: (existingUser as any).auth_id || id } as any)
-              .eq('id', existingUser.id)
-              .is('user_auth_id' as any, null);
-
-            if (updateAgentError) {
-              console.error('Agent user_auth_id update error:', updateAgentError);
-            }
-          }
-        }
-      }
-    }
+    // Login successful - user profile will be handled by auth state change
+    // No database operations to avoid RLS policy conflicts
+    console.log('✅ Login successful for:', data?.user?.email);
     return { success: true };
   };
 

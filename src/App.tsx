@@ -24,6 +24,7 @@ import AdminDashboard from "./pages/admin/Dashboard";
 import PropertyManagement from "./pages/admin/PropertyManagement";
 import AgentDashboard from "./pages/agent/Dashboard";
 import NotFound from "./pages/NotFound";
+import ClearSession from "./pages/ClearSession";
 
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
@@ -74,6 +75,7 @@ const App = () => {
                   <Route path="/login" element={<Login />} />
                   <Route path="/test-auth" element={<AuthTest />} />
                   <Route path="/sign_up" element={<SignUp />} />
+                  <Route path="/clear-session" element={<ClearSession />} />
                   <Route path="/reset-password" element={<ResetPassword />} />
 
                     {/* Protected Routes - Auth Required */}
