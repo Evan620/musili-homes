@@ -1,5 +1,5 @@
 import { supabase } from '@/integrations/supabase/client';
-import { Property, Agent, User, Task, PropertyFormData } from '@/types';
+import { Property, PropertyImage, Agent, User, Task, PropertyFormData } from '@/types';
 import { deletePropertyImages, uploadPropertyImages } from '@/services/storage';
 
 // Test database connection
@@ -64,14 +64,18 @@ export const getProperties = async (): Promise<Property[]> => {
     }
 
     // Group images by property_id
-    const imagesByProperty: { [key: string]: string[] } = {};
+    const imagesByProperty: { [key: string]: PropertyImage[] } = {};
     if (imagesData) {
       imagesData.forEach(img => {
         const key = img.property_id.toString();
         if (!imagesByProperty[key]) {
           imagesByProperty[key] = [];
         }
-        imagesByProperty[key].push(img.image_url);
+        imagesByProperty[key].push({
+          id: img.id || 0,
+          property_id: img.property_id,
+          image_url: img.image_url
+        });
       });
     }
 
@@ -87,7 +91,7 @@ export const getProperties = async (): Promise<Property[]> => {
       size: property.size,
       featured: property.featured,
       status: property.status as 'For Sale' | 'For Rent' | 'Sold' | 'Rented',
-      createdAt: property.created_at,
+      created_at: property.created_at,
       agent_id: property.agent_id ? Number(property.agent_id) : 0,
       images: imagesByProperty[property.id] || [],
     }));
@@ -127,8 +131,12 @@ export const getPropertyById = async (id: string): Promise<Property | null> => {
     featured: data.featured || false,
     status: data.status as 'For Sale' | 'For Rent' | 'Sold' | 'Rented',
     agent_id: data.agent_id ? Number(data.agent_id) : 0,
-    images: data.property_images?.map((img: any) => img.image_url) || [],
-    createdAt: data.created_at || new Date().toISOString()
+    images: data.property_images?.map((img: any) => ({
+      id: img.id || 0,
+      property_id: Number(data.id),
+      image_url: img.image_url
+    })) || [],
+    created_at: data.created_at || new Date().toISOString()
   } : null;
 };
 
@@ -158,14 +166,18 @@ export const getFeaturedProperties = async (): Promise<Property[]> => {
     }
 
     // Group images by property_id
-    const imagesByProperty: { [key: string]: string[] } = {};
+    const imagesByProperty: { [key: string]: PropertyImage[] } = {};
     if (imagesData) {
       imagesData.forEach(img => {
         const key = img.property_id.toString();
         if (!imagesByProperty[key]) {
           imagesByProperty[key] = [];
         }
-        imagesByProperty[key].push(img.image_url);
+        imagesByProperty[key].push({
+          id: img.id || 0,
+          property_id: img.property_id,
+          image_url: img.image_url
+        });
       });
     }
 
@@ -183,7 +195,7 @@ export const getFeaturedProperties = async (): Promise<Property[]> => {
       status: property.status as 'For Sale' | 'For Rent' | 'Sold' | 'Rented',
       agent_id: property.agent_id ? Number(property.agent_id) : 0,
       images: imagesByProperty[property.id.toString()] || [],
-      createdAt: property.created_at || new Date().toISOString()
+      created_at: property.created_at || new Date().toISOString()
     }));
 
     return mappedProperties;

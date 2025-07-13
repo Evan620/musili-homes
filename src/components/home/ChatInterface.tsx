@@ -1,11 +1,13 @@
 
 import React, { useState, useRef, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Bot, Send, User, Bell } from 'lucide-react';
-import { propertyAI } from '@/services/aiService';
+import { propertyAI, testOpenRouterConnection } from '@/services/aiService';
 import { Property } from '@/types';
 import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from '@/components/ui/carousel';
+import '@/styles/chat-doodles.css';
 
 interface ChatMessage {
   id: string;
@@ -20,9 +22,11 @@ interface ChatMessage {
 
 interface ChatInterfaceProps {
   onNewMessage?: (message: ChatMessage) => void;
+  onInputFocus?: () => void;
 }
 
-const ChatInterface: React.FC<ChatInterfaceProps> = ({ onNewMessage }) => {
+const ChatInterface: React.FC<ChatInterfaceProps> = ({ onNewMessage, onInputFocus }) => {
+  const navigate = useNavigate();
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
       id: '1',
@@ -44,6 +48,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ onNewMessage }) => {
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
   const [toast, setToast] = useState<string | null>(null);
 
   const scrollToBottom = () => {
@@ -60,6 +65,15 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ onNewMessage }) => {
       scrollToBottom();
     }
   }, [messages]);
+
+  // Test OpenRouter connection on component mount
+  useEffect(() => {
+    const runTest = async () => {
+      console.log('🧪 ChatInterface: Testing OpenRouter connection on mount...');
+      await testOpenRouterConnection();
+    };
+    runTest();
+  }, []);
 
   // Toast auto-hide
   useEffect(() => {
@@ -166,9 +180,10 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ onNewMessage }) => {
   const getRandomEmoji = () => propertyEmojis[Math.floor(Math.random() * propertyEmojis.length)];
 
   return (
-    <div className="flex flex-col h-full bg-gradient-to-br from-pure-white to-soft-ivory/30">
-      {/* Chat Messages */}
-      <div ref={chatContainerRef} className="flex-1 overflow-y-auto p-6 space-y-4 min-h-0 chat-scrollbar">
+    <div className="flex flex-col h-full">
+      {/* Chat Messages with Doodle Background */}
+      <div ref={chatContainerRef} className="flex-1 overflow-y-auto p-6 space-y-4 min-h-0 chat-scrollbar chat-doodle-whatsapp">
+        <div className="chat-content">
         {messages.map((message) => (
           <div
             key={message.id}
@@ -189,10 +204,10 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ onNewMessage }) => {
             <div
               className={`max-w-[75%] p-4 rounded-2xl shadow-md transition-all duration-200 hover:shadow-lg ${
                 message.role === 'user'
-                  ? 'bg-gradient-to-br from-gold-whisper to-gold-whisper/90 text-pure-white rounded-br-md'
+                  ? 'message-bubble-user text-pure-white rounded-br-md'
                   : message.isNotification
-                  ? 'bg-gradient-to-br from-soft-ivory to-pure-white text-deep-charcoal border border-gold-whisper/20 rounded-bl-md'
-                  : 'bg-gradient-to-br from-soft-ivory to-pure-white text-deep-charcoal border border-satin-silver/30 rounded-bl-md'
+                  ? 'message-bubble text-deep-charcoal border border-gold-whisper/20 rounded-bl-md'
+                  : 'message-bubble text-deep-charcoal border border-satin-silver/30 rounded-bl-md'
               }`}
             >
               {/* Visual layouts based on visualType */}
@@ -204,7 +219,10 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ onNewMessage }) => {
                       <CarouselContent>
                         {message.visualData.map((property: Property, idx: number) => (
                           <CarouselItem key={property.id} className="flex justify-center">
-                            <div className="bg-white/80 border border-gold-whisper/30 rounded-2xl shadow-lg overflow-hidden flex flex-col w-full max-w-md">
+                            <div
+                              className="bg-white/95 backdrop-blur-sm border border-gold-whisper/30 rounded-2xl shadow-lg overflow-hidden flex flex-col w-full max-w-md cursor-pointer hover:shadow-xl transition-all duration-300 hover:scale-[1.02]"
+                              onClick={() => navigate(`/property/${property.id}`)}
+                            >
                               <div className="relative h-56 w-full bg-gray-100 flex items-center justify-center">
                                 {property.images && property.images.length > 0 ? (
                                   <img src={property.images[0].image_url} alt={property.title} className="object-cover w-full h-full" />
@@ -231,13 +249,19 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ onNewMessage }) => {
                                 <div className="flex gap-2 justify-end mt-4">
                                   <button
                                     className="px-4 py-2 bg-gold-whisper/90 text-pure-white rounded-lg text-sm font-semibold shadow hover:bg-gold-whisper transition"
-                                    onClick={() => setToast('🎉 Viewing request started!')}
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      setToast('🎉 Viewing request started!');
+                                    }}
                                   >
                                     Book Viewing
                                   </button>
                                   <button
                                     className="px-4 py-2 bg-satin-silver/80 text-deep-charcoal rounded-lg text-sm font-semibold shadow hover:bg-satin-silver transition"
-                                    onClick={() => setToast('🔍 More details coming soon!')}
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      navigate(`/property/${property.id}`);
+                                    }}
                                   >
                                     See More
                                   </button>
@@ -252,7 +276,10 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ onNewMessage }) => {
                     </Carousel>
                   ) : (
                     <div className="mb-4 flex justify-center">
-                      <div className="bg-white/80 border border-gold-whisper/30 rounded-2xl shadow-lg overflow-hidden flex flex-col w-full max-w-md">
+                      <div
+                        className="bg-white/95 backdrop-blur-sm border border-gold-whisper/30 rounded-2xl shadow-lg overflow-hidden flex flex-col w-full max-w-md cursor-pointer hover:shadow-xl transition-all duration-300 hover:scale-[1.02]"
+                        onClick={() => navigate(`/property/${message.visualData[0].id}`)}
+                      >
                         <div className="relative h-56 w-full bg-gray-100 flex items-center justify-center">
                           {message.visualData[0].images && message.visualData[0].images.length > 0 ? (
                             <img src={message.visualData[0].images[0].image_url} alt={message.visualData[0].title} className="object-cover w-full h-full" />
@@ -277,8 +304,24 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ onNewMessage }) => {
                             <div className="text-xs text-deep-charcoal/80 mb-2 line-clamp-2">{message.visualData[0].description}</div>
                           </div>
                           <div className="flex gap-2 justify-end mt-4">
-                            <button className="px-4 py-2 bg-gold-whisper/90 text-pure-white rounded-lg text-sm font-semibold shadow hover:bg-gold-whisper transition">Book Viewing</button>
-                            <button className="px-4 py-2 bg-satin-silver/80 text-deep-charcoal rounded-lg text-sm font-semibold shadow hover:bg-satin-silver transition">See More</button>
+                            <button
+                              className="px-4 py-2 bg-gold-whisper/90 text-pure-white rounded-lg text-sm font-semibold shadow hover:bg-gold-whisper transition"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setToast('🎉 Viewing request started!');
+                              }}
+                            >
+                              Book Viewing
+                            </button>
+                            <button
+                              className="px-4 py-2 bg-satin-silver/80 text-deep-charcoal rounded-lg text-sm font-semibold shadow hover:bg-satin-silver transition"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                navigate(`/property/${message.visualData[0].id}`);
+                              }}
+                            >
+                              See More
+                            </button>
                           </div>
                         </div>
                       </div>
@@ -310,7 +353,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ onNewMessage }) => {
                   <div className="mb-2 text-gold-whisper font-semibold text-base">{message.content}</div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
                     {message.visualData.map((agent: any, idx: number) => (
-                      <div key={agent.id} className="bg-white/80 border border-gold-whisper/30 rounded-2xl shadow-lg overflow-hidden flex flex-col items-center p-4">
+                      <div key={agent.id} className="bg-white/95 backdrop-blur-sm border border-gold-whisper/30 rounded-2xl shadow-lg overflow-hidden flex flex-col items-center p-4">
                         <div className="w-20 h-20 rounded-full bg-gray-200 flex items-center justify-center mb-2 overflow-hidden">
                           {agent.photo ? (
                             <img src={agent.photo} alt={agent.name} className="object-cover w-full h-full rounded-full" />
@@ -370,7 +413,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ onNewMessage }) => {
             <div className="bg-gradient-to-br from-gold-whisper to-gold-whisper/80 p-3 rounded-full shadow-lg">
               <Bot className="h-5 w-5 text-pure-white" />
             </div>
-            <div className="bg-gradient-to-br from-soft-ivory to-pure-white text-deep-charcoal p-4 rounded-2xl rounded-bl-md shadow-md border border-satin-silver/30">
+            <div className="message-bubble text-deep-charcoal p-4 rounded-2xl rounded-bl-md shadow-md border border-satin-silver/30">
               <div className="flex space-x-1">
                 <div className="w-2 h-2 bg-gold-whisper/60 rounded-full animate-bounce"></div>
                 <div className="w-2 h-2 bg-gold-whisper/60 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
@@ -390,6 +433,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ onNewMessage }) => {
         )}
 
         <div ref={messagesEndRef} />
+        </div>
       </div>
 
       {/* Input Form */}
@@ -397,8 +441,10 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ onNewMessage }) => {
         <form onSubmit={handleSendMessage} className="flex gap-3">
           <div className="flex-1 relative">
             <Input
+              ref={inputRef}
               value={inputMessage}
               onChange={(e) => setInputMessage(e.target.value)}
+              onFocus={onInputFocus}
               placeholder="Ask about properties, schedule viewings, get pricing info..."
               className="w-full bg-pure-white border-2 border-satin-silver/40 text-deep-charcoal placeholder:text-deep-charcoal/50 rounded-xl px-4 py-3 text-sm font-light focus:border-gold-whisper/50 focus:ring-2 focus:ring-gold-whisper/20 transition-all duration-200 shadow-sm"
               disabled={isLoading}

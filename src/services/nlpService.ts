@@ -12,41 +12,67 @@ interface Entity {
 }
 
 export class NLPService {
-  private locationKeywords = ['karen', 'westlands', 'naivasha', 'nairobi', 'location', 'area', 'where'];
-  private priceKeywords = ['price', 'cost', 'budget', 'expensive', 'cheap', 'affordable', 'million', 'kes'];
-  private propertyKeywords = ['house', 'home', 'property', 'villa', 'penthouse', 'estate', 'apartment'];
-  private viewingKeywords = ['view', 'visit', 'see', 'schedule', 'book', 'appointment', 'viewing'];
-  private greetingKeywords = ['hello', 'hi', 'hey', 'good morning', 'good afternoon', 'good evening'];
+  private locationKeywords = [
+    // Nairobi areas
+    'karen', 'westlands', 'naivasha', 'nairobi', 'kilimani', 'lavington', 'runda', 'muthaiga',
+    'kileleshwa', 'parklands', 'upperhill', 'spring valley', 'gigiri', 'riverside', 'hurlingham',
+    'loresho', 'kitisuru', 'nyari', 'thigiri', 'rosslyn', 'ridgeways', 'tigoni', 'limuru',
+    'kiambu', 'ruaka', 'banana hill', 'thindigua', 'kahawa', 'kasarani', 'thika', 'juja',
+    // General location terms
+    'location', 'area', 'where', 'place', 'neighborhood', 'suburb', 'estate', 'in', 'at'
+  ];
+  private priceKeywords = ['price', 'cost', 'budget', 'expensive', 'cheap', 'affordable', 'million', 'kes', 'ksh', 'money', 'pay'];
+  private propertyKeywords = ['house', 'home', 'property', 'villa', 'penthouse', 'estate', 'apartment', 'flat', 'condo', 'townhouse', 'mansion'];
+  private viewingKeywords = ['view', 'visit', 'see', 'schedule', 'book', 'appointment', 'viewing', 'tour', 'show', 'inspect'];
+  private greetingKeywords = ['hello', 'hi', 'hey', 'good morning', 'good afternoon', 'good evening', 'greetings'];
 
   analyzeIntent(message: string, context: string = ''): Intent {
     const lowerMessage = message.toLowerCase();
     const fullText = (message + ' ' + context).toLowerCase();
-    
+
     // Extract entities first
     const entities = this.extractEntities(fullText);
-    
+
     // Determine intent based on keywords and entities
-    if (this.containsKeywords(lowerMessage, this.greetingKeywords)) {
-      return { type: 'greeting', confidence: 0.9, entities };
-    }
-    
-    if (this.containsKeywords(lowerMessage, this.viewingKeywords) && 
+    // PRIORITY 1: Property-related intents (even if greeting words are present)
+
+    // Check for viewing requests first
+    if (this.containsKeywords(lowerMessage, this.viewingKeywords) &&
         (this.containsKeywords(lowerMessage, this.propertyKeywords) || entities.property_name)) {
       return { type: 'viewing_request', confidence: 0.85, entities };
     }
-    
+
+    // Check for property search/info (high priority)
+    if (this.containsKeywords(lowerMessage, this.propertyKeywords) || entities.property_name) {
+      return entities.property_name ?
+        { type: 'property_info', confidence: 0.9, entities } :
+        { type: 'property_search', confidence: 0.8, entities };
+    }
+
+    // Check for location-based property inquiries
+    if (this.containsKeywords(lowerMessage, this.locationKeywords) &&
+        (lowerMessage.includes('need') || lowerMessage.includes('want') ||
+         lowerMessage.includes('looking') || lowerMessage.includes('find'))) {
+      return { type: 'property_search', confidence: 0.85, entities };
+    }
+
+    // Check for price inquiries
     if (this.containsKeywords(lowerMessage, this.priceKeywords)) {
       return { type: 'price_inquiry', confidence: 0.8, entities };
     }
-    
+
+    // Check for location inquiries (general)
     if (this.containsKeywords(lowerMessage, this.locationKeywords)) {
-      return { type: 'location_inquiry', confidence: 0.8, entities };
+      return { type: 'location_inquiry', confidence: 0.7, entities };
     }
-    
-    if (this.containsKeywords(lowerMessage, this.propertyKeywords) || entities.property_name) {
-      return entities.property_name ? 
-        { type: 'property_info', confidence: 0.9, entities } : 
-        { type: 'property_search', confidence: 0.7, entities };
+
+    // PRIORITY 2: Greeting (only if no property-related content)
+    if (this.containsKeywords(lowerMessage, this.greetingKeywords) &&
+        !this.containsKeywords(lowerMessage, this.propertyKeywords) &&
+        !this.containsKeywords(lowerMessage, this.locationKeywords) &&
+        !lowerMessage.includes('need') && !lowerMessage.includes('want') &&
+        !lowerMessage.includes('looking') && !lowerMessage.includes('find')) {
+      return { type: 'greeting', confidence: 0.9, entities };
     }
     
     return { type: 'general_inquiry', confidence: 0.5, entities };
@@ -54,11 +80,23 @@ export class NLPService {
 
   private extractEntities(text: string): Record<string, any> {
     const entities: Record<string, any> = {};
-    
-    // Extract location
-    const locationMatch = text.match(/(karen|westlands|naivasha|nairobi)/i);
+
+    // Extract location - enhanced pattern matching
+    const locationPattern = /(karen|westlands|naivasha|nairobi|kilimani|lavington|runda|muthaiga|kileleshwa|parklands|upperhill|spring valley|gigiri|riverside|hurlingham|loresho|kitisuru|nyari|thigiri|rosslyn|ridgeways|tigoni|limuru|kiambu|ruaka|banana hill|thindigua|kahawa|kasarani|thika|juja)/i;
+    const locationMatch = text.match(locationPattern);
     if (locationMatch) {
       entities.location = locationMatch[1];
+    }
+
+    // Also check for "in [location]" or "at [location]" patterns
+    const locationInPattern = /(?:in|at|near|around)\s+([a-zA-Z\s]+?)(?:\s|$|,|\.|!|\?)/i;
+    const locationInMatch = text.match(locationInPattern);
+    if (locationInMatch && !entities.location) {
+      const potentialLocation = locationInMatch[1].trim().toLowerCase();
+      // Check if it matches any of our known locations
+      if (this.locationKeywords.some(loc => potentialLocation.includes(loc))) {
+        entities.location = potentialLocation;
+      }
     }
     
     // Extract property names (fuzzy matching)

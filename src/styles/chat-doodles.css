@@ -1,0 +1,271 @@
+/* WhatsApp-style doodled chat wallpaper */
+.chat-doodle-background {
+  position: relative;
+  background: linear-gradient(135deg, #f8f9fa 0%, #f1f3f4 100%);
+}
+
+.chat-doodle-background::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0.03;
+  background-image: 
+    /* Small dots pattern */
+    radial-gradient(circle at 20% 20%, #8B7355 1px, transparent 1px),
+    radial-gradient(circle at 80% 40%, #8B7355 1px, transparent 1px),
+    radial-gradient(circle at 40% 80%, #8B7355 1px, transparent 1px),
+    radial-gradient(circle at 90% 90%, #8B7355 1px, transparent 1px),
+    
+    /* Curved lines */
+    linear-gradient(45deg, transparent 48%, #8B7355 49%, #8B7355 50%, transparent 52%),
+    linear-gradient(-45deg, transparent 48%, #8B7355 49%, #8B7355 50%, transparent 52%),
+    
+    /* Wavy patterns */
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 10px,
+      #8B7355 10px,
+      #8B7355 11px,
+      transparent 11px,
+      transparent 30px
+    ),
+    
+    /* Diagonal dashes */
+    repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 15px,
+      #8B7355 15px,
+      #8B7355 17px,
+      transparent 17px,
+      transparent 35px
+    );
+    
+  background-size: 
+    80px 80px,
+    120px 120px,
+    100px 100px,
+    90px 90px,
+    200px 200px,
+    180px 180px,
+    150px 150px,
+    160px 160px;
+    
+  background-position:
+    0 0,
+    40px 40px,
+    20px 60px,
+    70px 10px,
+    0 0,
+    50px 50px,
+    0 0,
+    80px 80px;
+    
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Alternative doodle pattern - more WhatsApp-like */
+.chat-doodle-whatsapp {
+  position: relative;
+  background: linear-gradient(135deg, #f0f2f5 0%, #e4e6ea 100%);
+}
+
+.chat-doodle-whatsapp::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0.025;
+  background-image:
+    /* Hand-drawn circles */
+    radial-gradient(ellipse 3px 2px at 25% 25%, #8B7355 50%, transparent 50%),
+    radial-gradient(ellipse 2px 3px at 75% 15%, #8B7355 50%, transparent 50%),
+    radial-gradient(ellipse 2px 2px at 15% 75%, #8B7355 50%, transparent 50%),
+    radial-gradient(ellipse 3px 3px at 85% 85%, #8B7355 50%, transparent 50%),
+
+    /* Squiggly lines */
+    linear-gradient(30deg, transparent 45%, #8B7355 47%, #8B7355 48%, transparent 50%),
+    linear-gradient(150deg, transparent 45%, #8B7355 47%, #8B7355 48%, transparent 50%),
+
+    /* Small dashes */
+    repeating-linear-gradient(
+      60deg,
+      transparent,
+      transparent 8px,
+      #8B7355 8px,
+      #8B7355 10px,
+      transparent 10px,
+      transparent 25px
+    ),
+
+    /* Tiny dots */
+    radial-gradient(circle at 50% 50%, #8B7355 0.5px, transparent 0.5px),
+
+    /* Property-themed doodles */
+    radial-gradient(ellipse 4px 2px at 35% 65%, #8B7355 50%, transparent 50%),
+    linear-gradient(75deg, transparent 48%, #8B7355 49%, #8B7355 50%, transparent 52%),
+
+    /* House-like shapes (very subtle) */
+    conic-gradient(from 45deg at 20% 30%, transparent 0deg, #8B7355 1deg, transparent 2deg),
+    conic-gradient(from 135deg at 80% 70%, transparent 0deg, #8B7355 1deg, transparent 2deg);
+
+  background-size:
+    60px 60px,
+    80px 80px,
+    70px 70px,
+    90px 90px,
+    120px 120px,
+    140px 140px,
+    100px 100px,
+    40px 40px,
+    110px 110px,
+    130px 130px,
+    200px 200px,
+    180px 180px;
+
+  background-position:
+    0 0,
+    30px 30px,
+    15px 45px,
+    60px 15px,
+    0 0,
+    40px 40px,
+    20px 20px,
+    0 0,
+    50px 80px,
+    90px 20px,
+    10px 10px,
+    120px 120px;
+
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Add a subtle overlay pattern for more WhatsApp feel */
+.chat-doodle-whatsapp::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0.015;
+  background-image:
+    /* Very subtle geometric patterns */
+    repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 20px,
+      #8B7355 20px,
+      #8B7355 21px,
+      transparent 21px,
+      transparent 60px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 25px,
+      #8B7355 25px,
+      #8B7355 26px,
+      transparent 26px,
+      transparent 70px
+    );
+  background-size:
+    150px 150px,
+    170px 170px;
+  background-position:
+    0 0,
+    50px 50px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Ensure chat content is above the doodle background */
+.chat-content {
+  position: relative;
+  z-index: 1;
+}
+
+/* Subtle animation for the doodles */
+@keyframes doodle-float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-2px) rotate(0.5deg); }
+}
+
+.chat-doodle-background::before,
+.chat-doodle-whatsapp::before {
+  animation: doodle-float-gentle 25s ease-in-out infinite;
+}
+
+.chat-doodle-whatsapp::after {
+  animation: doodle-float-gentle 30s ease-in-out infinite reverse;
+}
+
+/* Custom scrollbar for chat */
+.chat-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.chat-scrollbar::-webkit-scrollbar-track {
+  background: rgba(139, 115, 85, 0.1);
+  border-radius: 3px;
+}
+
+.chat-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(139, 115, 85, 0.3);
+  border-radius: 3px;
+}
+
+.chat-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(139, 115, 85, 0.5);
+}
+
+/* Message bubble enhancements for better visibility on doodle background */
+.message-bubble {
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.97);
+  border: 1px solid rgba(139, 115, 85, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05), 0 2px 4px rgba(139, 115, 85, 0.1);
+}
+
+.message-bubble-user {
+  backdrop-filter: blur(10px);
+  background: linear-gradient(135deg, rgba(139, 115, 85, 0.95) 0%, rgba(139, 115, 85, 0.9) 100%);
+  border: 1px solid rgba(139, 115, 85, 0.2);
+  box-shadow: 0 4px 12px rgba(139, 115, 85, 0.15), 0 2px 4px rgba(139, 115, 85, 0.2);
+}
+
+/* Enhanced property cards for doodle background */
+.property-card-enhanced {
+  backdrop-filter: blur(15px);
+  background: rgba(255, 255, 255, 0.98);
+  border: 1px solid rgba(139, 115, 85, 0.15);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08), 0 4px 8px rgba(139, 115, 85, 0.1);
+}
+
+/* Floating animation for doodles */
+@keyframes doodle-float-gentle {
+  0%, 100% {
+    transform: translateY(0px) translateX(0px) rotate(0deg);
+    opacity: 0.025;
+  }
+  25% {
+    transform: translateY(-1px) translateX(0.5px) rotate(0.2deg);
+    opacity: 0.03;
+  }
+  50% {
+    transform: translateY(-2px) translateX(1px) rotate(0.5deg);
+    opacity: 0.025;
+  }
+  75% {
+    transform: translateY(-1px) translateX(0.5px) rotate(0.2deg);
+    opacity: 0.02;
+  }
+}

@@ -55,31 +55,63 @@ interface AIResponse {
 
 // Initialize conversation state
 let conversationState: ConversationState = {
-  currentStep: 'greeting'
+  currentStep: 'initial' // Changed from 'greeting' to allow proper intent detection
 };
 
 export const processUserMessage = async (message: string): Promise<AIResponse> => {
   try {
     console.log('🔍 aiService: Processing user message:', message);
 
+    const intent = nlpService.analyzeIntent(message);
+    const entities = intent.entities;
+    console.log('🎯 aiService: Intent analysis:', intent);
+    console.log('📋 aiService: Extracted entities:', entities);
+
+    // ENHANCED ROUTING: Check for property-related content first, regardless of intent
+    const lowerMessage = message.toLowerCase();
+
+    // Check for property search indicators
+    const isPropertySearch = (
+      lowerMessage.includes('house') || lowerMessage.includes('property') ||
+      lowerMessage.includes('home') || lowerMessage.includes('villa') ||
+      lowerMessage.includes('apartment') || lowerMessage.includes('estate') ||
+      lowerMessage.includes('karen') || lowerMessage.includes('westlands') ||
+      lowerMessage.includes('nairobi') || lowerMessage.includes('naivasha') ||
+      (lowerMessage.includes('need') && (lowerMessage.includes('in') || lowerMessage.includes('at'))) ||
+      (lowerMessage.includes('looking') && lowerMessage.includes('for')) ||
+      (lowerMessage.includes('want') && (lowerMessage.includes('in') || lowerMessage.includes('at'))) ||
+      intent.type === 'property_search' || intent.type === 'property_info' ||
+      intent.type === 'location_inquiry' || intent.type === 'price_inquiry'
+    );
+
+    if (isPropertySearch) {
+      console.log('🏠 aiService: PROPERTY SEARCH DETECTED - Routing to property inquiry handler');
+      return await handlePropertyInquiry(message, entities);
+    }
+
+    // Handle viewing requests
+    if (intent.type === 'viewing_request' || lowerMessage.includes('viewing') || lowerMessage.includes('visit')) {
+      console.log('📅 aiService: Routing to viewing request handler');
+      return await handleViewingRequest(message, entities);
+    }
+
     // For complex queries, use OpenRouter AI with company context
     if (message.length > 50 ||
-        message.toLowerCase().includes('recommend') ||
-        message.toLowerCase().includes('compare') ||
-        message.toLowerCase().includes('analyze') ||
-        message.toLowerCase().includes('explain') ||
-        message.toLowerCase().includes('why') ||
-        message.toLowerCase().includes('how')) {
+        lowerMessage.includes('recommend') ||
+        lowerMessage.includes('compare') ||
+        lowerMessage.includes('analyze') ||
+        lowerMessage.includes('explain') ||
+        lowerMessage.includes('why') ||
+        lowerMessage.includes('how') ||
+        lowerMessage.includes('market') ||
+        lowerMessage.includes('investment')) {
       console.log('🧠 aiService: Routing to complex query handler');
       return await handleComplexQuery(message);
     }
 
-    const intent = nlpService.analyzeIntent(message);
-    const entities = intent.entities;
-    console.log('🎯 aiService: Intent analysis:', intent);
-
-    // Handle greeting
-    if (intent.type === 'greeting' || conversationState.currentStep === 'greeting') {
+    // Handle greeting (only if no property-related content detected)
+    if (intent.type === 'greeting' && !isPropertySearch) {
+      console.log('👋 aiService: Routing to greeting handler');
       return await handleGreeting(message);
     }
 
@@ -312,14 +344,28 @@ const handleComplexQuery = async (message: string): Promise<AIResponse> => {
       aiDatabaseService.getAllAgents()
     ]);
 
-    // Format context for AI
-    const companyContext = openRouterService.formatCompanyContext(companyInfo, propertyStats);
-    const propertyData = openRouterService.formatPropertyData(properties.slice(0, 10)); // Top 10 properties
+    console.log('📊 aiService: Real-time data fetched - Properties:', properties.length, 'Stats:', propertyStats);
 
-    // Use OpenRouter AI for intelligent response
+    // Ensure we have current property data - use all properties for accurate information
+    const companyContext = openRouterService.formatCompanyContext(companyInfo, propertyStats);
+    const propertyData = openRouterService.formatPropertyData(properties); // All properties for accurate data
+
+    // Add comprehensive market context
+    const marketContext = `
+REAL-TIME MARKET DATA:
+- Total Properties Available: ${properties.length}
+- Featured Properties: ${properties.filter(p => p.featured).length}
+- Properties for Sale: ${properties.filter(p => p.status === 'For Sale').length}
+- Properties for Rent: ${properties.filter(p => p.status === 'For Rent').length}
+- Active Agents: ${agents.length}
+- Average Property Price: KES ${propertyStats.averagePrice?.toLocaleString() || 'N/A'}
+- Available Locations: ${Object.keys(propertyStats.locationCounts || {}).join(', ')}
+`;
+
+    // Use OpenRouter AI for intelligent response with comprehensive context
     const aiResponse = await openRouterService.generateContextualResponse(
       message,
-      companyContext,
+      companyContext + marketContext,
       propertyData,
       [] // Could add conversation history here
     );
@@ -336,8 +382,10 @@ const handleComplexQuery = async (message: string): Promise<AIResponse> => {
       return handleKnowledgeBaseResponse(knowledgeResults, message);
     }
 
+    // Use professional error template
+    const { AI_ASSISTANT_CONFIG } = await import('./aiPromptConfig');
     return {
-      message: "I'm having trouble processing your request right now. Please contact our team at +254 700 123 456 for immediate assistance.",
+      message: AI_ASSISTANT_CONFIG.RESPONSE_TEMPLATES.error,
       newState: conversationState
     };
   }
@@ -367,7 +415,9 @@ Locations: ${Object.keys(propertyStats.locationCounts).join(', ')}`;
   } catch (error) {
     console.error('Error in greeting handler:', error);
     const companyInfo = aiDatabaseService.getCompanyInfo();
-    const response = `Hello! I'm your AI Property Assistant for ${companyInfo.name}. I can help you with:\n\n• **Property Search** - Find luxury properties by location, price, or features\n• **Company Information** - Learn about our services and expertise\n• **Market Insights** - Get current market data and trends\n• **Viewing Arrangements** - Schedule property viewings with our agents\n• **Investment Advice** - Understand property investment opportunities\n\nWhat would you like to know about our luxury property collection?`;
+    // Import the professional greeting template
+    const { AI_ASSISTANT_CONFIG } = await import('./aiPromptConfig');
+    const response = AI_ASSISTANT_CONFIG.RESPONSE_TEMPLATES.greeting;
 
     return {
       message: response,
@@ -427,6 +477,8 @@ KNOWLEDGE BASE RESULTS: ${knowledgeResults.length > 0 ? knowledgeResults[0].cont
 const handlePropertyInquiry = async (message: string, entities: any): Promise<AIResponse & { visualType?: string; visualData?: any }> => {
   let properties: Property[] = [];
   try {
+    console.log('🏠 handlePropertyInquiry: Processing inquiry with entities:', entities);
+
     // Get matching properties and market data
     const [matchedProperties, allProperties, propertyStats] = await Promise.all([
       findMatchingProperties(entities),
@@ -434,18 +486,25 @@ const handlePropertyInquiry = async (message: string, entities: any): Promise<AI
       aiDatabaseService.getPropertyStats()
     ]);
 
-    // Prepare property data for AI context
-    const propertyData = openRouterService.formatPropertyData(
-      matchedProperties.length > 0 ? matchedProperties : allProperties.slice(0, 10)
-    );
+    console.log('📊 handlePropertyInquiry: Found', matchedProperties.length, 'matched properties');
+    console.log('📊 handlePropertyInquiry: Total properties available:', allProperties.length);
 
+    // Use matched properties if available, otherwise use all properties for recommendations
+    const propertiesToShow = matchedProperties.length > 0 ? matchedProperties : allProperties.slice(0, 8);
+    const propertyData = openRouterService.formatPropertyData(propertiesToShow);
+
+    // Enhanced market context with more specific information
     const marketContext = `
+USER QUERY: "${message}"
 SEARCH CRITERIA: ${JSON.stringify(entities)}
-MATCHED PROPERTIES: ${matchedProperties.length}
-TOTAL AVAILABLE: ${propertyStats.totalProperties}
+MATCHED PROPERTIES: ${matchedProperties.length} properties found
+TOTAL AVAILABLE: ${propertyStats.totalProperties} properties in database
 AVERAGE PRICE: KES ${propertyStats.averagePrice.toLocaleString()}
-LOCATIONS: ${Object.keys(propertyStats.locationCounts).join(', ')}
+AVAILABLE LOCATIONS: ${Object.keys(propertyStats.locationCounts).join(', ')}
+SEARCH RESULTS: ${matchedProperties.length > 0 ? 'Specific matches found' : 'Showing general recommendations'}
 `;
+
+    console.log('🤖 handlePropertyInquiry: Calling OpenRouter with enhanced context');
 
     // Use OpenRouter AI for intelligent property recommendations
     try {
@@ -456,6 +515,8 @@ LOCATIONS: ${Object.keys(propertyStats.locationCounts).join(', ')}
         []
       );
 
+      console.log('✅ handlePropertyInquiry: OpenRouter response received:', aiResponse.substring(0, 100) + '...');
+
       return {
         message: aiResponse,
         newState: {
@@ -464,29 +525,60 @@ LOCATIONS: ${Object.keys(propertyStats.locationCounts).join(', ')}
           propertyContext: matchedProperties.length > 0 ? matchedProperties[0] : undefined
         },
         visualType: 'property_cards',
-        visualData: matchedProperties.length > 0 ? matchedProperties : allProperties.slice(0, 5)
+        visualData: propertiesToShow
       };
     } catch (openRouterError) {
-      console.error('OpenRouter failed, using fallback response:', openRouterError);
+      console.error('🚨 handlePropertyInquiry: OpenRouter failed, using enhanced fallback:', openRouterError);
 
-      // Fallback response with actual property data
-      if (matchedProperties.length > 0) {
-        const cheapestProperty = matchedProperties.reduce((min, prop) =>
-          prop.price < min.price ? prop : min, matchedProperties[0]);
+      // Enhanced fallback response with actual property data
+      if (propertiesToShow.length > 0) {
+        const topProperties = propertiesToShow.slice(0, 3);
+        let fallbackResponse = '';
 
-        const fallbackResponse = `Based on our current inventory, the most affordable property is "${cheapestProperty.title}" in ${cheapestProperty.location} for KES ${cheapestProperty.price.toLocaleString()}. ${cheapestProperty.description}\n\nWould you like more details about this property or see other options in your budget?`;
+        if (matchedProperties.length > 0) {
+          fallbackResponse = `I found ${matchedProperties.length} properties matching your criteria:\n\n`;
+        } else {
+          fallbackResponse = `Here are some excellent property recommendations for you:\n\n`;
+        }
+
+        topProperties.forEach((property, index) => {
+          fallbackResponse += `${index + 1}. **${property.title}**\n`;
+          fallbackResponse += `   📍 Location: ${property.location}\n`;
+          fallbackResponse += `   💰 Price: KES ${property.price?.toLocaleString() || 'Price on request'}\n`;
+          fallbackResponse += `   🏠 ${property.bedrooms || 'N/A'} bedrooms, ${property.bathrooms || 'N/A'} bathrooms\n`;
+          if (property.size) {
+            fallbackResponse += `   📐 Size: ${property.size.toLocaleString()} sq ft\n`;
+          }
+          if (property.agent?.name) {
+            fallbackResponse += `   👤 Agent: ${property.agent.name}`;
+            if (property.agent.phone) {
+              fallbackResponse += ` (${property.agent.phone})`;
+            }
+            fallbackResponse += `\n`;
+          }
+          fallbackResponse += `\n`;
+        });
+
+        if (propertiesToShow.length > 3) {
+          fallbackResponse += `And ${propertiesToShow.length - 3} more properties available.\n\n`;
+        }
+
+        fallbackResponse += `Would you like more details about any of these properties or schedule a viewing? I can connect you with the appropriate agent.`;
 
         return {
           message: fallbackResponse,
           newState: {
             ...conversationState,
             currentStep: 'property_inquiry',
-            propertyContext: cheapestProperty
-          }
+            propertyContext: propertiesToShow[0]
+          },
+          visualType: 'property_cards',
+          visualData: propertiesToShow
         };
       } else {
+        // No properties available at all
         return {
-          message: "I'm having trouble processing your request right now. Please contact our team at +254 700 123 456 for assistance with property inquiries.",
+          message: `I apologize, but I'm currently unable to access our property database. Please contact our office directly at +254 700 123 456 or info@musilihomes.com for immediate assistance with your property inquiry.`,
           newState: conversationState
         };
       }
@@ -758,11 +850,41 @@ ${analytics.topPerformingAgents.map((agent, index) =>
   }
 };
 
+// Test function for debugging OpenRouter integration
+export const testOpenRouterConnection = async (): Promise<void> => {
+  try {
+    console.log('🧪 Testing OpenRouter connection...');
+    const testResult = await openRouterService.testConnection();
+    console.log('🧪 OpenRouter connection test result:', testResult);
+
+    if (testResult) {
+      console.log('✅ OpenRouter is working properly');
+      // Test with a simple property query
+      const quickTest = await openRouterService.quickTest();
+      console.log('✅ OpenRouter quick test response:', quickTest);
+    } else {
+      console.error('❌ OpenRouter connection failed');
+    }
+  } catch (error) {
+    console.error('❌ OpenRouter test error:', error);
+  }
+};
+
 // Create a propertyAI object to maintain compatibility with ChatInterface
 export const propertyAI = {
   generateResponse: async (message: string, _conversationHistory: any[] = []): Promise<{ message: string; properties?: Property[]; visualType?: string; visualData?: any }> => {
+    console.log('🤖 propertyAI.generateResponse called with message:', message);
+
     const response = await processUserMessage(message);
     updateConversationState(response.newState);
+
+    console.log('🤖 propertyAI.generateResponse response:', {
+      messageLength: response.message.length,
+      visualType: response.visualType,
+      visualDataLength: response.visualData?.length,
+      messagePreview: response.message.substring(0, 100) + '...'
+    });
+
     // Property cards
     if (response.visualType === 'property_cards') {
       return {

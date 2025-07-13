@@ -50,11 +50,15 @@ export class AIDatabaseService {
       bedrooms: item.bedrooms,
       bathrooms: item.bathrooms,
       size: item.size,
-      images: item.property_images?.map((img: any) => img.image_url) || [],
+      images: item.property_images?.map((img: any) => ({
+        id: img.id || 0,
+        property_id: item.id,
+        image_url: img.image_url
+      })) || [],
       featured: item.featured,
       status: item.status,
-      createdAt: item.created_at,
-      agentId: item.agent_id
+      created_at: item.created_at,
+      agent_id: item.agent_id
     };
   }
 
@@ -64,11 +68,9 @@ export class AIDatabaseService {
       id: item.id,
       name: item.users?.name || 'Unknown Agent',
       email: item.users?.email || '',
-      password: '', // Never expose real passwords
       phone: item.users?.phone || '',
       photo: item.users?.photo || '',
       bio: item.bio || '',
-      properties: [], // Would need separate query to populate
       role: 'agent'
     };
   }
@@ -125,11 +127,12 @@ export class AIDatabaseService {
     };
   }
 
-  // Property Data
+  // Property Data with Enhanced Real-time Access
   async getAllProperties(): Promise<Property[]> {
     try {
-      console.log('🔍 AIDatabaseService: Fetching all properties...');
+      console.log('🔍 AIDatabaseService: Fetching all properties with complete data...');
 
+      // First try the complex join query for complete data
       const { data, error } = await supabase
         .from('properties')
         .select(`
@@ -145,8 +148,9 @@ export class AIDatabaseService {
         .order('created_at', { ascending: false });
 
       if (error) {
-        console.error('🚨 AIDatabaseService: Supabase error:', error);
-        throw error;
+        console.warn('🚨 AIDatabaseService: Complex query failed, trying fallback:', error);
+        // Fallback to simpler query if complex join fails
+        return await this.getAllPropertiesSimple();
       }
 
       console.log('📊 AIDatabaseService: Raw properties data:', data);
@@ -159,6 +163,78 @@ export class AIDatabaseService {
       return transformedProperties;
     } catch (error) {
       console.error('🚨 AIDatabaseService: Error fetching properties:', error);
+      // Return fallback data if available
+      return await this.getAllPropertiesSimple();
+    }
+  }
+
+  // Fallback method for simple property data access
+  async getAllPropertiesSimple(): Promise<Property[]> {
+    try {
+      console.log('🔄 AIDatabaseService: Using simple property query fallback...');
+
+      const { data: properties, error: propError } = await supabase
+        .from('properties')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (propError) {
+        console.error('🚨 AIDatabaseService: Simple query failed:', propError);
+        return [];
+      }
+
+      if (!properties || properties.length === 0) {
+        return [];
+      }
+
+      // Get images separately
+      const propertyIds = properties.map(p => p.id);
+      const { data: images } = await supabase
+        .from('property_images')
+        .select('property_id, image_url')
+        .in('property_id', propertyIds);
+
+      // Get agent data separately
+      const agentIds = properties
+        .map(p => p.agent_id)
+        .filter(id => id !== null && id !== undefined);
+
+      const { data: agents } = await supabase
+        .from('users')
+        .select('id, name, email, phone')
+        .eq('role', 'agent')
+        .in('id', agentIds);
+
+      // Transform and combine data
+      return properties.map(property => {
+        const propertyImages = images?.filter(img => img.property_id === property.id) || [];
+        const agent = agents?.find(a => a.id === property.agent_id);
+
+        return {
+          id: property.id,
+          title: property.title || '',
+          description: property.description || '',
+          price: property.price || 0,
+          location: property.location || '',
+          address: property.address || '',
+          bedrooms: property.bedrooms || 0,
+          bathrooms: property.bathrooms || 0,
+          size: property.size || 0,
+          featured: property.featured || false,
+          status: property.status || 'For Sale',
+          agent_id: property.agent_id || 0,
+          images: propertyImages.map(img => img.image_url),
+          agent: agent ? {
+            id: agent.id,
+            name: agent.name,
+            email: agent.email,
+            phone: agent.phone || ''
+          } : undefined,
+          createdAt: property.created_at || new Date().toISOString()
+        };
+      });
+    } catch (error) {
+      console.error('🚨 AIDatabaseService: Fallback query failed:', error);
       return [];
     }
   }
@@ -359,7 +435,7 @@ export class AIDatabaseService {
       const agents = await this.getAllAgents();
       const properties = await this.getAllProperties();
       
-      const agentsWithProperties = new Set(properties.map(p => p.agentId)).size;
+      const agentsWithProperties = new Set(properties.map(p => p.agent_id)).size;
       const averagePropertiesPerAgent = agents.length > 0 ? properties.length / agents.length : 0;
 
       return {
@@ -610,16 +686,16 @@ export class AIDatabaseService {
       // Calculate top performing agents
       const agentPerformance: Record<number, {propertyCount: number; totalValue: number; name: string}> = {};
       properties.forEach(p => {
-        if (!agentPerformance[p.agentId]) {
-          const agent = agents.find(a => a.id === p.agentId);
-          agentPerformance[p.agentId] = {
+        if (!agentPerformance[p.agent_id]) {
+          const agent = agents.find(a => a.id === p.agent_id);
+          agentPerformance[p.agent_id] = {
             propertyCount: 0,
             totalValue: 0,
             name: agent?.name || 'Unknown Agent'
           };
         }
-        agentPerformance[p.agentId].propertyCount++;
-        agentPerformance[p.agentId].totalValue += p.price;
+        agentPerformance[p.agent_id].propertyCount++;
+        agentPerformance[p.agent_id].totalValue += p.price;
       });
 
       const topPerformingAgents = Object.entries(agentPerformance)

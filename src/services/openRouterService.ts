@@ -18,6 +18,8 @@ interface OpenRouterResponse {
   };
 }
 
+import { generateSystemPrompt, generateContextPrompt } from './aiPromptConfig';
+
 export class OpenRouterService {
   private apiKey: string;
   private baseUrl: string;
@@ -26,7 +28,7 @@ export class OpenRouterService {
   constructor() {
     this.apiKey = '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';
     this.baseUrl = 'https://openrouter.ai/api/v1';
-    this.model = 'google/gemini-2.5-flash-lite-preview-06-17'; // Correct DeepSeek model ID
+    this.model = 'anthropic/claude-3.5-sonnet'; // More reliable model for real estate conversations
   }
 
   async generateResponse(
@@ -66,17 +68,18 @@ export class OpenRouterService {
           model: this.model,
           messages: requestMessages,
           max_tokens: maxTokens,
-          temperature: 0.7,
-          top_p: 0.9,
-          frequency_penalty: 0.1,
-          presence_penalty: 0.1
+          temperature: 0.3, // Lower temperature for more consistent responses
+          top_p: 0.8,
+          frequency_penalty: 0.0,
+          presence_penalty: 0.0
         })
       });
 
       if (!response.ok) {
         const errorData = await response.text();
-        console.error('OpenRouter API error:', response.status, errorData);
-        throw new Error(`OpenRouter API error: ${response.status}`);
+        console.error('🚨 OpenRouter API error:', response.status, response.statusText);
+        console.error('🚨 OpenRouter error details:', errorData);
+        throw new Error(`OpenRouter API error: ${response.status} - ${response.statusText}`);
       }
 
       const data: OpenRouterResponse = await response.json();
@@ -86,6 +89,13 @@ export class OpenRouterService {
       }
 
       const aiResponse = data.choices[0].message.content.trim();
+
+      console.log('✅ OpenRouter: Raw response received:', aiResponse.substring(0, 200) + '...');
+      console.log('📊 OpenRouter: Response length:', aiResponse.length);
+
+      if (data.usage) {
+        console.log('📊 OpenRouter: Token usage:', data.usage);
+      }
 
       // Validate response - check for garbled text (non-English characters that might indicate model issues)
       const hasValidEnglish = /[a-zA-Z]/.test(aiResponse);
@@ -110,29 +120,12 @@ export class OpenRouterService {
     conversationHistory: OpenRouterMessage[] = []
   ): Promise<string> {
     console.log('🌐 OpenRouter: Generating contextual response for:', userMessage);
-    console.log('📊 OpenRouter: Company context:', companyContext);
+    console.log('📊 OpenRouter: Company context length:', companyContext.length);
     console.log('🏠 OpenRouter: Property data length:', propertyData.length);
+    console.log('💬 OpenRouter: Conversation history length:', conversationHistory.length);
 
-    const systemPrompt = `You are an AI assistant for Musili Homes, Kenya's premier luxury real estate company. You have access to real-time company data and should provide helpful, accurate, and professional responses.
-
-COMPANY CONTEXT:
-${companyContext}
-
-CURRENT PROPERTY DATA:
-${propertyData}
-
-INSTRUCTIONS:
-- Always be professional, helpful, and knowledgeable about luxury real estate
-- Use the provided company and property data to give accurate information
-- If asked about properties, provide specific details from the data
-- Help users with property searches, viewings, and general inquiries
-- If you don't have specific information, direct users to contact the office
-- Format responses clearly with bullet points, emojis, and sections when appropriate
-- Keep responses concise and visual-friendly; avoid long paragraphs
-- Suggest visual elements (like cards, stats, or charts) if possible, instead of just text
-- Always maintain a luxury, premium tone befitting a high-end real estate company
-
-Remember: You represent Musili Homes and should embody excellence in customer service.`;
+    // Use the centralized professional prompting system
+    const systemPrompt = generateSystemPrompt(companyContext, propertyData);
 
     const messages: OpenRouterMessage[] = [
       ...conversationHistory.slice(-6), // Keep last 6 messages for context
@@ -233,32 +226,55 @@ CURRENT STATISTICS:
   // Helper method to format property data for AI context
   formatPropertyData(properties: any[]): string {
     if (!properties || properties.length === 0) {
-      return 'No properties currently available.';
+      return 'No properties currently available in our database.';
     }
 
-    return properties.map(property => `
-PROPERTY: ${property.title}
+    // Limit to top 10 properties for better AI processing
+    const limitedProperties = properties.slice(0, 10);
+
+    return limitedProperties.map((property, index) => `
+PROPERTY ${index + 1}: ${property.title}
+- ID: ${property.id}
 - Location: ${property.location}
-- Price: KES ${property.price.toLocaleString()}
-- Bedrooms: ${property.bedrooms}
-- Bathrooms: ${property.bathrooms}
-- Size: ${property.size?.toLocaleString()} sq ft
-- Status: ${property.status}
-- Description: ${property.description?.substring(0, 200)}...
+- Address: ${property.address || 'Not specified'}
+- Price: KES ${property.price?.toLocaleString() || 'Price on request'}
+- Bedrooms: ${property.bedrooms || 'Not specified'}
+- Bathrooms: ${property.bathrooms || 'Not specified'}
+- Size: ${property.size ? `${property.size.toLocaleString()} sq ft` : 'Size not specified'}
+- Status: ${property.status || 'Available'}
+- Agent: ${property.agent?.name || 'Contact office'}
+- Agent Contact: ${property.agent?.phone || property.agent?.email || 'Contact office'}
+- Description: ${property.description ? property.description.substring(0, 150) + '...' : 'No description available'}
 `).join('\n');
   }
 
   // Test connection to OpenRouter API
   async testConnection(): Promise<boolean> {
     try {
+      console.log('🔍 OpenRouter: Testing connection...');
       const response = await this.generateResponse([
         { role: 'user', content: 'Hello, please respond with "Connection successful"' }
       ], 'You are a test assistant. Respond exactly as requested.', 50);
-      
-      return response.toLowerCase().includes('connection successful');
+
+      console.log('🔍 OpenRouter: Test response:', response);
+      const isSuccessful = response.toLowerCase().includes('connection successful') || response.toLowerCase().includes('successful');
+      console.log('🔍 OpenRouter: Connection test result:', isSuccessful);
+      return isSuccessful;
     } catch (error) {
-      console.error('OpenRouter connection test failed:', error);
+      console.error('🚨 OpenRouter: Connection test failed:', error);
       return false;
+    }
+  }
+
+  // Quick test method for debugging
+  async quickTest(): Promise<string> {
+    try {
+      return await this.generateResponse([
+        { role: 'user', content: 'Say hello and tell me you are working properly.' }
+      ], 'You are a helpful AI assistant for MUSILLI Homes real estate company.', 100);
+    } catch (error) {
+      console.error('🚨 OpenRouter: Quick test failed:', error);
+      throw error;
     }
   }
 }
