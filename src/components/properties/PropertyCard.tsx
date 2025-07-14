@@ -186,13 +186,13 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property, agent, viewMode =
   // Grid view layout (default)
   return (
     <div
-      className="group relative"
+      className="group relative h-[580px]" // Fixed height for consistency
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       <Link
         to={`/property/${property.id}`}
-        className="block luxury-card-elevated rounded-xl overflow-hidden transition-all duration-500 hover:scale-[1.02]"
+        className="block h-full luxury-card-elevated rounded-xl overflow-hidden transition-all duration-500 hover:scale-[1.02] flex flex-col"
       >
         <div className="relative h-72 overflow-hidden">
           <img
@@ -247,52 +247,55 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property, agent, viewMode =
         </div>
 
         {/* Enhanced content section */}
-        <div className="p-6 space-y-4">
-          <div>
-            <h3 className="text-xl font-semibold mb-2 line-clamp-2 group-hover:text-gold-whisper transition-colors duration-300" style={{ color: 'hsl(var(--deep-charcoal))' }}>
-              {property.title}
-            </h3>
+        <div className="p-6 flex flex-col flex-1">
+          <div className="flex-1">
+            <div className="mb-4">
+              <h3 className="text-xl font-semibold mb-2 line-clamp-2 group-hover:text-gold-whisper transition-colors duration-300" style={{ color: 'hsl(var(--deep-charcoal))' }}>
+                {property.title}
+              </h3>
 
-            <div className="flex items-center mb-3" style={{ color: 'hsl(var(--deep-charcoal))' }}>
-              <MapPin className="h-4 w-4 mr-2 text-gold-whisper" />
-              <span className="text-sm font-medium opacity-80">{property.location}</span>
+              <div className="flex items-center mb-3" style={{ color: 'hsl(var(--deep-charcoal))' }}>
+                <MapPin className="h-4 w-4 mr-2 text-gold-whisper" />
+                <span className="text-sm font-medium opacity-80 line-clamp-1">{property.location}</span>
+              </div>
+            </div>
+
+            <div className="flex items-baseline gap-2 mb-4">
+              <p className="text-2xl font-bold text-gold-whisper">
+                {formatCurrency(property.price)}
+              </p>
+              <span className="text-sm font-medium opacity-70" style={{ color: 'hsl(var(--deep-charcoal))' }}>KES</span>
+            </div>
+
+            {/* Enhanced property features */}
+            <div className="border-t border-satin-silver/50 pt-4">
+              <div className="grid grid-cols-3 gap-4">
+                <div className="flex flex-col items-center text-center">
+                  <div className="p-2 bg-soft-ivory rounded-lg mb-2 group-hover:bg-gold-whisper/10 transition-colors duration-300">
+                    <Bed className="h-4 w-4 text-gold-whisper" />
+                  </div>
+                  <span className="text-sm font-medium" style={{ color: 'hsl(var(--deep-charcoal))' }}>{property.bedrooms}</span>
+                  <span className="text-xs opacity-70" style={{ color: 'hsl(var(--deep-charcoal))' }}>Beds</span>
+                </div>
+                <div className="flex flex-col items-center text-center">
+                  <div className="p-2 bg-soft-ivory rounded-lg mb-2 group-hover:bg-gold-whisper/10 transition-colors duration-300">
+                    <Bath className="h-4 w-4 text-gold-whisper" />
+                  </div>
+                  <span className="text-sm font-medium" style={{ color: 'hsl(var(--deep-charcoal))' }}>{property.bathrooms}</span>
+                  <span className="text-xs opacity-70" style={{ color: 'hsl(var(--deep-charcoal))' }}>Baths</span>
+                </div>
+                <div className="flex flex-col items-center text-center">
+                  <div className="p-2 bg-soft-ivory rounded-lg mb-2 group-hover:bg-gold-whisper/10 transition-colors duration-300">
+                    <Maximize2 className="h-4 w-4 text-gold-whisper" />
+                  </div>
+                  <span className="text-sm font-medium" style={{ color: 'hsl(var(--deep-charcoal))' }}>{property.size || 'N/A'}</span>
+                  <span className="text-xs opacity-70" style={{ color: 'hsl(var(--deep-charcoal))' }}>sqft</span>
+                </div>
+              </div>
             </div>
           </div>
 
-          <div className="flex items-baseline gap-2">
-            <p className="text-2xl font-bold text-gold-whisper">
-              {formatCurrency(property.price)}
-            </p>
-            <span className="text-sm font-medium opacity-70" style={{ color: 'hsl(var(--deep-charcoal))' }}>KES</span>
-          </div>
-
-          {/* Enhanced property features */}
-          <div className="border-t border-satin-silver/50 pt-4">
-            <div className="grid grid-cols-3 gap-4">
-              <div className="flex flex-col items-center text-center">
-                <div className="p-2 bg-soft-ivory rounded-lg mb-2 group-hover:bg-gold-whisper/10 transition-colors duration-300">
-                  <Bed className="h-4 w-4 text-gold-whisper" />
-                </div>
-                <span className="text-sm font-medium" style={{ color: 'hsl(var(--deep-charcoal))' }}>{property.bedrooms}</span>
-                <span className="text-xs opacity-70" style={{ color: 'hsl(var(--deep-charcoal))' }}>Beds</span>
-              </div>
-              <div className="flex flex-col items-center text-center">
-                <div className="p-2 bg-soft-ivory rounded-lg mb-2 group-hover:bg-gold-whisper/10 transition-colors duration-300">
-                  <Bath className="h-4 w-4 text-gold-whisper" />
-                </div>
-                <span className="text-sm font-medium" style={{ color: 'hsl(var(--deep-charcoal))' }}>{property.bathrooms}</span>
-                <span className="text-xs opacity-70" style={{ color: 'hsl(var(--deep-charcoal))' }}>Baths</span>
-              </div>
-              <div className="flex flex-col items-center text-center">
-                <div className="p-2 bg-soft-ivory rounded-lg mb-2 group-hover:bg-gold-whisper/10 transition-colors duration-300">
-                  <Maximize2 className="h-4 w-4 text-gold-whisper" />
-                </div>
-                <span className="text-sm font-medium" style={{ color: 'hsl(var(--deep-charcoal))' }}>{property.size || 'N/A'}</span>
-                <span className="text-xs opacity-70" style={{ color: 'hsl(var(--deep-charcoal))' }}>sqft</span>
-              </div>
-            </div>
-          </div>
-
+          {/* Agent display at bottom */}
           {agentDisplay}
         </div>
       </Link>
