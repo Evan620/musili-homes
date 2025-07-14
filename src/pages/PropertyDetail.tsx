@@ -403,31 +403,32 @@ const PropertyDetail: React.FC = () => {
       {/* Image Modal */}
       {showImageModal && property && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm p-2 sm:p-4"
           onClick={() => setShowImageModal(false)}
         >
           <div
-            className="relative w-[95vw] h-[95vh] max-w-6xl max-h-[90vh] p-2 sm:p-4"
+            className="relative w-full h-full max-w-7xl max-h-full flex flex-col"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Close button */}
             <button
               onClick={() => setShowImageModal(false)}
-              className="absolute top-2 right-2 sm:top-4 sm:right-4 z-10 bg-white/20 hover:bg-white/30 text-white p-2 rounded-full transition-colors duration-200"
+              className="absolute top-2 right-2 z-20 bg-white/20 hover:bg-white/30 text-white p-2 rounded-full transition-colors duration-200"
             >
-              <X className="w-4 h-4 sm:w-6 sm:h-6" />
+              <X className="w-5 h-5" />
             </button>
 
             {/* Modal Carousel */}
             <Carousel
-              className="w-full h-full"
+              className="w-full h-full flex-1"
               opts={{
                 startIndex: modalImageIndex,
                 skipSnaps: false,
                 containScroll: 'trimSnaps',
+                align: 'center',
               }}
             >
-              <CarouselContent className="h-full">
+              <CarouselContent className="h-full -ml-0">
                 {property.images.map((image, idx) => {
                   let src = '';
                   if (typeof image === 'string') {
@@ -436,16 +437,15 @@ const PropertyDetail: React.FC = () => {
                     src = (image as { image_url: string }).image_url;
                   }
                   return (
-                    <CarouselItem key={idx} className="h-full flex items-center justify-center p-2">
-                      <div className="relative w-full h-full flex items-center justify-center">
+                    <CarouselItem key={idx} className="h-full flex items-center justify-center pl-0 basis-full">
+                      <div className="relative w-full h-full flex items-center justify-center min-h-0">
                         <img
                           src={src}
                           alt={`${property.title} - View ${idx + 1}`}
-                          className="max-w-full max-h-full object-contain rounded-lg shadow-2xl"
-                          style={{ maxWidth: '100%', maxHeight: '100%' }}
+                          className="max-w-[calc(100vw-4rem)] max-h-[calc(100vh-4rem)] object-contain rounded-lg shadow-2xl"
                         />
                         {/* Image counter */}
-                        <div className="absolute bottom-2 sm:bottom-4 left-1/2 -translate-x-1/2 bg-black/50 backdrop-blur-sm text-white px-3 py-1 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-medium">
+                        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/70 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm font-medium">
                           {idx + 1} / {property.images.length}
                         </div>
                       </div>
@@ -455,8 +455,8 @@ const PropertyDetail: React.FC = () => {
               </CarouselContent>
 
               {/* Modal navigation buttons */}
-              <CarouselPrevious className="absolute left-1 sm:left-4 top-1/2 -translate-y-1/2 z-10 w-8 h-8 sm:w-12 sm:h-12 bg-white/20 hover:bg-white/30 text-white border-0 shadow-lg hover:scale-110 transition-all duration-200" />
-              <CarouselNext className="absolute right-1 sm:right-4 top-1/2 -translate-y-1/2 z-10 w-8 h-8 sm:w-12 sm:h-12 bg-white/20 hover:bg-white/30 text-white border-0 shadow-lg hover:scale-110 transition-all duration-200" />
+              <CarouselPrevious className="absolute left-2 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white/20 hover:bg-white/30 text-white border-0 shadow-lg hover:scale-110 transition-all duration-200" />
+              <CarouselNext className="absolute right-2 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white/20 hover:bg-white/30 text-white border-0 shadow-lg hover:scale-110 transition-all duration-200" />
             </Carousel>
           </div>
         </div>
