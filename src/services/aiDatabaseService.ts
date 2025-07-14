@@ -75,6 +75,19 @@ export class AIDatabaseService {
     };
   }
 
+  // Helper function to transform user data to Agent interface
+  private transformAgentFromUser(user: any, bio: string = ''): Agent {
+    return {
+      id: user.id,
+      name: user.name || 'Unknown Agent',
+      email: user.email || '',
+      phone: user.phone || '',
+      photo: user.photo || '',
+      bio: bio,
+      role: 'agent'
+    };
+  }
+
   // Helper function to transform database task data to Task interface
   private transformTask(item: any): Task {
     return {
@@ -132,35 +145,9 @@ export class AIDatabaseService {
     try {
       console.log('🔍 AIDatabaseService: Fetching all properties with complete data...');
 
-      // First try the complex join query for complete data
-      const { data, error } = await supabase
-        .from('properties')
-        .select(`
-          *,
-          property_images (image_url),
-          agents:agents!properties_agent_auth_id_fkey (
-            id,
-            users:users!agents_user_auth_id_fkey (
-              name, email, phone
-            )
-          )
-        `)
-        .order('created_at', { ascending: false });
-
-      if (error) {
-        console.warn('🚨 AIDatabaseService: Complex query failed, trying fallback:', error);
-        // Fallback to simpler query if complex join fails
-        return await this.getAllPropertiesSimple();
-      }
-
-      console.log('📊 AIDatabaseService: Raw properties data:', data);
-      console.log('📊 AIDatabaseService: Properties count:', data?.length || 0);
-
-      // Transform database data to match Property interface
-      const transformedProperties = (data || []).map(item => this.transformProperty(item));
-      console.log('✅ AIDatabaseService: Transformed properties:', transformedProperties.length);
-
-      return transformedProperties;
+      // Skip complex join query and use fallback directly to avoid 406 errors
+      console.log('🔄 AIDatabaseService: Using simple query approach to avoid foreign key issues');
+      return await this.getAllPropertiesSimple();
     } catch (error) {
       console.error('🚨 AIDatabaseService: Error fetching properties:', error);
       // Return fallback data if available
@@ -402,27 +389,40 @@ export class AIDatabaseService {
     try {
       console.log('🔍 AIDatabaseService: Fetching all agents...');
 
-      const { data, error } = await supabase
-        .from('agents')
-        .select(`
-          *,
-          users:users!agents_user_auth_id_fkey (
-            name, email, phone, photo
-          )
-        `)
+      // Use simpler approach: fetch users with role 'agent' and get bio separately
+      const { data: users, error: userError } = await supabase
+        .from('users')
+        .select('*')
+        .eq('role', 'agent')
         .order('id', { ascending: true });
 
-      if (error) {
-        console.error('🚨 AIDatabaseService: Supabase error fetching agents:', error);
-        throw error;
+      if (userError) {
+        console.error('🚨 AIDatabaseService: Supabase error fetching agent users:', userError);
+        // Try fallback approach
+        return [];
       }
 
-      console.log('📊 AIDatabaseService: Raw agents data:', data);
-      console.log('📊 AIDatabaseService: Agents count:', data?.length || 0);
+      console.log('📊 AIDatabaseService: Raw agent users data:', users);
+      console.log('📊 AIDatabaseService: Agent users count:', users?.length || 0);
 
-      const transformedAgents = (data || []).map(item => this.transformAgent(item));
+      if (!users || users.length === 0) {
+        console.log('📭 AIDatabaseService: No agents found');
+        return [];
+      }
+
+      // Get bio data for all agents
+      const agentIds = users.map(user => user.id);
+      const { data: agentData } = await supabase
+        .from('agents')
+        .select('id, bio')
+        .in('id', agentIds);
+
+      const transformedAgents = users.map(user => {
+        const agentBio = agentData?.find(agent => agent.id === user.id);
+        return this.transformAgentFromUser(user, agentBio?.bio || '');
+      });
+
       console.log('✅ AIDatabaseService: Transformed agents:', transformedAgents.length);
-
       return transformedAgents;
     } catch (error) {
       console.error('🚨 AIDatabaseService: Error fetching agents:', error);

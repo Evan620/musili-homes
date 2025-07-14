@@ -56,7 +56,7 @@ export const getProperties = async (): Promise<Property[]> => {
     const propertyIds = propertiesData.map(p => p.id);
     const { data: imagesData, error: imagesError } = await supabase
       .from('property_images')
-      .select('property_id, image_url')
+      .select('id, property_id, image_url')
       .in('property_id', propertyIds);
 
     if (imagesError) {
@@ -108,7 +108,7 @@ export const getPropertyById = async (id: string): Promise<Property | null> => {
     .from('properties')
     .select(`
       *,
-      property_images (image_url)
+      property_images (id, image_url)
     `)
     .eq('id', Number(id))
     .single();
@@ -132,7 +132,7 @@ export const getPropertyById = async (id: string): Promise<Property | null> => {
     status: data.status as 'For Sale' | 'For Rent' | 'Sold' | 'Rented',
     agent_id: data.agent_id ? Number(data.agent_id) : 0,
     images: data.property_images?.map((img: any) => ({
-      id: img.id || 0,
+      id: img.id,
       property_id: Number(data.id),
       image_url: img.image_url
     })) || [],
@@ -158,7 +158,7 @@ export const getFeaturedProperties = async (): Promise<Property[]> => {
     const propertyIds = propertiesData.map(p => p.id);
     const { data: imagesData, error: imagesError } = await supabase
       .from('property_images')
-      .select('property_id, image_url')
+      .select('id, property_id, image_url')
       .in('property_id', propertyIds.map(id => Number(id)));
 
     if (imagesError) {
@@ -174,7 +174,7 @@ export const getFeaturedProperties = async (): Promise<Property[]> => {
           imagesByProperty[key] = [];
         }
         imagesByProperty[key].push({
-          id: img.id || 0,
+          id: img.id,
           property_id: img.property_id,
           image_url: img.image_url
         });
@@ -244,40 +244,28 @@ export const getAgents = async (): Promise<Agent[]> => {
 };
 
 export const getAgentById = async (id: string): Promise<Agent | null> => {
-  // Try the join first
-  const { data, error } = await supabase
-    .from('agents')
-    .select(`
-      *,
-      users:users!agents_id_fkey (id, name, email, phone, photo, role)
-    `)
-    .eq('id', Number(id))
-    .single();
+  try {
+    // Use a simpler approach: fetch user data directly and then get bio separately
+    const { data: user, error: userError } = await supabase
+      .from('users')
+      .select('*')
+      .eq('id', Number(id))
+      .eq('role', 'agent')
+      .single();
 
-  if (!error && data && data.users) {
-    // Join succeeded, return full agent info
-    return {
-      id: data.id.toString(),
-      name: data.users.name,
-      email: data.users.email,
-      password: '',
-      phone: data.users.phone || '',
-      photo: data.users.photo || '',
-      bio: data.bio || '',
-      properties: [],
-      role: 'agent' as const
-    };
-  }
+    if (userError || !user) {
+      console.error('Error fetching user for agent:', userError);
+      return null;
+    }
 
-  // Fallback: fetch from users table directly
-  const { data: user, error: userError } = await supabase
-    .from('users')
-    .select('*')
-    .eq('id', Number(id))
-    .eq('role', 'agent')
-    .single();
+    // Get the bio from agents table separately
+    const { data: agentData, error: agentError } = await supabase
+      .from('agents')
+      .select('bio')
+      .eq('id', Number(id))
+      .single();
 
-  if (!userError && user) {
+    // Return agent data (bio is optional, so don't fail if agents table query fails)
     return {
       id: user.id.toString(),
       name: user.name,
@@ -285,15 +273,15 @@ export const getAgentById = async (id: string): Promise<Agent | null> => {
       password: '',
       phone: user.phone || '',
       photo: user.photo || '',
-      bio: '', // No bio available in this fallback
+      bio: agentData?.bio || '', // Use bio if available, empty string if not
       properties: [],
       role: 'agent' as const
     };
-  }
 
-  // If both fail, return null
-  console.error('Error fetching agent:', error || userError);
-  return null;
+  } catch (error) {
+    console.error('Error in getAgentById:', error);
+    return null;
+  }
 };
 
 // Users and Authentication

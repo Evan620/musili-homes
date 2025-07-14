@@ -44,6 +44,13 @@ interface PropertyFormProps {
   agents: Array<{ id: number; name: string }>;
   isLoading?: boolean;
   propertyId?: number; // For editing existing properties
+  // External upload state control for create property
+  externalUploadState?: {
+    isUploading: boolean;
+    current: number;
+    total: number;
+    currentFileName?: string;
+  };
 }
 
 export const PropertyForm: React.FC<PropertyFormProps> = ({
@@ -52,10 +59,16 @@ export const PropertyForm: React.FC<PropertyFormProps> = ({
   initialData,
   agents,
   isLoading = false,
-  propertyId
+  propertyId,
+  externalUploadState
 }) => {
   const [images, setImages] = useState<UploadedImage[]>([]);
   const [isUploadingImages, setIsUploadingImages] = useState(false);
+  const [uploadStatus, setUploadStatus] = useState<{
+    current: number;
+    total: number;
+    currentFileName?: string;
+  } | null>(null);
 
   const {
     uploadImages,
@@ -67,7 +80,11 @@ export const PropertyForm: React.FC<PropertyFormProps> = ({
     onUploadComplete: (results) => {
       const successfulUploads = results.filter(r => r.success);
       const imageUrls = successfulUploads.map(r => r.url!);
-      
+
+      // Reset upload status
+      setUploadStatus(null);
+      setIsUploadingImages(false);
+
       // Submit form with uploaded image URLs
       const formData = form.getValues();
       onSubmit({
@@ -81,6 +98,7 @@ export const PropertyForm: React.FC<PropertyFormProps> = ({
         description: error,
         variant: "destructive"
       });
+      setUploadStatus(null);
       setIsUploadingImages(false);
     }
   });
@@ -111,6 +129,10 @@ export const PropertyForm: React.FC<PropertyFormProps> = ({
     }
   }, [agents, form]);
 
+  // Use external upload state if provided (for create property)
+  const effectiveUploadState = externalUploadState || uploadStatus;
+  const effectiveIsUploading = externalUploadState?.isUploading || isUploadingImages;
+
   const handleFormSubmit = async (data: PropertyFormData) => {
 
     
@@ -138,31 +160,40 @@ export const PropertyForm: React.FC<PropertyFormProps> = ({
       });
     }
 
-    // Handle image uploads based on whether this is a new or existing property
+    // Handle image uploads for both new and existing properties
+    const newImages = images.filter(img => !img.uploaded && img.file);
+    const existingImageUrls = images.filter(img => img.uploaded).map(img => img.url!);
+
     if (propertyId) {
-      // For existing properties, upload images first if there are any
-      if (images.length > 0 && images.some(img => !img.uploaded)) {
+      // For existing properties, upload new images first if there are any
+      if (newImages.length > 0) {
         setIsUploadingImages(true);
-        await uploadImages(images.filter(img => !img.uploaded));
+        setUploadStatus({ current: 0, total: newImages.length });
+        await uploadImages(newImages);
       } else {
         // No new images to upload, submit with existing image URLs
-        const existingImageUrls = images.filter(img => img.uploaded).map(img => img.url!);
         onSubmit({
           ...data,
           images: existingImageUrls
         });
       }
     } else {
-      // For new properties, pass the image files to the parent component
-      // The parent will handle creating the property first, then uploading images
-      const imageFiles = images.filter(img => !img.uploaded && img.file).map(img => img.file!);
-      const existingImageUrls = images.filter(img => img.uploaded).map(img => img.url!);
+      // For new properties, start upload process and keep loading state
+      const imageFiles = newImages.map(img => img.file!);
 
+      if (imageFiles.length > 0) {
+        setIsUploadingImages(true);
+        setUploadStatus({ current: 0, total: imageFiles.length });
+      }
+
+      // Submit form data - parent will handle actual upload and keep us informed
       onSubmit({
         ...data,
         images: existingImageUrls,
-        imageFiles: imageFiles // Pass the files for the parent to handle
+        imageFiles: imageFiles
       });
+
+      // Don't reset loading state here - parent will call onUploadComplete when done
     }
   };
 
@@ -172,6 +203,7 @@ export const PropertyForm: React.FC<PropertyFormProps> = ({
 
   const uploadStats = getUploadStats();
   const showUploadProgress = isUploadingImages && uploadProgress.length > 0;
+  const showExternalProgress = externalUploadState?.isUploading && externalUploadState.total > 0;
 
   return (
     <div className="space-y-6">
@@ -412,35 +444,65 @@ export const PropertyForm: React.FC<PropertyFormProps> = ({
               />
 
               {/* Upload Progress */}
-              {showUploadProgress && (
+              {(showUploadProgress || uploadStatus || showExternalProgress) && (
                 <div className="mt-4 p-4 bg-gray-50 rounded-lg">
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm font-medium">Uploading Images...</span>
+                    <span className="text-sm font-medium">
+                      {propertyId ? 'Uploading Images...' : 'Uploading Images...'}
+                    </span>
                     <span className="text-sm text-gray-500">
-                      {uploadStats.completed}/{uploadStats.total}
+                      {externalUploadState ?
+                        `${externalUploadState.current}/${externalUploadState.total}` :
+                        uploadStatus ?
+                          `${uploadStatus.current}/${uploadStatus.total}` :
+                          `${uploadStats.completed}/${uploadStats.total}`
+                      }
                     </span>
                   </div>
-                  <div className="space-y-2">
-                    {uploadProgress.map((progress, index) => (
-                      <div key={index} className="flex items-center space-x-2">
-                        <div className="flex-1">
-                          <div className="flex justify-between text-xs mb-1">
-                            <span className="truncate">{progress.fileName}</span>
-                            <span>{progress.progress.toFixed(0)}%</span>
-                          </div>
-                          <div className="w-full bg-gray-200 rounded-full h-2">
-                            <div 
-                              className="bg-blue-600 h-2 rounded-full transition-all duration-300"
-                              style={{ width: `${progress.progress}%` }}
-                            />
-                          </div>
-                        </div>
-                        {progress.error && (
-                          <span className="text-xs text-red-500">Error</span>
-                        )}
-                      </div>
-                    ))}
+
+                  {/* Overall Progress Bar */}
+                  <div className="w-full bg-gray-200 rounded-full h-3 mb-2">
+                    <div
+                      className="bg-blue-600 h-3 rounded-full transition-all duration-300 flex items-center justify-center"
+                      style={{
+                        width: externalUploadState ?
+                          `${(externalUploadState.current / externalUploadState.total) * 100}%` :
+                          uploadStatus ?
+                            `${(uploadStatus.current / uploadStatus.total) * 100}%` :
+                            `${(uploadStats.completed / uploadStats.total) * 100}%`
+                      }}
+                    >
+                      <span className="text-xs text-white font-medium">
+                        {externalUploadState ?
+                          `${Math.round((externalUploadState.current / externalUploadState.total) * 100)}%` :
+                          uploadStatus ?
+                            `${Math.round((uploadStatus.current / uploadStatus.total) * 100)}%` :
+                            `${Math.round((uploadStats.completed / uploadStats.total) * 100)}%`
+                        }
+                      </span>
+                    </div>
                   </div>
+
+                  {/* Current File Info */}
+                  {(externalUploadState?.currentFileName || uploadStatus?.currentFileName) && (
+                    <div className="text-xs text-gray-600 truncate">
+                      Processing: {externalUploadState?.currentFileName || uploadStatus?.currentFileName}
+                    </div>
+                  )}
+
+                  {/* Detailed Progress for Edit Mode */}
+                  {propertyId && showUploadProgress && (
+                    <div className="mt-3 space-y-1">
+                      {uploadProgress.map((progress, index) => (
+                        <div key={index} className="flex items-center justify-between text-xs">
+                          <span className="truncate flex-1 mr-2">{progress.fileName}</span>
+                          <span className={progress.error ? 'text-red-500' : 'text-gray-500'}>
+                            {progress.error ? 'Error' : `${progress.progress.toFixed(0)}%`}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
               )}
             </CardContent>
@@ -453,21 +515,24 @@ export const PropertyForm: React.FC<PropertyFormProps> = ({
                 Cancel
               </Button>
             )}
-            <Button 
-              type="submit" 
-              disabled={isLoading || isUploadingImages}
-              className="min-w-[120px]"
-
+            <Button
+              type="submit"
+              disabled={isLoading || isUploadingImages || externalUploadState?.isUploading}
+              className="min-w-[140px]"
             >
-              {isLoading || isUploadingImages ? (
+              {isLoading || isUploadingImages || externalUploadState?.isUploading ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  {isUploadingImages ? 'Uploading...' : 'Saving...'}
+                  {externalUploadState?.isUploading ? 'Uploading...' :
+                   isUploadingImages ?
+                    (propertyId ? 'Uploading...' : 'Preparing...') :
+                    'Saving...'
+                  }
                 </>
               ) : (
                 <>
                   <Save className="mr-2 h-4 w-4" />
-                  Save Property
+                  {propertyId ? 'Update Property' : 'Create Property'}
                 </>
               )}
             </Button>

@@ -251,14 +251,23 @@ const AdminDashboard: React.FC = () => {
           const { uploadPropertyImages } = await import('@/services/storage');
           const uploadResults = await uploadPropertyImages(data.imageFiles, propertyId);
           const successfulUploads = uploadResults.filter((r: any) => r.success);
-          imageUrls = successfulUploads.map((r: any) => r.url!);
+          const failedUploads = uploadResults.filter((r: any) => !r.success);
 
+          if (failedUploads.length > 0) {
+            toast({
+              title: "Partial Upload Failure",
+              description: `${failedUploads.length} out of ${data.imageFiles.length} images failed to upload. You can add them later via edit.`,
+              variant: "destructive"
+            });
+          }
+
+          imageUrls = successfulUploads.map((r: any) => r.url!);
           console.log(`Successfully uploaded ${successfulUploads.length} out of ${data.imageFiles.length} images`);
         } catch (imageError) {
           console.error('Error uploading images:', imageError);
           toast({
             title: "Image Upload Warning",
-            description: "Property created but some images failed to upload. You can add them later.",
+            description: "Property created but images failed to upload. You can add them later via edit.",
             variant: "destructive"
           });
         }
@@ -274,7 +283,7 @@ const AdminDashboard: React.FC = () => {
             console.error('Error saving property images:', imageError);
             toast({
               title: "Database Warning",
-              description: "Property created but failed to save image references. Please try uploading images again.",
+              description: "Property created but failed to save image references. You can add them later via edit.",
               variant: "destructive"
             });
           } else {
@@ -284,7 +293,7 @@ const AdminDashboard: React.FC = () => {
           console.error('Error inserting image URLs into DB:', dbError);
           toast({
             title: "Database Error",
-            description: "Property created but failed to save image references. Please try uploading images again.",
+            description: "Property created but failed to save image references. You can add them later via edit.",
             variant: "destructive"
           });
         }

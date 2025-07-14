@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { useProperty, useAgent } from '@/hooks/useData';
 import { formatCurrency } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
-import { Bed, Bath, Maximize2, MapPin, Phone, Mail } from 'lucide-react';
+import { Bed, Bath, Maximize2, MapPin, Phone, Mail, X } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import ContactAgentForm from '@/components/properties/ContactAgentForm';
 import { PropertyDescription } from '@/components/ui/formatted-text';
@@ -24,6 +24,8 @@ const PropertyDetail: React.FC = () => {
 
   const [activeIndex, setActiveIndex] = useState(0);
   const [showContactForm, setShowContactForm] = useState(false);
+  const [showImageModal, setShowImageModal] = useState(false);
+  const [modalImageIndex, setModalImageIndex] = useState(0);
   const { toast } = useToast();
 
   // Set active image when property loads
@@ -132,7 +134,7 @@ const PropertyDetail: React.FC = () => {
       <div className="relative w-full bg-gradient-to-b from-slate-900 to-slate-800 py-4 sm:py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <Carousel
-            className="w-full"
+            className="w-full relative"
             opts={{
               startIndex: activeIndex,
               skipSnaps: false,
@@ -155,14 +157,28 @@ const PropertyDetail: React.FC = () => {
                   src = (image as { image_url: string }).image_url;
                 }
                 return (
-                  <CarouselItem key={idx} className="aspect-[4/3] sm:aspect-[16/10]">
-                    <div className="relative group overflow-hidden rounded-2xl sm:rounded-3xl shadow-2xl">
+                  <CarouselItem key={idx}>
+                    {/* Fixed height container for consistent image sizing */}
+                    <div
+                      className="relative group overflow-hidden rounded-2xl sm:rounded-3xl shadow-2xl h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] cursor-pointer"
+                      onClick={() => {
+                        setModalImageIndex(idx);
+                        setShowImageModal(true);
+                      }}
+                    >
                       <img
                         src={src}
                         alt={`${property.title} - View ${idx + 1}`}
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+
+                      {/* Click to expand indicator */}
+                      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <div className="bg-black/50 backdrop-blur-sm text-white p-2 rounded-full">
+                          <Maximize2 className="w-6 h-6" />
+                        </div>
+                      </div>
 
                       {/* Mobile-optimized image counter */}
                       <div className="absolute top-3 right-3 sm:top-6 sm:right-6 bg-black/50 backdrop-blur-sm text-white px-2 py-1 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-medium">
@@ -174,9 +190,9 @@ const PropertyDetail: React.FC = () => {
               })}
             </CarouselContent>
 
-            {/* Mobile-friendly navigation buttons */}
-            <CarouselPrevious className="z-10 left-2 sm:left-6 w-8 h-8 sm:w-10 sm:h-10 bg-white/90 hover:bg-white text-slate-800 border-0 shadow-lg hover:scale-110 transition-all duration-200" />
-            <CarouselNext className="z-10 right-2 sm:right-6 w-8 h-8 sm:w-10 sm:h-10 bg-white/90 hover:bg-white text-slate-800 border-0 shadow-lg hover:scale-110 transition-all duration-200" />
+            {/* Centered navigation buttons */}
+            <CarouselPrevious className="absolute left-2 sm:left-6 top-1/2 -translate-y-1/2 z-20 w-8 h-8 sm:w-10 sm:h-10 bg-white/90 hover:bg-white text-slate-800 border-0 shadow-lg hover:scale-110 transition-all duration-200" />
+            <CarouselNext className="absolute right-2 sm:right-6 top-1/2 -translate-y-1/2 z-20 w-8 h-8 sm:w-10 sm:h-10 bg-white/90 hover:bg-white text-slate-800 border-0 shadow-lg hover:scale-110 transition-all duration-200" />
           </Carousel>
 
           {/* Mobile-optimized thumbnails */}
@@ -382,6 +398,68 @@ const PropertyDetail: React.FC = () => {
           isOpen={showContactForm}
           onClose={() => setShowContactForm(false)}
         />
+      )}
+
+      {/* Image Modal */}
+      {showImageModal && property && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm"
+          onClick={() => setShowImageModal(false)}
+        >
+          <div
+            className="relative w-[95vw] h-[95vh] max-w-6xl max-h-[90vh] p-2 sm:p-4"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Close button */}
+            <button
+              onClick={() => setShowImageModal(false)}
+              className="absolute top-2 right-2 sm:top-4 sm:right-4 z-10 bg-white/20 hover:bg-white/30 text-white p-2 rounded-full transition-colors duration-200"
+            >
+              <X className="w-4 h-4 sm:w-6 sm:h-6" />
+            </button>
+
+            {/* Modal Carousel */}
+            <Carousel
+              className="w-full h-full"
+              opts={{
+                startIndex: modalImageIndex,
+                skipSnaps: false,
+                containScroll: 'trimSnaps',
+              }}
+            >
+              <CarouselContent className="h-full">
+                {property.images.map((image, idx) => {
+                  let src = '';
+                  if (typeof image === 'string') {
+                    src = image;
+                  } else if (typeof image === 'object' && image !== null && 'image_url' in image) {
+                    src = (image as { image_url: string }).image_url;
+                  }
+                  return (
+                    <CarouselItem key={idx} className="h-full flex items-center justify-center p-2">
+                      <div className="relative w-full h-full flex items-center justify-center">
+                        <img
+                          src={src}
+                          alt={`${property.title} - View ${idx + 1}`}
+                          className="max-w-full max-h-full object-contain rounded-lg shadow-2xl"
+                          style={{ maxWidth: '100%', maxHeight: '100%' }}
+                        />
+                        {/* Image counter */}
+                        <div className="absolute bottom-2 sm:bottom-4 left-1/2 -translate-x-1/2 bg-black/50 backdrop-blur-sm text-white px-3 py-1 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-medium">
+                          {idx + 1} / {property.images.length}
+                        </div>
+                      </div>
+                    </CarouselItem>
+                  );
+                })}
+              </CarouselContent>
+
+              {/* Modal navigation buttons */}
+              <CarouselPrevious className="absolute left-1 sm:left-4 top-1/2 -translate-y-1/2 z-10 w-8 h-8 sm:w-12 sm:h-12 bg-white/20 hover:bg-white/30 text-white border-0 shadow-lg hover:scale-110 transition-all duration-200" />
+              <CarouselNext className="absolute right-1 sm:right-4 top-1/2 -translate-y-1/2 z-10 w-8 h-8 sm:w-12 sm:h-12 bg-white/20 hover:bg-white/30 text-white border-0 shadow-lg hover:scale-110 transition-all duration-200" />
+            </Carousel>
+          </div>
+        </div>
       )}
     </div>
   );

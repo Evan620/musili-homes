@@ -43,6 +43,12 @@ const PropertyManagement: React.FC = () => {
   const [deletingProperty, setDeletingProperty] = useState<Property | null>(null);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [isBulkDeleteDialogOpen, setIsBulkDeleteDialogOpen] = useState(false);
+  const [createUploadState, setCreateUploadState] = useState<{
+    isUploading: boolean;
+    current: number;
+    total: number;
+    currentFileName?: string;
+  } | null>(null);
   const [isBulkOperationsDialogOpen, setIsBulkOperationsDialogOpen] = useState(false);
   const [isImportExportDialogOpen, setIsImportExportDialogOpen] = useState(false);
 
@@ -77,10 +83,12 @@ const PropertyManagement: React.FC = () => {
     return matchesSearch && matchesStatus && matchesAgent;
   }) || [];
 
-  // Handle property creation
+  // Handle property creation - using safer upload-first approach
   const handleCreateProperty = async (data: any) => {
     try {
-      // 1. Create the property first (without images)
+      let imageUrls: string[] = [];
+
+      // 1. Create property first to get a valid property ID
       const propertyResult = await createProperty.mutateAsync({
         propertyData: {
           title: data.title,
@@ -93,62 +101,92 @@ const PropertyManagement: React.FC = () => {
           size: data.size,
           status: data.status,
           featured: data.featured || false,
-          agentId: data.agentId, // Fixed: use agentId instead of agent_id
-          images: [] // No images yet
+          agentId: data.agentId,
+          images: [] // Will be handled separately
         },
-        imageUrls: []
+        imageUrls: [] // No images yet
       });
 
       // Defensive: propertyResult may be undefined/null if mutation fails
-      // The mutateAsync returns the raw database service result: { success, property?, error? }
-      if (!propertyResult || !propertyResult.success || !propertyResult.property || !propertyResult.property.id) {
+      if (!propertyResult || !propertyResult.success || !propertyResult.property) {
         throw new Error('Failed to create property record.');
       }
+
       const propertyId = propertyResult.property.id;
 
-      // 2. Upload images to storage using the new property ID
-      let imageUrls: string[] = [];
+      // 2. Upload images using the real property ID with progress tracking
       if (data.imageFiles && data.imageFiles.length > 0) {
         try {
-          const { uploadPropertyImages } = await import('@/services/storage');
-          const uploadResults = await uploadPropertyImages(data.imageFiles, propertyId);
-          const successfulUploads = uploadResults.filter((r: any) => r.success);
-          imageUrls = successfulUploads.map((r: any) => r.url!);
+          // Set initial upload state
+          setCreateUploadState({
+            isUploading: true,
+            current: 0,
+            total: data.imageFiles.length
+          });
 
+          const { uploadPropertyImages } = await import('@/services/storage');
+
+          // Upload images one by one to track progress
+          const uploadResults = [];
+          for (let i = 0; i < data.imageFiles.length; i++) {
+            const file = data.imageFiles[i];
+
+            // Update progress
+            setCreateUploadState({
+              isUploading: true,
+              current: i + 1,
+              total: data.imageFiles.length,
+              currentFileName: file.name
+            });
+
+            // Upload single file
+            const singleResult = await uploadPropertyImages([file], propertyId);
+            uploadResults.push(...singleResult);
+
+            // Small delay to show progress
+            await new Promise(resolve => setTimeout(resolve, 200));
+          }
+
+          const successfulUploads = uploadResults.filter((r: any) => r.success);
+          const failedUploads = uploadResults.filter((r: any) => !r.success);
+
+          if (failedUploads.length > 0) {
+            // Warn about failed uploads but don't block since property is already created
+            toast({
+              title: "Partial Upload Failure",
+              description: `${failedUploads.length} out of ${data.imageFiles.length} images failed to upload. You can add them later via edit.`,
+              variant: "destructive"
+            });
+          }
+
+          imageUrls = successfulUploads.map((r: any) => r.url!);
           console.log(`Successfully uploaded ${successfulUploads.length} out of ${data.imageFiles.length} images`);
+
+          // 3. Save the image URLs to the database
+          if (imageUrls.length > 0) {
+            const { supabase } = await import('@/integrations/supabase/client');
+            const imageRecords = imageUrls.map(url => ({ property_id: propertyId, image_url: url }));
+            const { error: imageError } = await supabase.from('property_images').insert(imageRecords);
+
+            if (imageError) {
+              console.error('Error saving property images:', imageError);
+              toast({
+                title: "Database Warning",
+                description: "Property created but failed to save image references. You can add them later via edit.",
+                variant: "destructive"
+              });
+            }
+          }
         } catch (imageError) {
           console.error('Error uploading images:', imageError);
           toast({
             title: "Image Upload Warning",
-            description: "Property created but some images failed to upload. You can add them later.",
+            description: "Property created but images failed to upload. You can add them later via edit.",
             variant: "destructive"
           });
-        }
-      }
-
-      // 3. Save the image URLs in the property_images table, linked to the property ID
-      if (imageUrls.length > 0) {
-        try {
-          const { supabase } = await import('@/integrations/supabase/client');
-          const imageRecords = imageUrls.map(url => ({ property_id: propertyId, image_url: url }));
-          const { error: imageError } = await supabase.from('property_images').insert(imageRecords);
-          if (imageError) {
-            console.error('Error saving property images:', imageError);
-            toast({
-              title: "Database Warning",
-              description: "Property created but failed to save image references. Please try uploading images again.",
-              variant: "destructive"
-            });
-          } else {
-            console.log(`Successfully saved ${imageUrls.length} image URLs to database`);
-          }
-        } catch (dbError) {
-          console.error('Error inserting image URLs into DB:', dbError);
-          toast({
-            title: "Database Error",
-            description: "Property created but failed to save image references. Please try uploading images again.",
-            variant: "destructive"
-          });
+        } finally {
+          // Reset upload state
+          setCreateUploadState(null);
         }
       }
 
@@ -562,6 +600,7 @@ const PropertyManagement: React.FC = () => {
                 onCancel={() => setIsCreateDialogOpen(false)}
                 agents={agents?.map(a => ({ id: a.id, name: a.name })) || []}
                 isLoading={createProperty.isPending}
+                externalUploadState={createUploadState}
               />
             </DialogContent>
           </Dialog>
@@ -699,11 +738,15 @@ const PropertyManagement: React.FC = () => {
                     </td>
                     <td className="py-3 px-4">
                       <div className="flex items-center space-x-3">
-                        {property.images.length > 0 && (
+                        {property.images && property.images.length > 0 && (
                           <img
-                            src={property.images[0]}
+                            src={property.images[0].image_url}
                             alt={property.title}
                             className="w-12 h-12 object-cover rounded"
+                            onError={(e) => {
+                              // Hide image if it fails to load
+                              e.currentTarget.style.display = 'none';
+                            }}
                           />
                         )}
                         <div>
@@ -806,7 +849,9 @@ const PropertyManagement: React.FC = () => {
                 status: editingProperty.status,
                 featured: editingProperty.featured,
                 agentId: editingProperty.agent_id, // Fixed: use agentId to match PropertyForm
-                images: editingProperty.images
+                images: editingProperty.images?.map(img =>
+                  typeof img === 'string' ? img : img.image_url
+                ) || []
               }}
               agents={agents?.map(a => ({ id: a.id, name: a.name })) || []}
               isLoading={updateProperty.isPending}
