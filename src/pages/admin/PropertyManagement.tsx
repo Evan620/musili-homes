@@ -100,21 +100,29 @@ const PropertyManagement: React.FC = () => {
       });
 
       // Defensive: propertyResult may be undefined/null if mutation fails
-      if (!propertyResult || !propertyResult.id) {
+      // The mutateAsync returns the raw database service result: { success, property?, error? }
+      if (!propertyResult || !propertyResult.success || !propertyResult.property || !propertyResult.property.id) {
         throw new Error('Failed to create property record.');
       }
+      const propertyId = propertyResult.property.id;
 
       // 2. Upload images to storage using the new property ID
       let imageUrls: string[] = [];
       if (data.imageFiles && data.imageFiles.length > 0) {
         try {
           const { uploadPropertyImages } = await import('@/services/storage');
-          const uploadResults = await uploadPropertyImages(data.imageFiles, propertyResult.id);
+          const uploadResults = await uploadPropertyImages(data.imageFiles, propertyId);
           const successfulUploads = uploadResults.filter((r: any) => r.success);
           imageUrls = successfulUploads.map((r: any) => r.url!);
+
+          console.log(`Successfully uploaded ${successfulUploads.length} out of ${data.imageFiles.length} images`);
         } catch (imageError) {
           console.error('Error uploading images:', imageError);
-          // Continue even if image upload fails
+          toast({
+            title: "Image Upload Warning",
+            description: "Property created but some images failed to upload. You can add them later.",
+            variant: "destructive"
+          });
         }
       }
 
@@ -122,19 +130,31 @@ const PropertyManagement: React.FC = () => {
       if (imageUrls.length > 0) {
         try {
           const { supabase } = await import('@/integrations/supabase/client');
-          const imageRecords = imageUrls.map(url => ({ property_id: propertyResult.id, image_url: url }));
+          const imageRecords = imageUrls.map(url => ({ property_id: propertyId, image_url: url }));
           const { error: imageError } = await supabase.from('property_images').insert(imageRecords);
           if (imageError) {
             console.error('Error saving property images:', imageError);
+            toast({
+              title: "Database Warning",
+              description: "Property created but failed to save image references. Please try uploading images again.",
+              variant: "destructive"
+            });
+          } else {
+            console.log(`Successfully saved ${imageUrls.length} image URLs to database`);
           }
         } catch (dbError) {
           console.error('Error inserting image URLs into DB:', dbError);
+          toast({
+            title: "Database Error",
+            description: "Property created but failed to save image references. Please try uploading images again.",
+            variant: "destructive"
+          });
         }
       }
 
       toast({
         title: "Property Created",
-        description: `Property \"${data.title}\" has been created successfully.`
+        description: `Property \"${data.title}\" has been created successfully${imageUrls.length > 0 ? ` with ${imageUrls.length} images` : ''}.`
       });
 
       setIsCreateDialogOpen(false);

@@ -252,8 +252,15 @@ const AdminDashboard: React.FC = () => {
           const uploadResults = await uploadPropertyImages(data.imageFiles, propertyId);
           const successfulUploads = uploadResults.filter((r: any) => r.success);
           imageUrls = successfulUploads.map((r: any) => r.url!);
+
+          console.log(`Successfully uploaded ${successfulUploads.length} out of ${data.imageFiles.length} images`);
         } catch (imageError) {
           console.error('Error uploading images:', imageError);
+          toast({
+            title: "Image Upload Warning",
+            description: "Property created but some images failed to upload. You can add them later.",
+            variant: "destructive"
+          });
         }
       }
 
@@ -265,15 +272,27 @@ const AdminDashboard: React.FC = () => {
           const { error: imageError } = await supabase.from('property_images').insert(imageRecords);
           if (imageError) {
             console.error('Error saving property images:', imageError);
+            toast({
+              title: "Database Warning",
+              description: "Property created but failed to save image references. Please try uploading images again.",
+              variant: "destructive"
+            });
+          } else {
+            console.log(`Successfully saved ${imageUrls.length} image URLs to database`);
           }
         } catch (dbError) {
           console.error('Error inserting image URLs into DB:', dbError);
+          toast({
+            title: "Database Error",
+            description: "Property created but failed to save image references. Please try uploading images again.",
+            variant: "destructive"
+          });
         }
       }
 
       toast({
         title: "Property Created",
-        description: `Property \"${data.title}\" has been created successfully.`
+        description: `Property \"${data.title}\" has been created successfully${imageUrls.length > 0 ? ` with ${imageUrls.length} images` : ''}.`
       });
 
       // Add a small delay to ensure images are available before closing dialog
