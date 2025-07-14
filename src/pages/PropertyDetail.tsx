@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Bed, Bath, Maximize2, MapPin, Phone, Mail } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import ContactAgentForm from '@/components/properties/ContactAgentForm';
+import { PropertyDescription } from '@/components/ui/formatted-text';
 import {
   Carousel,
   CarouselContent,
@@ -278,9 +279,11 @@ const PropertyDetail: React.FC = () => {
               </div>
 
               <div className="prose prose-sm sm:prose-base lg:prose-lg max-w-none">
-                <p className="text-slate-700 text-sm sm:text-base lg:text-lg leading-relaxed">
-                  {property.description}
-                </p>
+                <PropertyDescription
+                  description={property.description}
+                  className="sm:text-base lg:text-lg"
+                  size="base"
+                />
               </div>
             </div>
           </div>

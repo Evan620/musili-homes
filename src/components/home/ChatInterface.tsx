@@ -7,6 +7,7 @@ import { Bot, Send, User, Bell } from 'lucide-react';
 import { propertyAI, testOpenRouterConnection } from '@/services/aiService';
 import { Property } from '@/types';
 import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from '@/components/ui/carousel';
+import { PropertyDescription } from '@/components/ui/formatted-text';
 import '@/styles/chat-doodles.css';
 
 interface ChatMessage {
@@ -244,7 +245,12 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ onNewMessage, onInputFocu
                                     <span>🛁 {property.bathrooms} ba</span>
                                     <span>📐 {property.size?.toLocaleString() || '-'} sqft</span>
                                   </div>
-                                  <div className="text-xs text-deep-charcoal/80 mb-2 line-clamp-2">{property.description}</div>
+                                  <PropertyDescription
+                                    description={property.description}
+                                    className="text-xs text-deep-charcoal/80 mb-2"
+                                    maxLines={2}
+                                    size="sm"
+                                  />
                                 </div>
                                 <div className="flex gap-2 justify-end mt-4">
                                   <button
