@@ -67,7 +67,7 @@ export class OpenRouterService {
           'Authorization': `Bearer ${this.apiKey}`,
           'Content-Type': 'application/json',
           'HTTP-Referer': window.location.origin,
-          'X-Title': 'Musili Homes AI Assistant'
+          'X-Title': 'Musilli Homes AI Assistant'
         },
         body: JSON.stringify({
           model: this.model,
@@ -150,7 +150,7 @@ export class OpenRouterService {
     marketData: string,
     userQuery: string
   ): Promise<string> {
-    const systemPrompt = `You are a luxury real estate market analyst for Musili Homes. Analyze the provided property and market data to give insightful, professional responses.
+    const systemPrompt = `You are a luxury real estate market analyst for Musilli Homes. Analyze the provided property and market data to give insightful, professional responses.
 
 PROPERTY DATA:
 ${propertyData}
@@ -180,7 +180,7 @@ Keep responses professional and data-driven.`;
     clientPreferences: string,
     availableProperties: string
   ): Promise<string> {
-    const systemPrompt = `You are a luxury property consultant for Musili Homes. Based on client preferences and available properties, recommend the best matches and suggest viewing arrangements.
+    const systemPrompt = `You are a luxury property consultant for Musilli Homes. Based on client preferences and available properties, recommend the best matches and suggest viewing arrangements.
 
 CLIENT PREFERENCES:
 ${clientPreferences}

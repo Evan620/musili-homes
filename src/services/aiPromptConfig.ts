@@ -7,7 +7,7 @@ export const AI_ASSISTANT_CONFIG = {
   // Company Information
   COMPANY_NAME: 'MUSILLI Homes',
   COMPANY_DESCRIPTION: "Kenya's premier luxury real estate company",
-  CONTACT_EMAIL: 'info@musilihomes.com',
+  CONTACT_EMAIL: 'info@musillihomes.com',
   CONTACT_PHONE: '+254 700 123 456',
   
   // Professional Communication Guidelines
@@ -30,7 +30,7 @@ export const AI_ASSISTANT_CONFIG = {
 
 What would you like to know about our luxury property collection?`,
 
-    error: `I apologize, but I'm experiencing some technical difficulties accessing our property database. Please try again in a moment, or contact our office directly at info@musilihomes.com or +254 700 123 456 for immediate assistance with your property inquiry.`,
+    error: `I apologize, but I'm experiencing some technical difficulties accessing our property database. Please try again in a moment, or contact our office directly at info@musillihomes.com or +254 700 123 456 for immediate assistance with your property inquiry.`,
 
     noResults: `I couldn't find properties matching your exact criteria, but I'd be happy to show you similar options or help you refine your search. Our expert agents can also provide personalized recommendations based on your specific needs.`,
 

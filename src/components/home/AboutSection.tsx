@@ -38,7 +38,7 @@ const AboutSection: React.FC = () => {
               </div>
 
               <h2 className="text-5xl md:text-6xl font-thin luxury-heading mb-8 tracking-wide">
-                Musili Homes
+                Musilli Homes
               </h2>
 
               <div className="flex items-center mb-12">
@@ -56,7 +56,7 @@ const AboutSection: React.FC = () => {
                 Our team of professionals understands the unique requirements of high-net-worth individuals seeking exceptional properties.
               </p>
               <p className="text-xl leading-relaxed" style={{ color: 'hsl(var(--deep-charcoal))', fontWeight: '300' }}>
-                Whether you're looking to buy, sell, or invest in premium real estate across Kenya, Musili Homes offers unparalleled expertise and personalized service.
+                Whether you're looking to buy, sell, or invest in premium real estate across Kenya, Musilli Homes offers unparalleled expertise and personalized service.
               </p>
             </div>
 
@@ -75,7 +75,7 @@ const AboutSection: React.FC = () => {
               <div className="aspect-square overflow-hidden rounded-2xl shadow-luxury-xl">
                 <img
                   src="https://images.unsplash.com/photo-1560520653-9e0e4c89eb11?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1500&q=80"
-                  alt="Musili Homes Team"
+                  alt="Musilli Homes Team"
                   className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700 hover:scale-105"
                 />
               </div>

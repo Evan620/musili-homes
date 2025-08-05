@@ -124,7 +124,7 @@ const Contact: React.FC = () => {
                     <div className="flex-1">
                       <h3 className="text-xl md:text-2xl font-light luxury-heading mb-3 tracking-wide">Our Location</h3>
                       <p className="luxury-text text-lg leading-relaxed">
-                        Musili Homes Tower<br />
+                        Musilli Homes Tower<br />
                         Westlands Business District<br />
                         Nairobi, Kenya
                       </p>
@@ -332,7 +332,7 @@ const Contact: React.FC = () => {
                   width="100%"
                   height="600"
                   loading="lazy"
-                  title="Musili Homes Office Location"
+                  title="Musilli Homes Office Location"
                   className="filter grayscale hover:grayscale-0 transition-all duration-700 group-hover:scale-105"
                 ></iframe>
               </div>
@@ -342,7 +342,7 @@ const Contact: React.FC = () => {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center md:text-left">
                   <div>
                     <h4 className="font-medium luxury-heading text-lg mb-2">Address</h4>
-                    <p className="luxury-text text-sm">Musili Homes Tower, Westlands Business District</p>
+                    <p className="luxury-text text-sm">Musilli Homes Tower, Westlands Business District</p>
                   </div>
                   <div>
                     <h4 className="font-medium luxury-heading text-lg mb-2">Parking</h4>

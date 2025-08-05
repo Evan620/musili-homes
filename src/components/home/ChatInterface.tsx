@@ -38,7 +38,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ onNewMessage, onInputFocu
       visualData: (
         <div>
           <div className="text-6xl mb-2">🤖</div>
-          <div className="text-2xl font-bold text-gold-whisper mb-1">Welcome to Musili Homes!</div>
+          <div className="text-2xl font-bold text-gold-whisper mb-1">Welcome to Musilli Homes!</div>
           <div className="text-base text-deep-charcoal mb-2">Your friendly AI Property Concierge</div>
           <div className="text-sm text-satin-silver">Ask me anything about our luxury homes, viewings, or agents. Let’s find your dream home together! 🏡✨</div>
         </div>

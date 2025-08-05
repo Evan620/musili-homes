@@ -1,4 +1,4 @@
--- Musili Homes Database Setup Script
+-- Musilli Homes Database Setup Script
 -- Run this in your Supabase SQL Editor to set up the database schema
 
 -- First, let's ensure we have the proper structure for all tables

@@ -123,7 +123,7 @@ export const processUserMessage = async (message: string): Promise<AIResponse> =
       message.toLowerCase().includes('about') ||
       message.toLowerCase().includes('who are you') ||
       message.toLowerCase().includes('what do you do') ||
-      message.toLowerCase().includes('musili') ||
+      message.toLowerCase().includes('musilli') ||
       message.toLowerCase().includes('what is')
     )) {
       console.log('🏢 aiService: Routing to company inquiry handler');
@@ -451,7 +451,7 @@ KNOWLEDGE BASE RESULTS: ${knowledgeResults.length > 0 ? knowledgeResults[0].cont
     const aiResponse = await openRouterService.generateContextualResponse(
       message,
       companyContext + additionalContext,
-      'Company inquiry - provide comprehensive information about Musili Homes',
+      'Company inquiry - provide comprehensive information about Musilli Homes',
       []
     );
 
@@ -578,7 +578,7 @@ SEARCH RESULTS: ${matchedProperties.length > 0 ? 'Specific matches found' : 'Sho
       } else {
         // No properties available at all
         return {
-          message: `I apologize, but I'm currently unable to access our property database. Please contact our office directly at +254 700 123 456 or info@musilihomes.com for immediate assistance with your property inquiry.`,
+          message: `I apologize, but I'm currently unable to access our property database. Please contact our office directly at +254 700 123 456 or info@musillihomes.com for immediate assistance with your property inquiry.`,
           newState: conversationState
         };
       }

@@ -25,7 +25,7 @@ const AgentDashboard: React.FC = () => {
   const { toast } = useToast();
   const [activeContact, setActiveContact] = useState<{id: number; name: string; role: 'admin' | 'client'}>({
     id: 1,
-    name: "John Musili",
+    name: "John Musilli",
     role: "admin"
   });
 
@@ -190,7 +190,7 @@ const AgentDashboard: React.FC = () => {
   const handleSelectAdmin = () => {
     setActiveContact({
       id: 1,
-      name: "John Musili",
+      name: "John Musilli",
       role: "admin"
     });
   };
@@ -855,7 +855,7 @@ const AgentDashboard: React.FC = () => {
                     </div>
                     <div className="flex-1">
                       <p className="font-samsung-bold text-slate-900">Admin</p>
-                      <p className="text-sm font-samsung text-slate-600">John Musili</p>
+                      <p className="text-sm font-samsung text-slate-600">John Musilli</p>
                       <p className="text-xs font-samsung text-slate-500">System Administrator</p>
                     </div>
                     {activeContact.role === 'admin' && (
