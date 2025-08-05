@@ -36,10 +36,11 @@ yarn install
   ```bash
   cp .env.example .env
   ```
-- Fill in your Supabase project credentials in `.env`:
+- Fill in your project credentials in `.env`:
   ```env
   VITE_SUPABASE_URL=your-supabase-url
   VITE_SUPABASE_ANON_KEY=your-supabase-anon-key
+  VITE_OPENROUTER_API_KEY=your-openrouter-api-key
   ```
 - **Never commit your real `.env` file!**
 
@@ -88,6 +89,7 @@ yarn dev
 - Add:
   - `VITE_SUPABASE_URL`
   - `VITE_SUPABASE_ANON_KEY`
+  - `VITE_OPENROUTER_API_KEY`
 - Use the same values as your local `.env` file.
 
 #### **4. Deploy!**

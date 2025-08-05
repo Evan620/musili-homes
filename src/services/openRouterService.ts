@@ -26,9 +26,14 @@ export class OpenRouterService {
   private model: string;
 
   constructor() {
-    this.apiKey = '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';
+    this.apiKey = import.meta.env.VITE_OPENROUTER_API_KEY || '';
     this.baseUrl = 'https://openrouter.ai/api/v1';
     this.model = 'anthropic/claude-3.5-sonnet'; // More reliable model for real estate conversations
+
+    if (!this.apiKey) {
+      console.error('🚨 OpenRouter API key not found in environment variables');
+      console.error('🚨 Please set VITE_OPENROUTER_API_KEY in your environment');
+    }
   }
 
   async generateResponse(

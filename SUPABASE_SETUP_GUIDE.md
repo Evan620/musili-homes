@@ -23,7 +23,7 @@ The application is experiencing a 400 error when trying to authenticate. This is
 Verify your `.env.local` file contains:
 ```
 VITE_SUPABASE_URL=https://exnfbzgvonbaszpbmxva.supabase.co
-VITE_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV4bmZiemd2b25iYXN6cGJteHZhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzU5MjU4NzQsImV4cCI6MjA1MTUwMTg3NH0.Ej8Ej8Ej8Ej8Ej8Ej8Ej8Ej8Ej8Ej8Ej8Ej8Ej8
+VITE_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV4bmZiemd2b25iYXN6cGJteHZhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE3OTYwMzksImV4cCI6MjA2NzM3MjAzOX0.cC4MR84S43-qPhSvZEiAeu9AJ-qXb2WX893cHmGALgI
 ```
 
 ### 3. Test Authentication

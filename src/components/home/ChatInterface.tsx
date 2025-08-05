@@ -137,30 +137,85 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ onNewMessage, onInputFocu
   };
 
   const formatMessage = (content: string) => {
-    // Convert simple markdown-like formatting
+    // Enhanced formatting for property responses
     return content
       .split('\n')
       .map((line, index) => {
+        // Handle numbered property listings (1. Property Name, 2. Property Name, etc.)
+        if (line.match(/^\d+\.\s+.+/)) {
+          return (
+            <div key={index} className="mb-3 p-3 bg-gold-whisper/5 border-l-4 border-gold-whisper/30 rounded-r-lg">
+              <div className="font-semibold text-gold-whisper text-base">{line}</div>
+            </div>
+          );
+        }
+
+        // Handle property details (- Price: KES..., - Location:..., etc.)
+        if (line.match(/^\s*-\s+(Price|Location|Bedrooms?|Bathrooms?|Size|Status|Agent):/i)) {
+          return (
+            <div key={index} className="ml-4 mb-1 text-sm">
+              <span className="font-medium text-deep-charcoal/80">{line}</span>
+            </div>
+          );
+        }
+
+        // Handle section headers with **bold**
         if (line.startsWith('**') && line.endsWith('**')) {
-          return <div key={index} className="font-bold mb-1 text-gold-whisper">{line.slice(2, -2)}</div>;
+          return (
+            <div key={index} className="font-bold mb-2 mt-3 text-gold-whisper text-base">
+              {line.slice(2, -2)}
+            </div>
+          );
         }
+
+        // Handle bullet points
         if (line.startsWith('• ')) {
-          return <div key={index} className="ml-4 mb-1">{line}</div>;
+          return (
+            <div key={index} className="ml-4 mb-1 text-sm flex items-start">
+              <span className="text-gold-whisper mr-2">•</span>
+              <span>{line.slice(2)}</span>
+            </div>
+          );
         }
+
+        // Handle inline bold text
         if (line.includes('**') && !line.startsWith('**')) {
-          // Handle inline bold text
           const parts = line.split('**');
           return (
-            <div key={index} className="mb-1">
-              {parts.map((part, partIndex) => 
-                partIndex % 2 === 1 ? 
-                  <span key={partIndex} className="font-bold text-gold-whisper">{part}</span> : 
-                  part
+            <div key={index} className="mb-2">
+              {parts.map((part, partIndex) =>
+                partIndex % 2 === 1 ?
+                  <span key={partIndex} className="font-semibold text-gold-whisper">{part}</span> :
+                  <span key={partIndex}>{part}</span>
               )}
             </div>
           );
         }
-        return line && <div key={index} className="mb-1">{line}</div>;
+
+        // Handle contact information
+        if (line.includes('Email:') || line.includes('Phone:')) {
+          return (
+            <div key={index} className="mb-1 text-sm font-medium text-deep-charcoal/90 bg-satin-silver/10 px-2 py-1 rounded">
+              {line}
+            </div>
+          );
+        }
+
+        // Handle questions (lines ending with ?)
+        if (line.trim().endsWith('?')) {
+          return (
+            <div key={index} className="mb-2 text-sm font-medium text-deep-charcoal/90 italic">
+              {line}
+            </div>
+          );
+        }
+
+        // Regular text with better spacing
+        return line && (
+          <div key={index} className="mb-2 text-sm leading-relaxed">
+            {line}
+          </div>
+        );
       });
   };
 
@@ -214,7 +269,11 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ onNewMessage, onInputFocu
               {/* Visual layouts based on visualType */}
               {message.role === 'assistant' && message.visualType === 'property_cards' && message.visualData && (
                 <>
-                  <div className="mb-2 text-gold-whisper font-semibold text-base">{message.content}</div>
+                  <div className="mb-4 p-4 bg-gradient-to-r from-gold-whisper/10 to-gold-whisper/5 border border-gold-whisper/20 rounded-lg">
+                    <div className="text-deep-charcoal leading-relaxed">
+                      {formatMessage(message.content)}
+                    </div>
+                  </div>
                   {message.visualData.length > 1 ? (
                     <Carousel className="mb-4">
                       <CarouselContent>
@@ -398,9 +457,12 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ onNewMessage, onInputFocu
                   </div>
                 </div>
               )}
-              <div className="text-sm leading-relaxed font-light">
-                {formatMessage(message.content)}
-              </div>
+              {/* Show content for messages without visual data, or non-property visual types */}
+              {(!message.visualData || (message.visualType && message.visualType !== 'property_cards')) && (
+                <div className="text-sm leading-relaxed font-light">
+                  {formatMessage(message.content)}
+                </div>
+              )}
               <div className="text-xs opacity-60 mt-2 font-light">
                 {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
               </div>
