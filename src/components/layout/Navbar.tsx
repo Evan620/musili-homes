@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Menu, X, Home as HomeIcon, Building, Phone, Home } from 'lucide-react';
+import { Menu, X, Building, Phone } from 'lucide-react';
 
 const Navbar: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -33,13 +33,12 @@ const Navbar: React.FC = () => {
     }`}>
       <div className="container mx-auto px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between">
         {/* Enhanced logo - responsive */}
-        <Link to="/" className="flex items-center space-x-2 sm:space-x-3 group">
-          <div className="p-1.5 sm:p-2 bg-gradient-to-r from-gold-whisper to-gold-accent rounded-lg shadow-gold group-hover:scale-110 transition-transform duration-300">
-            <Home className="w-5 h-5 sm:w-6 sm:h-6 text-pure-white" />
-          </div>
-          <span className="text-lg sm:text-xl lg:text-2xl font-thin tracking-wider luxury-heading group-hover:text-gold-whisper transition-colors duration-300">
-            MUSILLI <span className="luxury-accent font-medium">HOMES</span>
-          </span>
+        <Link to="/" className="flex items-center group">
+          <img
+            src="/logo.png"
+            alt="Musilli Homes"
+            className="h-8 sm:h-10 lg:h-12 w-auto group-hover:scale-105 transition-transform duration-300"
+          />
         </Link>
 
         {/* Enhanced Desktop Navigation */}
