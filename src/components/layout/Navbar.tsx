@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Menu, X, Building, Phone } from 'lucide-react';
+import { Menu, X, Building, Phone, Home } from 'lucide-react';
 
 const Navbar: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -20,7 +20,7 @@ const Navbar: React.FC = () => {
   const isActive = (path: string) => location.pathname === path;
 
   const navItems = [
-    { path: '/', label: 'Home', icon: HomeIcon },
+    { path: '/', label: 'Home', icon: Home },
     { path: '/properties', label: 'Properties', icon: Building },
     { path: '/contact', label: 'Contact', icon: Phone },
   ];
